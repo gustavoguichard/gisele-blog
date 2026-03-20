@@ -21,6 +21,10 @@ export async function loader() {
   return { posts };
 }
 
+export function headers() {
+  return { "Cache-Control": "public, max-age=300, s-maxage=3600" };
+}
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { posts } = loaderData;
 
@@ -47,7 +51,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <div className="mt-10 flex gap-3 justify-center font-sans">
             <Link
               to="/blog"
-              className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold hover:bg-primary-dark transition-colors"
+              className="px-6 py-2.5 bg-primary text-white dark:text-bg rounded text-sm font-semibold hover:bg-primary-dark transition-colors"
             >
               Ler o blog
             </Link>
