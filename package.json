@@ -1,22 +1,44 @@
 {
   "name": "giseledemenezes-blog",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Gustavo Guichard",
-  "license": "ISC",
+  "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "devDependencies": {
-    "@types/pg": "^8.18.0",
-    "@types/turndown": "^5.0.6",
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "start": "react-router-serve ./build/server/index.js",
+    "db:generate": "kysely-codegen --dialect postgres --out-file=./app/db/types.d.ts --camel-case",
+    "db:migrate": "tsx --env-file=.env ./app/db/scripts/migrate.ts && pnpm run db:generate",
+    "db:rollback": "tsx --env-file=.env ./app/db/scripts/rollback.ts && pnpm run db:generate",
+    "db:migration": "tsx ./app/db/scripts/migration.ts"
+  },
+  "dependencies": {
+    "@react-router/node": "^7.13.1",
+    "@react-router/serve": "^7.13.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.2",
+    "composable-functions": "^5.0.0",
+    "isbot": "^5.1.36",
+    "kysely": "^0.28.14",
+    "make-typed-env": "^0.0.4",
     "pg": "^8.20.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router": "^7.13.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.13.1",
+    "@types/node": "^25.5.0",
+    "@types/pg": "^8.18.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "kysely-codegen": "^0.20.0",
+    "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
-    "turndown": "^7.2.2",
-    "typescript": "^5.9.3"
+    "typescript": "~5.9.3",
+    "vite": "^6.3.5",
+    "vite-plus": "^0.1.13"
   },
   "packageManager": "pnpm@10.32.1"
 }
