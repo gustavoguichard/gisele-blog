@@ -10,7 +10,7 @@ import {
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
 import { PageHeader, GoldDivider } from "~/components/decorative";
-import { formatDate, extractFirstParagraphs } from "~/lib/format";
+import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
 
 export function meta() {
   return [
@@ -38,16 +38,14 @@ export async function loader({ params }: Route.LoaderArgs) {
   const totalPages = Math.ceil(totalPosts / PER_PAGE);
 
   const heroContent =
-    page === 1 && posts[0]
-      ? await fetchPostBySlug({ slug: posts[0].slug })
-      : null;
+    page === 1 && posts[0] ? await fetchPostBySlug({ slug: posts[0].slug }) : null;
   const heroBody = heroContent?.success ? heroContent.data.content : null;
 
   return { posts, currentPage: page, totalPages, heroBody };
 }
 
 export function headers() {
-  return { "Cache-Control": "private, max-age=0" };
+  return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
 }
 
 export default function BlogIndex({ loaderData }: Route.ComponentProps) {
@@ -95,9 +93,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
                 src={hero.featuredImage}
                 alt={hero.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
+                onError={hideOnImgError}
               />
             </div>
           )}

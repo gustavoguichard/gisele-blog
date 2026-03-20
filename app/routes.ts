@@ -9,6 +9,5 @@ export default [
   route("depoimentos", "./routes/testimonials.tsx"),
   route("cursos", "./routes/courses.tsx"),
   route("cursos/:slug", "./routes/courses.$slug.tsx"),
-  route("preview", "./routes/preview.tsx"),
   route("set-theme", "./routes/set-theme.tsx"),
 ] satisfies RouteConfig;

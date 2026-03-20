@@ -3,7 +3,13 @@ import { Link } from "react-router";
 import type { Route } from "./+types/courses";
 import { fetchCourses } from "~/db/queries.server";
 import { PageHeader } from "~/components/decorative";
-import { formatDate, stripHtml, truncate } from "~/lib/format";
+import {
+  formatDate,
+  stripHtml,
+  truncate,
+  hideOnImgError,
+  type ContentCardData,
+} from "~/lib/format";
 
 export function meta() {
   return [
@@ -21,22 +27,12 @@ export async function loader() {
 }
 
 export function headers() {
-  return { "Cache-Control": "private, max-age=0" };
+  return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
 }
 
 export { CourseCard };
 
-function CourseCard({
-  course,
-}: {
-  course: {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    featuredImage: string | null;
-    publishedAt: Date | string | null;
-  };
-}) {
+function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group bg-bg-card rounded-xl border border-border overflow-hidden">
       <Link to={`/cursos/${course.slug}`} className="block sm:flex">
@@ -46,9 +42,7 @@ function CourseCard({
               src={course.featuredImage}
               alt={course.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
+              onError={hideOnImgError}
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-bg-warm to-border flex items-center justify-center">
@@ -91,9 +85,7 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
           ))}
         </div>
       ) : (
-        <p className="text-text-muted text-center py-12">
-          Nenhum curso disponível no momento.
-        </p>
+        <p className="text-text-muted text-center py-12">Nenhum curso disponível no momento.</p>
       )}
     </div>
   );

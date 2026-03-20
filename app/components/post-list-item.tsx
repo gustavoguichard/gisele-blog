@@ -1,14 +1,14 @@
 import { Link } from "react-router";
-import { formatDate, stripHtml, truncate } from "~/lib/format";
+import {
+  formatDate,
+  stripHtml,
+  truncate,
+  hideOnImgError,
+  type ContentCardData,
+} from "~/lib/format";
 
 interface PostListItemProps {
-  post: {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    featuredImage: string | null;
-    publishedAt: Date | string | null;
-  };
+  post: ContentCardData;
   basePath?: string;
 }
 
@@ -21,9 +21,7 @@ export function PostListItem({ post, basePath = "/blog" }: PostListItemProps) {
             src={post.featuredImage}
             alt={post.title}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
+            onError={hideOnImgError}
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-bg-warm to-border flex items-center justify-center">

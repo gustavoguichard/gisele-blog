@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import { ErrorPage } from "./error-page";
+
+function renderWithRouter(ui: React.ReactElement) {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
+}
 
 describe("ErrorPage", () => {
   const defaultProps = {
@@ -11,24 +16,24 @@ describe("ErrorPage", () => {
   };
 
   it("renders title", () => {
-    render(<ErrorPage {...defaultProps} />);
+    renderWithRouter(<ErrorPage {...defaultProps} />);
     expect(screen.getByRole("heading", { name: "Não encontrado" })).toBeInTheDocument();
   });
 
   it("renders message", () => {
-    render(<ErrorPage {...defaultProps} />);
+    renderWithRouter(<ErrorPage {...defaultProps} />);
     expect(screen.getByText("A página não existe.")).toBeInTheDocument();
   });
 
   it("renders link with correct href and text", () => {
-    render(<ErrorPage {...defaultProps} />);
+    renderWithRouter(<ErrorPage {...defaultProps} />);
     const link = screen.getByText("Voltar");
     expect(link).toBeInTheDocument();
     expect(link.closest("a")).toHaveAttribute("href", "/home");
   });
 
   it("renders with different props", () => {
-    render(
+    renderWithRouter(
       <ErrorPage
         title="Erro"
         message="Algo deu errado"
