@@ -23,7 +23,7 @@ export async function loader() {
 }
 
 export function headers() {
-  return { "Cache-Control": "public, max-age=3600" };
+  return { "Cache-Control": "private, max-age=0" };
 }
 
 export default function About({ loaderData }: Route.ComponentProps) {

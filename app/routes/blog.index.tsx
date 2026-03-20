@@ -32,7 +32,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export function headers() {
-  return { "Cache-Control": "public, max-age=120, s-maxage=600" };
+  return { "Cache-Control": "private, max-age=0" };
 }
 
 export default function BlogIndex({ loaderData }: Route.ComponentProps) {
