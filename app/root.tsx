@@ -6,13 +6,43 @@ import {
   Scripts,
   ScrollRestoration,
   useNavigation,
+  useRouteLoaderData,
+  useRouteError,
+  isRouteErrorResponse,
+  data,
 } from "react-router";
+import type { Route } from "./+types/root";
 import { GoldBar } from "./components/decorative";
+import { ThemeToggle } from "./components/theme-toggle";
+import { getSession, getTheme, setTheme, commitSession } from "./sessions.server";
 import "./styles/tailwind.css";
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await getSession(request);
+  return { theme: getTheme(session) };
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const session = await getSession(request);
+  const formData = await request.formData();
+
+  if (formData.get("intent") === "toggle-theme") {
+    const mode = formData.get("theme") === "dark" ? "dark" : "light";
+    setTheme(session, mode);
+    return data(null, {
+      headers: { "Set-Cookie": await commitSession(session) },
+    });
+  }
+
+  return null;
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const rootData = useRouteLoaderData<typeof loader>("root");
+  const theme = rootData?.theme ?? "light";
+
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={theme === "dark" ? "dark" : ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-bg text-text font-serif antialiased">
+      <body className="bg-bg text-text font-serif antialiased transition-colors duration-300">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -34,7 +64,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { theme } = loaderData;
   const navigation = useNavigation();
   const isNavigating = navigation.state !== "idle";
 
@@ -59,7 +90,7 @@ export default function App() {
                 className={({ isActive }) =>
                   `px-5 py-2 rounded border transition-colors ${
                     isActive
-                      ? "border-primary bg-primary text-white font-semibold"
+                      ? "border-primary bg-primary text-white dark:text-bg font-semibold"
                       : "border-border-dark text-primary font-semibold hover:border-primary"
                   }`
                 }
@@ -71,13 +102,14 @@ export default function App() {
                 className={({ isActive }) =>
                   `px-5 py-2 rounded border transition-colors ${
                     isActive
-                      ? "border-primary bg-primary text-white font-semibold"
+                      ? "border-primary bg-primary text-white dark:text-bg font-semibold"
                       : "border-border-dark text-primary font-semibold hover:border-primary"
                   }`
                 }
               >
                 Sobre
               </NavLink>
+              <ThemeToggle theme={theme} />
             </nav>
           </div>
         </div>
@@ -120,10 +152,25 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
+  const error = useRouteError();
+
+  let title = "Algo deu errado";
+  let message = "Desculpe, ocorreu um erro inesperado.";
+
+  if (isRouteErrorResponse(error)) {
+    if (error.status === 404) {
+      title = "Página não encontrada";
+      message = "A página que você procura não existe.";
+    } else {
+      title = `Erro ${error.status}`;
+      message = error.statusText ?? message;
+    }
+  }
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold text-primary mb-4">Algo deu errado</h1>
-      <p className="text-text-muted mb-6">Desculpe, ocorreu um erro inesperado.</p>
+      <h1 className="text-3xl font-bold text-primary mb-4">{title}</h1>
+      <p className="text-text-muted mb-6">{message}</p>
       <a
         href="/"
         className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark transition-colors font-sans text-sm"
