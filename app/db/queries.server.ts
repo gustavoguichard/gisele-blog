@@ -8,7 +8,7 @@ const paginationSchema = z.object({
 	page: z.coerce.number().int().positive().default(1),
 });
 
-const PER_PAGE = 12;
+const PER_PAGE = 10;
 
 const postsBaseQuery = () =>
 	getDb()
@@ -113,6 +113,16 @@ export const fetchCourses = composable(async () => {
 		])
 		.orderBy("publishedAt", "desc")
 		.execute();
+});
+
+export const fetchCourseBySlug = applySchema(slugSchema)(async ({ slug }) => {
+	return getDb()
+		.selectFrom("posts")
+		.where("slug", "=", slug)
+		.where("postType", "=", "course")
+		.where("status", "=", "published")
+		.selectAll()
+		.executeTakeFirstOrThrow();
 });
 
 export { PER_PAGE };
