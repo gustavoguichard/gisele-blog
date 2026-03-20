@@ -12,15 +12,7 @@ export type Generated<T> =
 
 export type PostStatus = "draft" | "pending" | "published";
 
-export type PostType =
-  | "album"
-  | "course"
-  | "event"
-  | "page"
-  | "post"
-  | "presentation"
-  | "testimonial"
-  | "video";
+export type PostType = "course" | "page" | "post" | "testimonial";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
