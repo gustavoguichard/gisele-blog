@@ -18,6 +18,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
+  if (!loaderData) return [];
   const { post } = loaderData;
   const description = post.excerpt
     ? truncate(stripHtml(post.excerpt), 160)

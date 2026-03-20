@@ -1,3 +1,3 @@
 import { migrateDown } from "../migrate";
 
-migrateDown();
+void migrateDown();

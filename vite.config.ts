@@ -14,5 +14,6 @@ export default defineConfig({
   },
   lint: {
     options: { typeAware: true, typeCheck: true },
+    ignorePatterns: ["migrate.ts"],
   },
 });

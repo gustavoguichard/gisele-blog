@@ -1,3 +1,3 @@
 import { migrateToLatest } from "../migrate";
 
-migrateToLatest();
+void migrateToLatest();
