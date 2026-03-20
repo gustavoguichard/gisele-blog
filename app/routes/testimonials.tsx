@@ -20,6 +20,10 @@ export async function loader() {
   return { testimonials };
 }
 
+export function headers() {
+  return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
+}
+
 export default function Testimonials({ loaderData }: Route.ComponentProps) {
   const { testimonials } = loaderData;
 

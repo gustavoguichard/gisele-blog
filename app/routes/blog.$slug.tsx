@@ -8,7 +8,7 @@ import { CommentThread } from "~/components/comment-thread";
 import { PageHeader } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
 import { TagList } from "~/components/tag";
-import { formatDate, stripHtml, truncate } from "~/lib/format";
+import { formatDate, stripHtml, truncate, hideParentOnImgError } from "~/lib/format";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const result = await fetchPostBySlug({ slug: params.slug });
@@ -26,7 +26,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function headers() {
-  return { "Cache-Control": "private, max-age=0" };
+  return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -58,9 +58,7 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
             src={post.featuredImage}
             alt={post.title}
             className="w-full rounded-xl border border-border"
-            onError={(e) => {
-              (e.currentTarget.parentElement as HTMLElement).style.display = "none";
-            }}
+            onError={hideParentOnImgError}
           />
         </figure>
       )}

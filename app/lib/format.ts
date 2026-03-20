@@ -24,3 +24,19 @@ export function extractFirstParagraphs(html: string, count: number = 2): string 
   if (!matches) return "";
   return matches.slice(0, count).join("");
 }
+
+export interface ContentCardData {
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  featuredImage: string | null;
+  publishedAt: Date | string | null;
+}
+
+export function hideOnImgError(e: React.SyntheticEvent<HTMLImageElement>) {
+  e.currentTarget.style.display = "none";
+}
+
+export function hideParentOnImgError(e: React.SyntheticEvent<HTMLImageElement>) {
+  (e.currentTarget.parentElement as HTMLElement).style.display = "none";
+}
