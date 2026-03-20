@@ -10,7 +10,9 @@
     "db:generate": "kysely-codegen --dialect postgres --out-file=./app/db/types.d.ts --camel-case",
     "db:migrate": "tsx --env-file=.env ./app/db/scripts/migrate.ts && pnpm run db:generate",
     "db:rollback": "tsx --env-file=.env ./app/db/scripts/rollback.ts && pnpm run db:generate",
-    "db:migration": "tsx ./app/db/scripts/migration.ts"
+    "db:migration": "tsx ./app/db/scripts/migration.ts",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@react-router/node": "^7.13.1",
@@ -30,16 +32,20 @@
   },
   "devDependencies": {
     "@react-router/dev": "^7.13.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^25.5.0",
     "@types/pg": "^8.18.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "jsdom": "^29.0.1",
     "kysely-codegen": "^0.20.0",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "vite": "^6.3.5",
-    "vite-plus": "^0.1.13"
+    "vite-plus": "^0.1.13",
+    "vitest": "^4.1.0"
   },
   "packageManager": "pnpm@10.32.1"
 }
