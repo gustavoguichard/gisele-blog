@@ -1,0 +1,22 @@
+{
+  "name": "giseledemenezes-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Gustavo Guichard",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/pg": "^8.18.0",
+    "@types/turndown": "^5.0.6",
+    "pg": "^8.20.0",
+    "tsx": "^4.21.0",
+    "turndown": "^7.2.2",
+    "typescript": "^5.9.3"
+  },
+  "packageManager": "pnpm@10.32.1"
+}
