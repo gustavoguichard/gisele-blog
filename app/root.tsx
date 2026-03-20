@@ -123,6 +123,9 @@ export default function App({ loaderData }: Route.ComponentProps) {
               >
                 Depoimentos
               </NavLink>
+              <NavLink to="/cursos" className="text-text-muted hover:text-primary transition-colors">
+                Cursos
+              </NavLink>
             </nav>
           </div>
           <div className="mt-8 pt-6 border-t border-border text-center text-xs text-text-muted font-sans">
