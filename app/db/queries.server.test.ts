@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { fetchPostBySlug, fetchPostsPaginated, fetchPageBySlug } from "./queries.server";
+import { fetchPostBySlug, fetchPostsPaginated, fetchPageBySlug, fetchCourseBySlug } from "./queries.server";
 
 describe("query schema validation", () => {
   describe("fetchPostBySlug", () => {
@@ -39,6 +39,18 @@ describe("query schema validation", () => {
 
     it("rejects missing slug", async () => {
       const result = await fetchPageBySlug({} as { slug: string });
+      expect(result.success).toBe(false);
+    });
+  });
+
+  describe("fetchCourseBySlug", () => {
+    it("rejects empty slug", async () => {
+      const result = await fetchCourseBySlug({ slug: "" });
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects missing slug", async () => {
+      const result = await fetchCourseBySlug({} as { slug: string });
       expect(result.success).toBe(false);
     });
   });

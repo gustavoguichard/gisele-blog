@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatDate, stripHtml, truncate } from "./format";
+import { formatDate, stripHtml, truncate, extractFirstParagraphs } from "./format";
 
 describe("formatDate", () => {
   it("formats a Date object in pt-BR", () => {
@@ -95,5 +95,45 @@ describe("truncate", () => {
 
   it("handles empty string", () => {
     expect(truncate("", 100)).toBe("");
+  });
+});
+
+describe("extractFirstParagraphs", () => {
+  it("extracts the first paragraph", () => {
+    const html = "<p>First paragraph.</p><p>Second paragraph.</p><p>Third.</p>";
+    expect(extractFirstParagraphs(html, 1)).toBe("<p>First paragraph.</p>");
+  });
+
+  it("extracts multiple paragraphs", () => {
+    const html = "<p>First.</p><p>Second.</p><p>Third.</p>";
+    expect(extractFirstParagraphs(html, 2)).toBe("<p>First.</p><p>Second.</p>");
+  });
+
+  it("returns all paragraphs when count exceeds available", () => {
+    const html = "<p>Only one.</p>";
+    expect(extractFirstParagraphs(html, 3)).toBe("<p>Only one.</p>");
+  });
+
+  it("returns empty string when no paragraphs found", () => {
+    expect(extractFirstParagraphs("<div>No paragraphs</div>", 2)).toBe("");
+  });
+
+  it("returns empty string for empty input", () => {
+    expect(extractFirstParagraphs("", 2)).toBe("");
+  });
+
+  it("handles paragraphs with attributes", () => {
+    const html = '<p class="intro">Hello.</p><p>World.</p>';
+    expect(extractFirstParagraphs(html, 1)).toBe('<p class="intro">Hello.</p>');
+  });
+
+  it("handles paragraphs with nested HTML", () => {
+    const html = "<p>Hello <strong>world</strong></p><p>Second.</p>";
+    expect(extractFirstParagraphs(html, 1)).toBe("<p>Hello <strong>world</strong></p>");
+  });
+
+  it("defaults to 2 paragraphs", () => {
+    const html = "<p>First.</p><p>Second.</p><p>Third.</p>";
+    expect(extractFirstParagraphs(html)).toBe("<p>First.</p><p>Second.</p>");
   });
 });
