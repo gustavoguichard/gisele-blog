@@ -5,6 +5,11 @@
       "source": "bobmatnyc/claude-mpm-skills",
       "sourceType": "github",
       "computedHash": "38251cbba8036f5483d87a6d7072e26c609d2ad443e09269f698efb1e2655c11"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "ec3109d213dde1747614ad1112ef0e498e04b24e464538968e156dfbfadb2121"
     }
   }
 }
