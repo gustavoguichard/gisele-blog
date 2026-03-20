@@ -18,3 +18,9 @@ export function truncate(text: string, maxLength: number = 160): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trimEnd() + "…";
 }
+
+export function extractFirstParagraphs(html: string, count: number = 2): string {
+  const matches = html.match(/<p[^>]*>.*?<\/p>/gs);
+  if (!matches) return "";
+  return matches.slice(0, count).join("");
+}

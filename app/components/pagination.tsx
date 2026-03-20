@@ -1,25 +1,17 @@
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import { buttonStyles } from "./button";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  basePath?: string;
 }
 
-export function Pagination({ currentPage, totalPages }: PaginationProps) {
-  const [searchParams] = useSearchParams();
-
+export function Pagination({ currentPage, totalPages, basePath = "/blog" }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   function pageUrl(page: number) {
-    const params = new URLSearchParams(searchParams);
-    if (page <= 1) {
-      params.delete("page");
-    } else {
-      params.set("page", String(page));
-    }
-    const qs = params.toString();
-    return qs ? `?${qs}` : "?";
+    return page <= 1 ? basePath : `${basePath}/page/${page}`;
   }
 
   return (
