@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "kysely": {
+      "source": "bobmatnyc/claude-mpm-skills",
+      "sourceType": "github",
+      "computedHash": "38251cbba8036f5483d87a6d7072e26c609d2ad443e09269f698efb1e2655c11"
+    }
+  }
+}
