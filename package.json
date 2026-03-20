@@ -28,6 +28,7 @@
     "react-dom": "^19.2.4",
     "react-router": "^7.13.1",
     "react-router-typed-session": "^0.0.1",
+    "sanitize-html": "^2.17.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -38,7 +39,9 @@
     "@types/pg": "^8.18.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/sanitize-html": "^2.16.1",
     "jsdom": "^29.0.1",
+    "knip": "^6.0.1",
     "kysely-codegen": "^0.20.0",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
