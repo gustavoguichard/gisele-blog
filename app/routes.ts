@@ -7,4 +7,5 @@ export default [
   route("sobre", "./routes/about.tsx"),
   route("depoimentos", "./routes/testimonials.tsx"),
   route("preview", "./routes/preview.tsx"),
+  route("set-theme", "./routes/set-theme.tsx"),
 ] satisfies RouteConfig;

@@ -6,7 +6,7 @@ export function ThemeToggle({ theme }: { theme: "light" | "dark" }) {
   const isDark = optimistic === "dark";
 
   return (
-    <fetcher.Form method="post" action="/">
+    <fetcher.Form method="post" action="/set-theme">
       <input type="hidden" name="intent" value="toggle-theme" />
       <input type="hidden" name="theme" value={isDark ? "light" : "dark"} />
       <button

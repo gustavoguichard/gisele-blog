@@ -1,4 +1,5 @@
-import { Link, isRouteErrorResponse, useRouteError } from "react-router";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
 import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
@@ -23,7 +24,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function headers() {
-  return { "Cache-Control": "public, max-age=300, s-maxage=3600" };
+  return { "Cache-Control": "private, max-age=0" };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -104,12 +105,9 @@ export function ErrorBoundary() {
           ? "A publicação que você procura não existe ou foi removida."
           : "Ocorreu um erro inesperado. Tente novamente."}
       </p>
-      <Link
-        to="/blog"
-        className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark transition-colors font-sans text-sm"
-      >
+      <ButtonLink to="/blog" className="font-sans">
         Voltar ao blog
-      </Link>
+      </ButtonLink>
     </div>
   );
 }

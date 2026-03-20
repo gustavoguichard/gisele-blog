@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
 import { fetchRecentPosts } from "~/db/queries.server";
@@ -22,7 +22,7 @@ export async function loader() {
 }
 
 export function headers() {
-  return { "Cache-Control": "public, max-age=300, s-maxage=3600" };
+  return { "Cache-Control": "private, max-age=0" };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -49,18 +49,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </p>
 
           <div className="mt-10 flex gap-3 justify-center font-sans">
-            <Link
-              to="/blog"
-              className="px-6 py-2.5 bg-primary text-white dark:text-bg rounded text-sm font-semibold hover:bg-primary-dark transition-colors"
-            >
-              Ler o blog
-            </Link>
-            <Link
-              to="/sobre"
-              className="px-6 py-2.5 border border-border-dark text-primary rounded text-sm font-semibold hover:border-primary transition-colors"
-            >
+            <ButtonLink to="/blog">Ler o blog</ButtonLink>
+            <ButtonLink to="/sobre" variant="secondary">
               Sobre mim
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </section>
@@ -79,12 +71,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </div>
 
         <div className="text-center mt-10">
-          <Link
-            to="/blog"
-            className="inline-block px-6 py-2.5 border border-border-dark text-primary rounded text-sm font-sans font-semibold hover:border-primary transition-colors"
-          >
+          <ButtonLink to="/blog" variant="secondary" className="font-sans">
             Ver todas as publicações
-          </Link>
+          </ButtonLink>
         </div>
       </section>
     </div>

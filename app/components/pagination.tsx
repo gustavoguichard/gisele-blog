@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from "react-router";
+import { buttonStyles } from "./button";
 
 interface PaginationProps {
   currentPage: number;
@@ -26,7 +27,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
       {currentPage > 1 && (
         <Link
           to={pageUrl(currentPage - 1)}
-          className="px-4 py-2 rounded border border-border-dark text-primary font-semibold hover:border-primary transition-colors"
+          className={buttonStyles({ variant: "secondary", size: "sm", className: "px-4" })}
         >
           Anterior
         </Link>
@@ -50,11 +51,10 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
             <Link
               key={item}
               to={pageUrl(item)}
-              className={
-                item === currentPage
-                  ? "px-3 py-2 rounded bg-primary text-white font-semibold"
-                  : "px-3 py-2 rounded border border-border-dark hover:border-primary text-primary transition-colors"
-              }
+              className={buttonStyles({
+                variant: item === currentPage ? "primary" : "secondary",
+                size: "sm",
+              })}
             >
               {item}
             </Link>
@@ -64,7 +64,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
       {currentPage < totalPages && (
         <Link
           to={pageUrl(currentPage + 1)}
-          className="px-4 py-2 rounded border border-border-dark text-primary font-semibold hover:border-primary transition-colors"
+          className={buttonStyles({ variant: "secondary", size: "sm", className: "px-4" })}
         >
           Próxima
         </Link>
