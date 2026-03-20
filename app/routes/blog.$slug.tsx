@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
 import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
@@ -8,7 +8,11 @@ import { GoldDivider } from "~/components/decorative";
 import { formatDate, stripHtml, truncate } from "~/lib/format";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const post = await fromSuccess(fetchPostBySlug)({ slug: params.slug });
+  const result = await fetchPostBySlug({ slug: params.slug });
+  if (!result.success) {
+    throw new Response("Post não encontrado", { status: 404 });
+  }
+  const post = result.data;
 
   const [tags, comments] = await Promise.all([
     fromSuccess(fetchTagsForPost)(post.id),
@@ -16,6 +20,10 @@ export async function loader({ params }: Route.LoaderArgs) {
   ]);
 
   return { post, tags, comments };
+}
+
+export function headers() {
+  return { "Cache-Control": "public, max-age=300, s-maxage=3600" };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -83,11 +91,18 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
 }
 
 export function ErrorBoundary() {
+  const error = useRouteError();
+  const is404 = isRouteErrorResponse(error) && error.status === 404;
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold text-primary mb-4">Publicação não encontrada</h1>
+      <h1 className="text-3xl font-bold text-primary mb-4">
+        {is404 ? "Publicação não encontrada" : "Erro ao carregar publicação"}
+      </h1>
       <p className="text-text-muted mb-6">
-        A publicação que você procura não existe ou foi removida.
+        {is404
+          ? "A publicação que você procura não existe ou foi removida."
+          : "Ocorreu um erro inesperado. Tente novamente."}
       </p>
       <Link
         to="/blog"

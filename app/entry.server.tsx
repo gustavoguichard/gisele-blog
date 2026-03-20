@@ -7,6 +7,12 @@ import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
 
+export function handleError(error: unknown, { request }: { request: Request }) {
+  if (!request.signal.aborted) {
+    console.error(error);
+  }
+}
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,

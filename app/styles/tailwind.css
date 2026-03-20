@@ -36,7 +36,7 @@
   --color-border-dark: rgba(232, 196, 150, 0.2);
 
   img {
-    filter: sepia(0.2);
+    filter: sepia(0.35);
   }
 }
 

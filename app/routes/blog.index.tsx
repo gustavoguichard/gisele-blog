@@ -31,6 +31,10 @@ export async function loader({ request }: Route.LoaderArgs) {
   return { posts, currentPage: page, totalPages };
 }
 
+export function headers() {
+  return { "Cache-Control": "public, max-age=120, s-maxage=600" };
+}
+
 export default function BlogIndex({ loaderData }: Route.ComponentProps) {
   const { posts, currentPage, totalPages } = loaderData;
 

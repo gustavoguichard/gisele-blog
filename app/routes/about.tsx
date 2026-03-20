@@ -1,4 +1,3 @@
-import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/about";
 import { fetchPageBySlug } from "~/db/queries.server";
 import { PostContent } from "~/components/post-content";
@@ -16,10 +15,15 @@ export function meta() {
 }
 
 export async function loader() {
-  const page = await fromSuccess(fetchPageBySlug)({
-    slug: "quem-e-gisele-de-menezes",
-  });
-  return { page };
+  const result = await fetchPageBySlug({ slug: "quem-e-gisele-de-menezes" });
+  if (!result.success) {
+    throw new Response("Página não encontrada", { status: 404 });
+  }
+  return { page: result.data };
+}
+
+export function headers() {
+  return { "Cache-Control": "public, max-age=3600" };
 }
 
 export default function About({ loaderData }: Route.ComponentProps) {
