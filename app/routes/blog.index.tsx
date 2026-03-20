@@ -4,6 +4,7 @@ import type { Route } from "./+types/blog.index";
 import { fetchPostsPaginated, fetchPostsCount, PER_PAGE } from "~/db/queries.server";
 import { PostCard } from "~/components/post-card";
 import { Pagination } from "~/components/pagination";
+import { PageHeader } from "~/components/decorative";
 
 export function meta() {
   return [
@@ -35,10 +36,10 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-      <h1 className="text-3xl font-bold mb-8">Blog</h1>
+      <PageHeader title="Blog" />
 
       {posts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}

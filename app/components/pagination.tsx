@@ -26,7 +26,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
       {currentPage > 1 && (
         <Link
           to={pageUrl(currentPage - 1)}
-          className="px-4 py-2 rounded-lg border border-border hover:bg-bg-warm transition-colors"
+          className="px-4 py-2 rounded border border-border-dark text-primary font-semibold hover:border-primary transition-colors"
         >
           Anterior
         </Link>
@@ -52,8 +52,8 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
               to={pageUrl(item)}
               className={
                 item === currentPage
-                  ? "px-3 py-2 rounded-lg bg-primary text-white font-semibold"
-                  : "px-3 py-2 rounded-lg border border-border hover:bg-bg-warm transition-colors"
+                  ? "px-3 py-2 rounded bg-primary text-white font-semibold"
+                  : "px-3 py-2 rounded border border-border-dark hover:border-primary text-primary transition-colors"
               }
             >
               {item}
@@ -64,7 +64,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
       {currentPage < totalPages && (
         <Link
           to={pageUrl(currentPage + 1)}
-          className="px-4 py-2 rounded-lg border border-border hover:bg-bg-warm transition-colors"
+          className="px-4 py-2 rounded border border-border-dark text-primary font-semibold hover:border-primary transition-colors"
         >
           Próxima
         </Link>

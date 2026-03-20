@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "react-router";
+import { GoldBar } from "./components/decorative";
 import "./styles/tailwind.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -33,9 +34,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  isActive ? "text-primary font-semibold" : "text-text-muted hover:text-primary transition-colors";
-
 export default function App() {
   const navigation = useNavigation();
   const isNavigating = navigation.state !== "idle";
@@ -43,8 +41,10 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       {isNavigating && (
-        <div className="fixed top-0 left-0 right-0 h-0.5 bg-primary z-50 animate-pulse" />
+        <div className="fixed top-0 left-0 right-0 h-0.5 bg-accent z-50 animate-pulse" />
       )}
+
+      <GoldBar />
 
       <header className="border-b border-border bg-bg/95 backdrop-blur-sm sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -53,11 +53,29 @@ export default function App() {
               Gisele de Menezes
             </NavLink>
 
-            <nav className="flex items-center gap-6 text-sm font-sans">
-              <NavLink to="/blog" className={navLinkClass}>
+            <nav className="flex items-center gap-2 font-sans text-sm">
+              <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                  `px-5 py-2 rounded border transition-colors ${
+                    isActive
+                      ? "border-primary bg-primary text-white font-semibold"
+                      : "border-border-dark text-primary font-semibold hover:border-primary"
+                  }`
+                }
+              >
                 Blog
               </NavLink>
-              <NavLink to="/sobre" className={navLinkClass}>
+              <NavLink
+                to="/sobre"
+                className={({ isActive }) =>
+                  `px-5 py-2 rounded border transition-colors ${
+                    isActive
+                      ? "border-primary bg-primary text-white font-semibold"
+                      : "border-border-dark text-primary font-semibold hover:border-primary"
+                  }`
+                }
+              >
                 Sobre
               </NavLink>
             </nav>
@@ -72,8 +90,8 @@ export default function App() {
       <footer className="border-t border-border bg-bg-warm mt-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
           <div className="flex flex-col items-center gap-4">
-            <h3 className="font-bold text-primary">Gisele de Menezes</h3>
-            <p className="text-sm text-text-muted text-center leading-relaxed max-w-md">
+            <h3 className="font-bold text-primary text-lg">Gisele de Menezes</h3>
+            <p className="text-sm text-text-muted text-center leading-relaxed max-w-md italic">
               Terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora.
             </p>
             <nav className="flex gap-6 text-sm font-sans">
@@ -95,6 +113,7 @@ export default function App() {
             &copy; {new Date().getFullYear()} Gisele de Menezes. Todos os direitos reservados.
           </div>
         </div>
+        <GoldBar />
       </footer>
     </div>
   );
@@ -107,7 +126,7 @@ export function ErrorBoundary() {
       <p className="text-text-muted mb-6">Desculpe, ocorreu um erro inesperado.</p>
       <a
         href="/"
-        className="inline-block px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-sans text-sm"
+        className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark transition-colors font-sans text-sm"
       >
         Voltar ao início
       </a>

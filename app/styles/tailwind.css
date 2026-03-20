@@ -4,12 +4,38 @@
 @theme {
   --font-serif: "Merriweather", "Georgia", serif;
   --font-sans: "Inter", "system-ui", sans-serif;
-  --color-primary: #8b6f47;
-  --color-primary-dark: #6b5535;
-  --color-bg: #fdfbf7;
-  --color-bg-warm: #f5f0e8;
-  --color-text: #2d2a26;
-  --color-text-muted: #6b6560;
-  --color-border: #e0d8cc;
-  --color-accent: #a0845c;
+  --color-primary: #8b5e34;
+  --color-primary-dark: #7d5e3c;
+  --color-accent: #c49a6c;
+  --color-accent-light: #e8c496;
+  --color-bg: #faf6f0;
+  --color-bg-warm: #f5ede0;
+  --color-bg-card: #fff;
+  --color-text: #2a2118;
+  --color-text-body: #4a3f34;
+  --color-text-muted: #8a7d6d;
+  --color-text-subtle: #5c4d3c;
+  --color-border: #e0d5c7;
+  --color-border-dark: #d4c4ae;
+}
+
+@utility gold-gradient-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #c49a6c, #e8c496, #8b5e34, #c49a6c);
+}
+
+@utility gold-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  margin-inline: auto;
+}
+
+@utility section-label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }

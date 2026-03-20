@@ -2,6 +2,7 @@ import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/about";
 import { fetchPageBySlug } from "~/db/queries.server";
 import { PostContent } from "~/components/post-content";
+import { PageHeader } from "~/components/decorative";
 
 export function meta() {
   return [
@@ -26,7 +27,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-      <h1 className="text-3xl sm:text-4xl font-bold mb-10">{page.title}</h1>
+      <PageHeader title={page.title} />
       <PostContent html={page.content} />
     </div>
   );

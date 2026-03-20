@@ -41,14 +41,14 @@ function buildTree(comments: Comment[]): TreeNode[] {
 
 function CommentNode({ node, depth }: { node: TreeNode; depth: number }) {
   return (
-    <div className={depth > 0 ? "ml-6 border-l-2 border-border pl-4" : ""}>
+    <div className={depth > 0 ? "ml-6 border-l-2 border-accent/20 pl-4" : ""}>
       <div className="py-4">
         <div className="flex items-baseline gap-2 mb-1">
           <span className="font-sans font-semibold text-sm text-text">{node.authorName}</span>
           <time className="text-xs font-sans text-text-muted">{formatDate(node.createdAt)}</time>
         </div>
         <div
-          className="text-sm text-text-muted leading-relaxed"
+          className="text-sm text-text-body leading-relaxed"
           dangerouslySetInnerHTML={{ __html: node.content }}
         />
       </div>
@@ -66,7 +66,7 @@ export function CommentThread({ comments }: CommentThreadProps) {
 
   return (
     <section className="mt-12 pt-8 border-t border-border">
-      <h3 className="text-xl font-bold mb-6">
+      <h3 className="text-xl font-bold text-primary-dark mb-6">
         {comments.length} {comments.length === 1 ? "comentário" : "comentários"}
       </h3>
       <div className="divide-y divide-border/50">

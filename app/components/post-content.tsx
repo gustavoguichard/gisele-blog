@@ -5,12 +5,16 @@ interface PostContentProps {
 export function PostContent({ html }: PostContentProps) {
   return (
     <div
-      className="prose prose-lg prose-stone max-w-none
-        prose-headings:font-serif prose-headings:text-text
-        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-        prose-img:rounded-lg prose-figure:my-8
-        prose-blockquote:border-primary prose-blockquote:text-text-muted
-        prose-p:leading-relaxed"
+      className="prose prose-lg max-w-none
+        prose-p:text-text-body prose-p:leading-8
+        prose-headings:text-primary-dark prose-headings:tracking-tight
+        prose-a:text-primary prose-a:no-underline prose-a:border-b prose-a:border-accent/30 hover:prose-a:border-primary
+        prose-blockquote:border-l-accent prose-blockquote:text-text-muted prose-blockquote:italic
+        prose-img:rounded-xl prose-img:border prose-img:border-border
+        prose-figure:my-8
+        prose-figcaption:text-text-muted prose-figcaption:italic
+        prose-strong:text-text
+        prose-hr:border-border"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
