@@ -115,146 +115,13 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="text-center mb-16">
         <h1 className="text-3xl font-bold mb-3">Escolha o estilo</h1>
-        <p className="text-text-muted">5 variações — do sutil ao expressivo</p>
+        <p className="text-text-muted">2 finalistas</p>
       </div>
 
-      {/* ── Version 1: Bold Expressive (Light) ── */}
+      {/* ── Artistic Maximalist (Light) ── */}
       <section className="mb-20">
         <h2 className="text-sm font-sans font-semibold uppercase tracking-widest text-text-muted mb-6">
-          1 — Bold Expressive (Light)
-        </h2>
-        <div
-          style={{
-            background: "#FBF8F4",
-            color: "#2C2418",
-            fontFamily: "'Merriweather', Georgia, serif",
-            borderRadius: "16px",
-            overflow: "hidden",
-            border: "1px solid #E0D5C7",
-          }}
-        >
-          <div
-            style={{
-              padding: "20px 32px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid #E0D5C7",
-            }}
-          >
-            <span style={{ fontSize: "1.4rem", fontWeight: 700, color: "#8B5E34" }}>
-              Gisele de Menezes
-            </span>
-            <div
-              style={{
-                display: "flex",
-                gap: "24px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.8rem",
-                fontWeight: 500,
-                color: "#7A6E5F",
-              }}
-            >
-              <span>Blog</span>
-              <span>Sobre</span>
-            </div>
-          </div>
-          <div
-            style={{
-              padding: "80px 32px",
-              background: "linear-gradient(135deg, #F5EDE0 0%, #FBF8F4 100%)",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase" as const,
-                color: "#8B5E34",
-                marginBottom: "20px",
-              }}
-            >
-              Terapeuta · Escritora · Ayurveda
-            </p>
-            <h3
-              style={{
-                fontSize: "3rem",
-                fontWeight: 700,
-                lineHeight: 1.15,
-                letterSpacing: "-0.02em",
-                maxWidth: "600px",
-                marginBottom: "24px",
-                color: "#2C2418",
-              }}
-            >
-              Bem-vinda ao
-              <span style={{ display: "block", color: "#8B5E34" }}>meu espaço</span>
-            </h3>
-            <p
-              style={{ fontSize: "1.05rem", color: "#7A6E5F", maxWidth: "460px", lineHeight: 1.8 }}
-            >
-              Reflexões sobre saúde, espiritualidade e os caminhos do autoconhecimento.
-            </p>
-          </div>
-          <div
-            style={{
-              padding: "32px",
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "20px",
-            }}
-          >
-            {posts.map((post) => (
-              <PostPreview
-                key={post.id}
-                post={post}
-                style={{ background: "#fff", borderRadius: "12px", border: "1px solid #E0D5C7" }}
-              />
-            ))}
-          </div>
-          {/* Article body */}
-          <div style={{ borderTop: "1px solid #E0D5C7", padding: "48px 32px" }}>
-            <div style={{ maxWidth: "680px", margin: "0 auto" }}>
-              <p
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.65rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#8B5E34",
-                  marginBottom: "16px",
-                }}
-              >
-                15 de junho de 2024
-              </p>
-              <h3
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: 700,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.02em",
-                  marginBottom: "32px",
-                  color: "#2C2418",
-                }}
-              >
-                O caminho do autoconhecimento
-              </h3>
-              <BodyPreview
-                html={SAMPLE_BODY}
-                className="prose prose-lg max-w-none prose-p:text-[#3D342B] prose-p:leading-[1.9] prose-headings:text-[#2C2418] prose-headings:tracking-tight prose-a:text-[#8B5E34] prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[#8B5E34] prose-blockquote:text-[#6B5D4F] prose-strong:text-[#2C2418] prose-img:rounded-lg prose-hr:border-[#E0D5C7] prose-code:text-[#8B5E34] prose-code:bg-[#F5EDE0] prose-pre:bg-[#2C2418] prose-pre:text-[#F5EDE0]"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Version 2: Artistic Maximalist (Light) ── */}
-      <section className="mb-20">
-        <h2 className="text-sm font-sans font-semibold uppercase tracking-widest text-text-muted mb-6">
-          2 — Artistic Maximalist (Light)
+          A — Artistic Maximalist
         </h2>
         <div
           style={{
@@ -272,6 +139,7 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               background: "linear-gradient(90deg, #C49A6C, #E8C496, #8B5E34, #C49A6C)",
             }}
           />
+          {/* Nav — single-line logo like Bold Expressive */}
           <div
             style={{
               padding: "20px 32px",
@@ -281,32 +149,16 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               borderBottom: "1px solid #E0D5C7",
             }}
           >
-            <div>
-              <span
-                style={{
-                  fontSize: "1.6rem",
-                  fontWeight: 700,
-                  color: "#8B5E34",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Gisele
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase" as const,
-                  color: "#B8A48C",
-                  marginTop: "-2px",
-                }}
-              >
-                de Menezes
-              </span>
-            </div>
+            <span
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: 700,
+                color: "#8B5E34",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Gisele de Menezes
+            </span>
             <div style={{ display: "flex", gap: "8px" }}>
               <span
                 style={{
@@ -336,6 +188,7 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               </span>
             </div>
           </div>
+          {/* Hero */}
           <div
             style={{
               padding: "80px 32px 70px",
@@ -415,6 +268,7 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               Um lugar sagrado para reflexões sobre saúde, espiritualidade e autoconhecimento.
             </p>
           </div>
+          {/* Posts */}
           <div
             style={{
               padding: "0 32px 32px",
@@ -427,11 +281,7 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               <PostPreview
                 key={post.id}
                 post={post}
-                style={{
-                  background: "#fff",
-                  borderRadius: "8px",
-                  border: "1px solid #E0D5C7",
-                }}
+                style={{ background: "#fff", borderRadius: "8px", border: "1px solid #E0D5C7" }}
               />
             ))}
           </div>
@@ -480,7 +330,7 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
               </div>
               <BodyPreview
                 html={SAMPLE_BODY}
-                className="prose prose-lg max-w-none prose-p:text-[#4A3F34] prose-p:leading-[2] prose-headings:text-[#8B5E34] prose-headings:tracking-tight prose-a:text-[#8B5E34] prose-a:no-underline prose-a:border-b prose-a:border-[rgba(139,94,52,0.3)] hover:prose-a:border-[#8B5E34] prose-blockquote:border-l-[#C49A6C] prose-blockquote:text-[#6B5D4F] prose-blockquote:italic prose-strong:text-[#2A2118] prose-img:rounded-xl prose-img:border prose-img:border-[#E0D5C7] prose-hr:border-[#E0D5C7] prose-figcaption:text-[#8A7D6D] prose-figcaption:italic prose-code:text-[#8B5E34] prose-code:bg-[#F5EDE0] prose-pre:bg-[#2A2118] prose-pre:text-[#F0E6D6]"
+                className="prose prose-lg max-w-none prose-p:text-[#4A3F34] prose-p:leading-[2] prose-headings:text-[#8B5E34] prose-headings:tracking-tight prose-a:text-[#8B5E34] prose-a:no-underline prose-a:border-b prose-a:border-[rgba(139,94,52,0.3)] hover:prose-a:border-[#8B5E34] prose-blockquote:border-l-[#C49A6C] prose-blockquote:text-[#6B5D4F] prose-blockquote:italic prose-strong:text-[#2A2118] prose-img:rounded-xl prose-img:border prose-img:border-[#E0D5C7] prose-hr:border-[#E0D5C7] prose-figcaption:text-[#8A7D6D] prose-figcaption:italic prose-headings:text-[#7D5E3C]"
               />
             </div>
           </div>
@@ -493,10 +343,10 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      {/* ── Version 3: Warm Organic ── */}
+      {/* ── Warm Organic ── */}
       <section className="mb-20">
         <h2 className="text-sm font-sans font-semibold uppercase tracking-widest text-text-muted mb-6">
-          3 — Warm Organic
+          B — Warm Organic
         </h2>
         <div
           style={{
@@ -663,388 +513,11 @@ export default function Preview({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      {/* ── Version 4: Bold Expressive ── */}
-      <section className="mb-20">
-        <h2 className="text-sm font-sans font-semibold uppercase tracking-widest text-text-muted mb-6">
-          4 — Bold Expressive
-        </h2>
-        <div
-          style={{
-            background: "#2C2418",
-            color: "#F5EDE0",
-            fontFamily: "'Merriweather', Georgia, serif",
-            borderRadius: "16px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              padding: "20px 32px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid rgba(245,237,224,0.12)",
-            }}
-          >
-            <span style={{ fontSize: "1.4rem", fontWeight: 700, color: "#D4A574" }}>
-              Gisele de Menezes
-            </span>
-            <div
-              style={{
-                display: "flex",
-                gap: "24px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.8rem",
-                fontWeight: 500,
-                color: "rgba(245,237,224,0.7)",
-              }}
-            >
-              <span>Blog</span>
-              <span>Sobre</span>
-            </div>
-          </div>
-          <div
-            style={{
-              padding: "80px 32px",
-              background: "linear-gradient(135deg, #2C2418 0%, #3D2E1C 100%)",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase" as const,
-                color: "#D4A574",
-                marginBottom: "20px",
-              }}
-            >
-              Terapeuta · Escritora · Ayurveda
-            </p>
-            <h3
-              style={{
-                fontSize: "3rem",
-                fontWeight: 700,
-                lineHeight: 1.15,
-                letterSpacing: "-0.02em",
-                maxWidth: "600px",
-                marginBottom: "24px",
-              }}
-            >
-              Bem-vinda ao
-              <span style={{ display: "block", color: "#D4A574" }}>meu espaço</span>
-            </h3>
-            <p
-              style={{
-                fontSize: "1.05rem",
-                color: "rgba(245,237,224,0.65)",
-                maxWidth: "460px",
-                lineHeight: 1.8,
-              }}
-            >
-              Reflexões sobre saúde, espiritualidade e os caminhos do autoconhecimento.
-            </p>
-          </div>
-          <div
-            style={{
-              padding: "32px",
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "20px",
-            }}
-          >
-            {posts.map((post) => (
-              <PostPreview
-                key={post.id}
-                post={post}
-                style={{
-                  background: "rgba(245,237,224,0.06)",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(245,237,224,0.1)",
-                  color: "#F5EDE0",
-                }}
-              />
-            ))}
-          </div>
-          {/* Article body */}
-          <div style={{ borderTop: "1px solid rgba(245,237,224,0.1)", padding: "48px 32px" }}>
-            <div style={{ maxWidth: "680px", margin: "0 auto" }}>
-              <p
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.65rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#D4A574",
-                  marginBottom: "16px",
-                }}
-              >
-                15 de junho de 2024
-              </p>
-              <h3
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: 700,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.02em",
-                  marginBottom: "32px",
-                }}
-              >
-                O caminho do autoconhecimento
-              </h3>
-              <BodyPreview
-                html={SAMPLE_BODY}
-                className="prose prose-lg prose-invert max-w-none prose-p:text-[rgba(245,237,224,0.8)] prose-p:leading-[1.9] prose-headings:text-[#F5EDE0] prose-a:text-[#D4A574] prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[#D4A574] prose-blockquote:text-[rgba(245,237,224,0.6)] prose-strong:text-[#F5EDE0] prose-img:rounded-lg prose-hr:border-[rgba(245,237,224,0.12)]"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Version 5: Artistic Maximalist ── */}
-      <section className="mb-20">
-        <h2 className="text-sm font-sans font-semibold uppercase tracking-widest text-text-muted mb-6">
-          5 — Artistic Maximalist
-        </h2>
-        <div
-          style={{
-            background: "#1C1410",
-            color: "#F0E6D6",
-            fontFamily: "'Merriweather', Georgia, serif",
-            borderRadius: "16px",
-            overflow: "hidden",
-            position: "relative" as const,
-          }}
-        >
-          <div
-            style={{
-              height: "4px",
-              background: "linear-gradient(90deg, #C49A6C, #E8C496, #8B5E34, #C49A6C)",
-            }}
-          />
-          <div
-            style={{
-              padding: "20px 32px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <span
-                style={{
-                  fontSize: "1.6rem",
-                  fontWeight: 700,
-                  color: "#E8C496",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Gisele
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase" as const,
-                  color: "rgba(232,196,150,0.5)",
-                  marginTop: "-2px",
-                }}
-              >
-                de Menezes
-              </span>
-            </div>
-            <div style={{ display: "flex", gap: "8px" }}>
-              <span
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  border: "1px solid rgba(232,196,150,0.3)",
-                  padding: "8px 20px",
-                  borderRadius: "4px",
-                  color: "#E8C496",
-                }}
-              >
-                Blog
-              </span>
-              <span
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  border: "1px solid rgba(232,196,150,0.3)",
-                  padding: "8px 20px",
-                  borderRadius: "4px",
-                  color: "#E8C496",
-                }}
-              >
-                Sobre
-              </span>
-            </div>
-          </div>
-          <div
-            style={{
-              padding: "80px 32px 70px",
-              textAlign: "center",
-              position: "relative" as const,
-            }}
-          >
-            <div
-              style={{
-                position: "absolute" as const,
-                top: "20px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "280px",
-                height: "280px",
-                borderRadius: "50%",
-                border: "1px solid rgba(232,196,150,0.1)",
-                pointerEvents: "none" as const,
-              }}
-            />
-            <div
-              style={{
-                position: "absolute" as const,
-                top: "50px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "200px",
-                height: "200px",
-                borderRadius: "50%",
-                border: "1px solid rgba(232,196,150,0.06)",
-                pointerEvents: "none" as const,
-              }}
-            />
-            <p
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.65rem",
-                fontWeight: 600,
-                letterSpacing: "0.35em",
-                textTransform: "uppercase" as const,
-                color: "#C49A6C",
-                marginBottom: "28px",
-              }}
-            >
-              ✦ Terapeuta &middot; Escritora &middot; Ayurveda ✦
-            </p>
-            <h3
-              style={{
-                fontSize: "3.2rem",
-                fontWeight: 700,
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
-                marginBottom: "20px",
-                position: "relative" as const,
-              }}
-            >
-              <span style={{ color: "#E8C496" }}>Bem-vinda</span>
-              <br />
-              <span
-                style={{ fontStyle: "italic", fontWeight: 400, color: "rgba(240,230,214,0.8)" }}
-              >
-                ao meu espaço
-              </span>
-            </h3>
-            <div
-              style={{ width: "40px", height: "1px", background: "#C49A6C", margin: "24px auto" }}
-            />
-            <p
-              style={{
-                fontSize: "1rem",
-                color: "rgba(240,230,214,0.55)",
-                maxWidth: "420px",
-                margin: "0 auto",
-                lineHeight: 1.9,
-                fontStyle: "italic",
-              }}
-            >
-              Um lugar sagrado para reflexões sobre saúde, espiritualidade e autoconhecimento.
-            </p>
-          </div>
-          <div
-            style={{
-              padding: "0 32px 32px",
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "16px",
-            }}
-          >
-            {posts.map((post) => (
-              <PostPreview
-                key={post.id}
-                post={post}
-                style={{
-                  background: "rgba(232,196,150,0.04)",
-                  borderRadius: "8px",
-                  border: "1px solid rgba(232,196,150,0.12)",
-                  color: "#F0E6D6",
-                }}
-              />
-            ))}
-          </div>
-          {/* Article body */}
-          <div
-            style={{
-              borderTop: "1px solid rgba(232,196,150,0.15)",
-              padding: "48px 32px",
-              position: "relative" as const,
-            }}
-          >
-            <div style={{ maxWidth: "680px", margin: "0 auto" }}>
-              <div style={{ textAlign: "center", marginBottom: "40px" }}>
-                <p
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontSize: "0.6rem",
-                    fontWeight: 600,
-                    letterSpacing: "0.35em",
-                    textTransform: "uppercase",
-                    color: "#C49A6C",
-                    marginBottom: "16px",
-                  }}
-                >
-                  ✦ 15 de junho de 2024 ✦
-                </p>
-                <h3
-                  style={{
-                    fontSize: "2.5rem",
-                    fontWeight: 700,
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.02em",
-                    color: "#E8C496",
-                  }}
-                >
-                  O caminho do autoconhecimento
-                </h3>
-                <div
-                  style={{
-                    width: "60px",
-                    height: "1px",
-                    background: "linear-gradient(90deg, transparent, #C49A6C, transparent)",
-                    margin: "28px auto",
-                  }}
-                />
-              </div>
-              <BodyPreview
-                html={SAMPLE_BODY}
-                className="prose prose-lg prose-invert max-w-none prose-p:text-[rgba(240,230,214,0.75)] prose-p:leading-[2] prose-headings:text-[#E8C496] prose-headings:tracking-tight prose-a:text-[#E8C496] prose-a:no-underline prose-a:border-b prose-a:border-[rgba(232,196,150,0.3)] hover:prose-a:border-[#E8C496] prose-blockquote:border-l-[#C49A6C] prose-blockquote:text-[rgba(240,230,214,0.55)] prose-blockquote:italic prose-strong:text-[#F0E6D6] prose-img:rounded-xl prose-img:border prose-img:border-[rgba(232,196,150,0.1)] prose-hr:border-[rgba(232,196,150,0.12)] prose-figcaption:text-[rgba(240,230,214,0.4)] prose-figcaption:italic"
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              height: "4px",
-              background: "linear-gradient(90deg, #C49A6C, #E8C496, #8B5E34, #C49A6C)",
-            }}
-          />
-        </div>
-      </section>
+      {/* Dark mode colors saved for future toggle:
+          bg: #1C1410, text: #F0E6D6, accent: #E8C496, muted: rgba(240,230,214,0.55),
+          border: rgba(232,196,150,0.12), link: #E8C496, heading: #E8C496,
+          code-bg: rgba(232,196,150,0.08), pre-bg: #0F0C09
+      */}
     </div>
   );
 }
