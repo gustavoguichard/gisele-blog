@@ -2,8 +2,8 @@ import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
 import { fetchRecentPosts } from "~/db/queries.server";
-import { PostCard } from "~/components/post-card";
-import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
+import { PostGrid } from "~/components/post-grid";
+import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 
 export function meta() {
   return [
@@ -58,17 +58,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </section>
 
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-10">
-          <p className="section-label mb-3">✦ Publicações recentes ✦</p>
-          <h2 className="text-2xl font-bold text-primary">Do blog</h2>
-          <GoldDivider />
-        </div>
+        <PageHeader as="h2" label="Publicações recentes" title="Do blog" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <PostGrid posts={posts} />
 
         <div className="text-center mt-10">
           <ButtonLink to="/blog" variant="secondary" className="font-sans">

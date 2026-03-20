@@ -15,17 +15,30 @@ export function OrnamentalCircles() {
   );
 }
 
-export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+const headingSizes = {
+  h1: "text-3xl sm:text-4xl",
+  h2: "text-2xl",
+};
+
+export function PageHeader({
+  title,
+  subtitle,
+  label,
+  as: Heading = "h1",
+}: {
+  title: string;
+  subtitle?: string;
+  label?: string;
+  as?: "h1" | "h2";
+}) {
   return (
     <div className="text-center mb-10">
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary">{title}</h1>
-      {subtitle && (
-        <>
-          <GoldDivider />
-          <p className="text-text-muted italic">{subtitle}</p>
-        </>
-      )}
-      {!subtitle && <GoldDivider />}
+      {label && <p className="section-label mb-3">✦ {label} ✦</p>}
+      <Heading className={`${headingSizes[Heading]} font-bold tracking-tight text-primary`}>
+        {title}
+      </Heading>
+      <GoldDivider />
+      {subtitle && <p className="text-text-muted italic">{subtitle}</p>}
     </div>
   );
 }

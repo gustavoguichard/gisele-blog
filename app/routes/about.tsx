@@ -1,5 +1,6 @@
 import type { Route } from "./+types/about";
 import { fetchPageBySlug } from "~/db/queries.server";
+import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { PageHeader } from "~/components/decorative";
 
@@ -30,9 +31,9 @@ export default function About({ loaderData }: Route.ComponentProps) {
   const { page } = loaderData;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Container className="py-12">
       <PageHeader title={page.title} />
       <PostContent html={page.content} />
-    </div>
+    </Container>
   );
 }

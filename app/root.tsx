@@ -12,6 +12,7 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import { buttonStyles } from "./components/button";
+import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
 import { ThemeToggle } from "./components/theme-toggle";
 import { getSession, getTheme } from "./sessions.server";
@@ -150,13 +151,5 @@ export function ErrorBoundary() {
     }
   }
 
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold text-primary mb-4">{title}</h1>
-      <p className="text-text-muted mb-6">{message}</p>
-      <a href="/" className={buttonStyles({ className: "inline-block font-sans" })}>
-        Voltar ao início
-      </a>
-    </div>
-  );
+  return <ErrorPage title={title} message={message} linkHref="/" linkText="Voltar ao início" />;
 }

@@ -1,11 +1,13 @@
 import { isRouteErrorResponse, useRouteError } from "react-router";
-import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
 import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
+import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { CommentThread } from "~/components/comment-thread";
-import { GoldDivider } from "~/components/decorative";
+import { PageHeader } from "~/components/decorative";
+import { ErrorPage } from "~/components/error-page";
+import { TagList } from "~/components/tag";
 import { formatDate, stripHtml, truncate } from "~/lib/format";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -47,14 +49,8 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
   const { post, tags, comments } = loaderData;
 
   return (
-    <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-      <header className="text-center mb-12">
-        <p className="section-label mb-4">✦ {formatDate(post.publishedAt)} ✦</p>
-        <h1 className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-primary">
-          {post.title}
-        </h1>
-        <GoldDivider />
-      </header>
+    <Container as="article" className="py-12">
+      <PageHeader label={formatDate(post.publishedAt)} title={post.title} />
 
       {post.featuredImage && (
         <figure className="mb-10 -mx-4 sm:mx-0">
@@ -71,23 +67,10 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
 
       <PostContent html={post.content} />
 
-      {tags.length > 0 && (
-        <div className="mt-10 pt-6 border-t border-border">
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="px-3 py-1 bg-bg-warm rounded text-xs font-sans text-text-muted"
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+      <TagList tags={tags} />
 
       <CommentThread comments={comments} />
-    </article>
+    </Container>
   );
 }
 
@@ -96,18 +79,15 @@ export function ErrorBoundary() {
   const is404 = isRouteErrorResponse(error) && error.status === 404;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold text-primary mb-4">
-        {is404 ? "Publicação não encontrada" : "Erro ao carregar publicação"}
-      </h1>
-      <p className="text-text-muted mb-6">
-        {is404
+    <ErrorPage
+      title={is404 ? "Publicação não encontrada" : "Erro ao carregar publicação"}
+      message={
+        is404
           ? "A publicação que você procura não existe ou foi removida."
-          : "Ocorreu um erro inesperado. Tente novamente."}
-      </p>
-      <ButtonLink to="/blog" className="font-sans">
-        Voltar ao blog
-      </ButtonLink>
-    </div>
+          : "Ocorreu um erro inesperado. Tente novamente."
+      }
+      linkHref="/blog"
+      linkText="Voltar ao blog"
+    />
   );
 }

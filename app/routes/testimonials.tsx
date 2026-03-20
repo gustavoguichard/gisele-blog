@@ -1,8 +1,9 @@
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/testimonials";
 import { fetchTestimonials } from "~/db/queries.server";
-import { formatDate } from "~/lib/format";
+import { Container } from "~/components/container";
 import { PageHeader } from "~/components/decorative";
+import { formatDate } from "~/lib/format";
 
 export function meta() {
   return [
@@ -23,7 +24,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
   const { testimonials } = loaderData;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <Container size="lg" className="py-12">
       <PageHeader title="Depoimentos" />
 
       <div className="space-y-8">
@@ -48,6 +49,6 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
       {testimonials.length === 0 && (
         <p className="text-text-muted text-center py-12">Nenhum depoimento disponível.</p>
       )}
-    </div>
+    </Container>
   );
 }

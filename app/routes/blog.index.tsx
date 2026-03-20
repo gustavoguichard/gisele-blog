@@ -1,8 +1,8 @@
-import { fromSuccess } from "composable-functions";
-import { inputFromUrl } from "composable-functions";
+import { fromSuccess, inputFromUrl } from "composable-functions";
 import type { Route } from "./+types/blog.index";
 import { fetchPostsPaginated, fetchPostsCount, PER_PAGE } from "~/db/queries.server";
-import { PostCard } from "~/components/post-card";
+import { Container } from "~/components/container";
+import { PostGrid } from "~/components/post-grid";
 import { Pagination } from "~/components/pagination";
 import { PageHeader } from "~/components/decorative";
 
@@ -39,20 +39,16 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
   const { posts, currentPage, totalPages } = loaderData;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <Container size="xl" className="py-12">
       <PageHeader title="Blog" />
 
       {posts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <PostGrid posts={posts} />
       ) : (
         <p className="text-text-muted text-center py-12">Nenhuma publicação encontrada.</p>
       )}
 
       <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </div>
+    </Container>
   );
 }

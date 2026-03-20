@@ -1,14 +1,16 @@
 import { Link } from "react-router";
 import { formatDate, stripHtml, truncate } from "~/lib/format";
 
+export interface PostCardData {
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  featuredImage: string | null;
+  publishedAt: Date | string | null;
+}
+
 interface PostCardProps {
-  post: {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    featuredImage: string | null;
-    publishedAt: Date | string | null;
-  };
+  post: PostCardData;
 }
 
 export function PostCard({ post }: PostCardProps) {
