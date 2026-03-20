@@ -16,7 +16,7 @@ interface TreeNode extends Comment {
   children: TreeNode[];
 }
 
-function buildTree(comments: Comment[]): TreeNode[] {
+export function buildTree(comments: Comment[]): TreeNode[] {
   const map = new Map<string, TreeNode>();
   const roots: TreeNode[] = [];
 
