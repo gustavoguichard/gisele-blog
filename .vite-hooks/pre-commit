@@ -1,0 +1,2 @@
+npx react-router typegen 2>/dev/null
+vp staged
