@@ -83,6 +83,17 @@ export default function App({ loaderData }: Route.ComponentProps) {
                 Blog
               </NavLink>
               <NavLink
+                to="/cursos"
+                className={({ isActive }) =>
+                  buttonStyles({
+                    variant: isActive ? "primary" : "secondary",
+                    size: "md",
+                  })
+                }
+              >
+                Cursos
+              </NavLink>
+              <NavLink
                 to="/sobre"
                 className={({ isActive }) =>
                   buttonStyles({
@@ -99,7 +110,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
         </div>
       </header>
 
-      <main className="flex-1">
+      <main className="flex-1 bg-gradient-to-b from-bg-warm to-bg">
         <Outlet />
       </main>
 
@@ -108,7 +119,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
           <div className="flex flex-col items-center gap-4">
             <h3 className="font-bold text-primary text-lg">Gisele de Menezes</h3>
             <p className="text-sm text-text-muted text-center leading-relaxed max-w-md italic">
-              Terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora.
+              Escritora, terapeuta holística e praticante de Ayurveda.
             </p>
             <nav className="flex gap-6 text-sm font-sans">
               <NavLink to="/blog" className="text-text-muted hover:text-primary transition-colors">

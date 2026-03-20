@@ -13,6 +13,7 @@ export function PostContent({ html }: PostContentProps) {
         prose-img:rounded-xl prose-img:border prose-img:border-border
         prose-figure:my-8
         prose-figcaption:text-text-muted prose-figcaption:italic
+        prose-li:text-text-body
         prose-strong:text-text
         prose-hr:border-border"
       dangerouslySetInnerHTML={{ __html: html }}

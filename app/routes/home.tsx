@@ -1,9 +1,10 @@
 import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
-import { fetchRecentPosts } from "~/db/queries.server";
-import { PostGrid } from "~/components/post-grid";
+import { fetchRecentPosts, fetchCourses } from "~/db/queries.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
+import { PostListItem } from "~/components/post-list-item";
+import { CourseCard } from "~/routes/courses";
 
 export function meta() {
   return [
@@ -17,8 +18,11 @@ export function meta() {
 }
 
 export async function loader() {
-  const posts = await fromSuccess(fetchRecentPosts)(6);
-  return { posts };
+  const [posts, courses] = await Promise.all([
+    fromSuccess(fetchRecentPosts)(5),
+    fromSuccess(fetchCourses)(),
+  ]);
+  return { posts, courses: courses.slice(0, 3) };
 }
 
 export function headers() {
@@ -26,11 +30,11 @@ export function headers() {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { posts } = loaderData;
+  const { posts, courses } = loaderData;
 
   return (
     <div>
-      <section className="relative py-20 sm:py-28 bg-gradient-to-b from-bg-warm to-bg overflow-hidden">
+      <section className="relative py-20 sm:py-28 overflow-hidden">
         <OrnamentalCircles />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
@@ -57,10 +61,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
         <PageHeader as="h2" label="Publicações recentes" title="Do blog" />
 
-        <PostGrid posts={posts} />
+        <div className="divide-y divide-border">
+          {posts.map((post) => (
+            <PostListItem key={post.id} post={post} />
+          ))}
+        </div>
 
         <div className="text-center mt-10">
           <ButtonLink to="/blog" variant="secondary" className="font-sans">
@@ -68,6 +76,24 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </ButtonLink>
         </div>
       </section>
+
+      {courses.length > 0 && (
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+          <PageHeader as="h2" label="Formações" title="Cursos" />
+
+          <div className="space-y-6">
+            {courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <ButtonLink to="/cursos" variant="secondary" className="font-sans">
+              Ver todos os cursos
+            </ButtonLink>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
