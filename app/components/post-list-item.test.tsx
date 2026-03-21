@@ -21,16 +21,10 @@ describe("PostListItem", () => {
     expect(screen.getByText("Test Post Title")).toBeInTheDocument();
   });
 
-  it("links to the post slug under /blog by default", () => {
+  it("links to the post slug under /blog", () => {
     renderWithRouter(<PostListItem post={basePost} />);
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "/blog/test-post");
-  });
-
-  it("links using custom basePath", () => {
-    renderWithRouter(<PostListItem post={basePost} basePath="/cursos" />);
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/cursos/test-post");
   });
 
   it("renders formatted date", () => {
