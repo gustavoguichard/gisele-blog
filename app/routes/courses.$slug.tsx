@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { href, isRouteErrorResponse, useRouteError } from "react-router";
 import type { Route } from "./+types/courses.$slug";
 import { fetchCourseBySlug } from "~/db/queries.server";
 import { Container } from "~/components/container";
@@ -70,7 +70,7 @@ export function ErrorBoundary() {
           ? "O curso que você procura não existe ou foi removido."
           : "Ocorreu um erro inesperado. Tente novamente."
       }
-      linkHref="/cursos"
+      linkHref={href("/cursos")}
       linkText="Voltar aos cursos"
     />
   );

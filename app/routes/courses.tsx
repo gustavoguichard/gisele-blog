@@ -1,5 +1,5 @@
 import { fromSuccess } from "composable-functions";
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 import type { Route } from "./+types/courses";
 import { fetchCourses } from "~/db/queries.server";
 import { PageHeader } from "~/components/decorative";
@@ -35,7 +35,7 @@ export { CourseCard };
 function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group bg-bg-card rounded-xl border border-border overflow-hidden">
-      <Link to={`/cursos/${course.slug}`} className="block sm:flex">
+      <Link to={href("/cursos/:slug", { slug: course.slug })} className="block sm:flex">
         <div className="sm:w-72 shrink-0 aspect-[16/10] sm:aspect-auto overflow-hidden bg-bg-warm">
           {course.featuredImage ? (
             <img

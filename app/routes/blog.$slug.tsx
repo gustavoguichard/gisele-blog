@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { href, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
 import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
@@ -84,7 +84,7 @@ export function ErrorBoundary() {
           ? "A publicação que você procura não existe ou foi removida."
           : "Ocorreu um erro inesperado. Tente novamente."
       }
-      linkHref="/blog"
+      linkHref={href("/blog")}
       linkText="Voltar ao blog"
     />
   );
