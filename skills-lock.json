@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "38251cbba8036f5483d87a6d7072e26c609d2ad443e09269f698efb1e2655c11"
     },
+    "lighthouse": {
+      "source": "onnokh/lighthouse",
+      "sourceType": "github",
+      "computedHash": "94bf9e0d6c9d8489d53d378a81584ca75df11c29f255feb6351292e02e839097"
+    },
     "seo-audit": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
