@@ -10,4 +10,6 @@ export default [
   route("cursos", "./routes/courses.tsx"),
   route("cursos/:slug", "./routes/courses.$slug.tsx"),
   route("set-theme", "./routes/set-theme.tsx"),
+  route("sitemap.xml", "./routes/sitemap.ts"),
+  route("robots.txt", "./routes/robots.ts"),
 ] satisfies RouteConfig;
