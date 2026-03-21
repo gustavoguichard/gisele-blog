@@ -1,7 +1,8 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { dirname, extname, join } from "node:path";
+import { basename, dirname, extname, join } from "node:path";
 import pg from "pg";
 import sharp from "sharp";
+import { kebabCase } from "lodash-es";
 
 const DB_URL = process.env.DATABASE_URL;
 if (!DB_URL) throw new Error("DATABASE_URL environment variable is required");
@@ -19,10 +20,13 @@ function stripSizeVariant(path: string): string {
   return path.replace(SIZE_VARIANT_PATTERN, "$1");
 }
 
-function toWebpPath(relativePath: string): string {
+function toKebabWebpPath(relativePath: string): string {
   const ext = extname(relativePath);
   if (!IMAGE_EXTENSIONS.has(ext.toLowerCase())) return relativePath;
-  return relativePath.replace(/\.\w+$/, ".webp");
+  const dir = dirname(relativePath);
+  const base = basename(relativePath, ext);
+  const decoded = decodeURIComponent(base);
+  return join(dir, `${kebabCase(decoded)}.webp`);
 }
 
 function normalizeToCanonicalUrl(relativePath: string): string {
@@ -31,7 +35,6 @@ function normalizeToCanonicalUrl(relativePath: string): string {
 }
 
 async function extractImageUrls(client: pg.Client) {
-  const rawUrls = new Set<string>();
   const rawToOriginal = new Map<string, Set<string>>();
 
   const { rows: featuredRows } = await client.query<{
@@ -44,7 +47,6 @@ async function extractImageUrls(client: pg.Client) {
       /https?:\/\/www\.giseledemenezes\.com(?:\/blog)?\/wp-content\/uploads\/(\d{4}\/\d{2}\/[^"'\s)]+)/,
     );
     if (match) {
-      rawUrls.add(url);
       const canonical = normalizeToCanonicalUrl(match[1]);
       if (!rawToOriginal.has(canonical)) rawToOriginal.set(canonical, new Set());
       rawToOriginal.get(canonical)!.add(url);
@@ -58,14 +60,13 @@ async function extractImageUrls(client: pg.Client) {
   for (const row of contentRows) {
     for (const match of row.content.matchAll(WP_UPLOAD_PATTERN)) {
       const fullUrl = match[0];
-      rawUrls.add(fullUrl);
       const canonical = normalizeToCanonicalUrl(match[1]);
       if (!rawToOriginal.has(canonical)) rawToOriginal.set(canonical, new Set());
       rawToOriginal.get(canonical)!.add(fullUrl);
     }
   }
 
-  return { rawUrls, rawToOriginal };
+  return rawToOriginal;
 }
 
 async function downloadAndOptimize(url: string, outputPath: string): Promise<boolean> {
@@ -110,7 +111,7 @@ async function main() {
   await client.connect();
 
   console.log("Extracting image URLs from database...");
-  const { rawToOriginal } = await extractImageUrls(client);
+  const rawToOriginal = await extractImageUrls(client);
 
   console.log(`Found ${rawToOriginal.size} unique images (after dedup/normalization)\n`);
 
@@ -125,12 +126,12 @@ async function main() {
       "https://www.giseledemenezes.com/wp-content/uploads/",
       "",
     );
-    const webpRelative = toWebpPath(relativePath);
-    const outputPath = join(OUTPUT_DIR, webpRelative);
-    const localPath = `/uploads/${webpRelative}`;
+    const kebabRelative = toKebabWebpPath(relativePath);
+    const outputPath = join(OUTPUT_DIR, kebabRelative);
+    const localPath = `/uploads/${kebabRelative}`;
 
     if (existsSync(outputPath)) {
-      console.log(`  SKIP ${webpRelative} (exists)`);
+      console.log(`  SKIP ${kebabRelative} (exists)`);
       skipped++;
       for (const orig of originalUrls) {
         imageMap[orig] = localPath;
@@ -138,7 +139,7 @@ async function main() {
       continue;
     }
 
-    console.log(`  GET  ${canonicalUrl}`);
+    console.log(`  GET  ${canonicalUrl} → ${kebabRelative}`);
     const success = await downloadAndOptimize(canonicalUrl, outputPath);
     if (success) {
       downloaded++;
