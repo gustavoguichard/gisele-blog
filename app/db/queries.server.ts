@@ -5,6 +5,7 @@ import { z } from "zod";
 import { getDb } from "./db.server";
 
 const slugSchema = z.object({ slug: z.string().min(1) });
+const wpIdSchema = z.object({ wpId: z.coerce.number().int().positive() });
 const paginationSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
 });
@@ -107,6 +108,15 @@ export const fetchCourseBySlug = applySchema(slugSchema)(async ({ slug }) => {
     .where("postType", "=", "course")
     .where("status", "=", "published")
     .selectAll()
+    .executeTakeFirstOrThrow();
+});
+
+export const fetchPostByWpId = applySchema(wpIdSchema)(async ({ wpId }) => {
+  return getDb()
+    .selectFrom("posts")
+    .where("wpOriginalId", "=", wpId)
+    .where("status", "=", "published")
+    .select(["slug", "postType"])
     .executeTakeFirstOrThrow();
 });
 
