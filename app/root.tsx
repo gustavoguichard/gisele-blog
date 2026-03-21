@@ -16,6 +16,7 @@ import type { Route } from "./+types/root";
 import { buttonStyles } from "./components/button";
 import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
+import { MobileMenu } from "./components/mobile-menu";
 import { ThemeToggle } from "./components/theme-toggle";
 import { getSession, getTheme } from "./sessions.server";
 import { fetchPostByWpId } from "./db/queries.server";
@@ -88,7 +89,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
 
       <GoldBar />
 
-      <header className="border-b border-border bg-bg/95 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-border bg-bg/95 backdrop-blur-sm sticky top-0 z-40 relative">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <NavLink
@@ -98,7 +99,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
               Gisele de Menezes
             </NavLink>
 
-            <nav className="flex items-center gap-2 font-sans text-sm">
+            <nav className="hidden sm:flex items-center gap-2 font-sans text-sm">
               <NavLink
                 to={href("/blog")}
                 className={({ isActive }) =>
@@ -134,6 +135,15 @@ export default function App({ loaderData }: Route.ComponentProps) {
               </NavLink>
               <ThemeToggle theme={theme} />
             </nav>
+
+            <MobileMenu
+              theme={theme}
+              items={[
+                { to: href("/blog"), label: "Blog" },
+                { to: href("/cursos"), label: "Cursos" },
+                { to: href("/sobre"), label: "Sobre" },
+              ]}
+            />
           </div>
         </div>
       </header>
