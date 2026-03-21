@@ -15,9 +15,9 @@ export function PostListItem({ post }: PostListItemProps) {
   return (
     <Link
       to={href("/blog/:slug", { slug: post.slug })}
-      className="group flex gap-6 items-center py-6"
+      className="group flex flex-col sm:flex-row gap-4 sm:gap-6 sm:items-center py-6"
     >
-      <div className="w-40 h-28 shrink-0 rounded-xl overflow-hidden bg-bg-warm border border-border">
+      <div className="w-full sm:w-40 aspect-[16/10] sm:h-28 sm:aspect-auto shrink-0 rounded-xl overflow-hidden bg-bg-warm border border-border">
         {post.featuredImage ? (
           <img
             src={post.featuredImage}
