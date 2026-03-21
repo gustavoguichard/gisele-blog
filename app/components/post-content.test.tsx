@@ -17,7 +17,7 @@ describe("PostContent", () => {
   it("applies prose styling classes", () => {
     const { container } = render(<PostContent html="<p>Test</p>" />);
     expect(container.firstChild).toHaveClass("prose");
-    expect(container.firstChild).toHaveClass("prose-lg");
+    expect(container.firstChild).toHaveClass("sm:prose-lg");
   });
 
   it("renders links within content", () => {
