@@ -44,7 +44,7 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
       <PageHeader label={formatDate(post.publishedAt)} title={post.title} />
 
       {post.featuredImage && (
-        <figure className="mb-10 -mx-4 sm:mx-0">
+        <figure className="mb-10">
           <img
             src={post.featuredImage}
             alt={post.title}

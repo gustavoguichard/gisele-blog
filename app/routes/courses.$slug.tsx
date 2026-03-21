@@ -34,7 +34,7 @@ export default function CourseDetail({ loaderData }: Route.ComponentProps) {
       <PageHeader label={formatDate(course.publishedAt)} title={course.title} />
 
       {course.featuredImage && (
-        <figure className="mb-10 -mx-4 sm:mx-0">
+        <figure className="mb-10">
           <img
             src={course.featuredImage}
             alt={course.title}
