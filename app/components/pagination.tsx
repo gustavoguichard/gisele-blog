@@ -14,7 +14,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
   }
 
   return (
-    <nav className="flex items-center justify-center gap-2 mt-12 font-sans text-sm">
+    <nav className="flex flex-wrap items-center justify-center gap-2 mt-12 font-sans text-sm">
       {currentPage > 1 && (
         <Link
           to={pageUrl(currentPage - 1)}

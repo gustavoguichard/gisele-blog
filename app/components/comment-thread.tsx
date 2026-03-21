@@ -41,7 +41,7 @@ export function buildTree(comments: Comment[]): TreeNode[] {
 
 function CommentNode({ node, depth }: { node: TreeNode; depth: number }) {
   return (
-    <div className={depth > 0 ? "ml-6 border-l-2 border-accent/20 pl-4" : ""}>
+    <div className={depth > 0 ? "ml-3 pl-2 sm:ml-6 sm:pl-4 border-l-2 border-accent/20" : ""}>
       <div className="py-4">
         <div className="flex items-baseline gap-2 mb-1">
           <span className="font-sans font-semibold text-sm text-text">{node.authorName}</span>
