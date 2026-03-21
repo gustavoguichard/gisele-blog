@@ -22,6 +22,10 @@ export function PostListItem({ post }: PostListItemProps) {
           <img
             src={post.featuredImage}
             alt={post.title}
+            width={160}
+            height={112}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             onError={hideOnImgError}
           />
