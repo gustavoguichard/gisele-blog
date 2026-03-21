@@ -1,4 +1,5 @@
 {
+  "buildCommand": "pnpm exec tsx ./app/db/scripts/migrate.ts && pnpm exec react-router build",
   "redirects": [
     { "source": "/wp-admin/:path*", "destination": "/", "statusCode": 301 },
     { "source": "/wp-login.php", "destination": "/", "statusCode": 301 },

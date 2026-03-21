@@ -88,7 +88,7 @@ async function downloadAndOptimize(url: string, outputPath: string): Promise<boo
     }
     return processImage(await response.arrayBuffer(), outputPath);
   } catch (error) {
-    console.error(`  FAIL ${url} → ${error}`);
+    console.error(`  FAIL ${url} →`, error);
     return false;
   }
 }
