@@ -4,15 +4,20 @@ import { fetchTestimonials } from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PageHeader } from "~/components/decorative";
 import { formatDate } from "~/lib/format";
+import { generateMeta, reviewsPageJsonLd } from "~/lib/seo";
 
-export function meta() {
-  return [
-    { title: "Depoimentos — Gisele de Menezes" },
-    {
-      name: "description",
-      content: "Depoimentos de clientes e alunos de Gisele de Menezes.",
-    },
-  ];
+export function meta({ loaderData }: Route.MetaArgs) {
+  const meta = generateMeta({
+    title: "Depoimentos",
+    description: "Depoimentos de clientes e alunos de Gisele de Menezes.",
+    url: "/depoimentos",
+  });
+
+  if (loaderData?.testimonials) {
+    return [...meta, reviewsPageJsonLd(loaderData.testimonials)];
+  }
+
+  return meta;
 }
 
 export async function loader() {

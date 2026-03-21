@@ -5,7 +5,8 @@ import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { PageHeader } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
-import { formatDate, stripHtml, truncate, hideParentOnImgError } from "~/lib/format";
+import { formatDate, hideParentOnImgError } from "~/lib/format";
+import { postSeoMeta, courseJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const result = await fetchCourseBySlug({ slug: params.slug });
@@ -22,17 +23,7 @@ export function headers() {
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { course } = loaderData;
-  const description = course.excerpt
-    ? truncate(stripHtml(course.excerpt), 160)
-    : truncate(stripHtml(course.content), 160);
-
-  return [
-    { title: `${course.title} — Cursos — Gisele de Menezes` },
-    { name: "description", content: description },
-    { property: "og:title", content: course.title },
-    { property: "og:description", content: description },
-    ...(course.featuredImage ? [{ property: "og:image", content: course.featuredImage }] : []),
-  ];
+  return [...postSeoMeta(course, "/cursos"), courseJsonLd(course)];
 }
 
 export default function CourseDetail({ loaderData }: Route.ComponentProps) {
@@ -47,7 +38,11 @@ export default function CourseDetail({ loaderData }: Route.ComponentProps) {
           <img
             src={course.featuredImage}
             alt={course.title}
-            className="w-full rounded-xl border border-border"
+            width={1200}
+            height={630}
+            fetchPriority="high"
+            decoding="async"
+            className="w-full h-auto rounded-xl border border-border"
             onError={hideParentOnImgError}
           />
         </figure>

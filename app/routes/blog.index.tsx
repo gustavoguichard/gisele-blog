@@ -11,16 +11,24 @@ import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
 import { PageHeader, GoldDivider } from "~/components/decorative";
 import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
+import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
-export function meta() {
-  return [
-    { title: "Blog — Gisele de Menezes" },
-    {
-      name: "description",
-      content:
-        "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
-    },
-  ];
+export function meta({ loaderData, params }: Route.MetaArgs) {
+  const page = params.page ? Number(params.page) : 1;
+  const url = page === 1 ? "/blog" : `/blog/page/${page}`;
+
+  const meta = generateMeta({
+    title: "Blog",
+    description:
+      "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
+    url,
+  });
+
+  if (loaderData?.posts) {
+    return [...meta, collectionPageJsonLd("Blog", url, loaderData.posts, "/blog")];
+  }
+
+  return meta;
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -92,6 +100,8 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
               <img
                 src={hero.featuredImage}
                 alt={hero.title}
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 onError={hideOnImgError}
               />
