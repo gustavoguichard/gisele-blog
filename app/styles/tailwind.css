@@ -52,11 +52,6 @@
   margin-inline: auto;
 }
 
-.prose img:not([width]) {
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
 @utility section-label {
   font-family: var(--font-sans);
   font-size: 0.65rem;

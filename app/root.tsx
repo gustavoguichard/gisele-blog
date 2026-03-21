@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   href,
+  redirect,
   useNavigation,
   useRouteLoaderData,
   useRouteError,
@@ -17,9 +18,23 @@ import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
 import { ThemeToggle } from "./components/theme-toggle";
 import { getSession, getTheme } from "./sessions.server";
+import { fetchPostByWpId } from "./db/queries.server";
+import { resolvePostRoute } from "./lib/wp-redirects";
 import "./styles/tailwind.css";
 
 export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const wpId = url.searchParams.get("p");
+  if (wpId) {
+    const result = await fetchPostByWpId({ wpId: Number(wpId) });
+    if (result.success) {
+      const route = resolvePostRoute(result.data.postType, result.data.slug);
+      if (route) {
+        throw redirect(route, 301);
+      }
+    }
+  }
+
   const session = await getSession(request);
   return { theme: getTheme(session) };
 }

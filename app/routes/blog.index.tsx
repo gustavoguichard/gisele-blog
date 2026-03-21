@@ -11,24 +11,41 @@ import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
 import { PageHeader, GoldDivider } from "~/components/decorative";
 import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
-import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
+import { SITE, generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
 export function meta({ loaderData, params }: Route.MetaArgs) {
   const page = params.page ? Number(params.page) : 1;
   const url = page === 1 ? "/blog" : `/blog/page/${page}`;
 
   const meta = generateMeta({
-    title: "Blog",
+    title: page > 1 ? `Blog — Página ${page}` : "Blog",
     description:
       "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
     url,
   });
 
-  if (loaderData?.posts) {
-    return [...meta, collectionPageJsonLd("Blog", url, loaderData.posts, "/blog")];
+  const paginationLinks: Record<string, string>[] = [];
+  if (page > 1) {
+    const prevUrl = page === 2 ? "/blog" : `/blog/page/${page - 1}`;
+    paginationLinks.push({ tagName: "link", rel: "prev", href: `${SITE.url}${prevUrl}` });
+  }
+  if (loaderData?.totalPages && page < loaderData.totalPages) {
+    paginationLinks.push({
+      tagName: "link",
+      rel: "next",
+      href: `${SITE.url}/blog/page/${page + 1}`,
+    });
   }
 
-  return meta;
+  if (loaderData?.posts) {
+    return [
+      ...meta,
+      ...paginationLinks,
+      collectionPageJsonLd("Blog", url, loaderData.posts, "/blog"),
+    ];
+  }
+
+  return [...meta, ...paginationLinks];
 }
 
 export async function loader({ params }: Route.LoaderArgs) {

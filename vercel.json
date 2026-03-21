@@ -1,0 +1,11 @@
+{
+  "buildCommand": "[ \"$VERCEL_ENV\" = 'production' ] && pnpm exec tsx ./app/db/scripts/migrate.ts; pnpm exec react-router build",
+  "redirects": [
+    { "source": "/wp-admin/:path*", "destination": "/", "statusCode": 301 },
+    { "source": "/wp-login.php", "destination": "/", "statusCode": 301 },
+    { "source": "/feed/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/category/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/tag/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/wp-content/uploads/:path*", "destination": "/uploads/:path*", "statusCode": 301 }
+  ]
+}
