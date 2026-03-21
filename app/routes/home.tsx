@@ -1,3 +1,4 @@
+import { href } from "react-router";
 import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
@@ -5,15 +6,18 @@ import { fetchRecentPosts, fetchCourses } from "~/db/queries.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 import { PostListItem } from "~/components/post-list-item";
 import { CourseCard } from "~/routes/courses";
+import { SITE, generateMeta, websiteJsonLd, personJsonLd } from "~/lib/seo";
 
 export function meta() {
   return [
-    { title: "Gisele de Menezes — Terapeuta, Escritora e Praticante de Ayurveda" },
-    {
-      name: "description",
-      content:
-        "Blog de Gisele de Menezes — terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora. Reflexões sobre saúde, espiritualidade e bem-estar.",
-    },
+    ...generateMeta({
+      title: SITE.title,
+      description: SITE.description,
+      url: "/",
+      fullTitle: true,
+    }),
+    websiteJsonLd(),
+    personJsonLd(),
   ];
 }
 
@@ -53,8 +57,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </p>
 
           <div className="mt-10 flex gap-3 justify-center font-sans">
-            <ButtonLink to="/blog">Ler o blog</ButtonLink>
-            <ButtonLink to="/sobre" variant="secondary">
+            <ButtonLink to={href("/blog")}>Ler o blog</ButtonLink>
+            <ButtonLink to={href("/sobre")} variant="secondary">
               Sobre mim
             </ButtonLink>
           </div>
@@ -71,7 +75,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </div>
 
         <div className="text-center mt-10">
-          <ButtonLink to="/blog" variant="secondary" className="font-sans">
+          <ButtonLink to={href("/blog")} variant="secondary" className="font-sans">
             Ver todas as publicações
           </ButtonLink>
         </div>
@@ -88,7 +92,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="text-center mt-10">
-            <ButtonLink to="/cursos" variant="secondary" className="font-sans">
+            <ButtonLink to={href("/cursos")} variant="secondary" className="font-sans">
               Ver todos os cursos
             </ButtonLink>
           </div>

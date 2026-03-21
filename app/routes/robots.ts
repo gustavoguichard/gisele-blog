@@ -1,0 +1,17 @@
+import { SITE } from "~/lib/seo";
+
+export function loader() {
+  const text = `User-agent: *
+Allow: /
+Disallow: /set-theme
+
+Sitemap: ${SITE.url}/sitemap.xml
+`;
+
+  return new Response(text, {
+    headers: {
+      "Content-Type": "text/plain",
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}

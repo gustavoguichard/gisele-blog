@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { href, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
 import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
@@ -8,7 +8,8 @@ import { CommentThread } from "~/components/comment-thread";
 import { PageHeader } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
 import { TagList } from "~/components/tag";
-import { formatDate, stripHtml, truncate, hideParentOnImgError } from "~/lib/format";
+import { formatDate, hideParentOnImgError } from "~/lib/format";
+import { postSeoMeta, blogPostingJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const result = await fetchPostBySlug({ slug: params.slug });
@@ -32,17 +33,7 @@ export function headers() {
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { post } = loaderData;
-  const description = post.excerpt
-    ? truncate(stripHtml(post.excerpt), 160)
-    : truncate(stripHtml(post.content), 160);
-
-  return [
-    { title: `${post.title} — Gisele de Menezes` },
-    { name: "description", content: description },
-    { property: "og:title", content: post.title },
-    { property: "og:description", content: description },
-    ...(post.featuredImage ? [{ property: "og:image", content: post.featuredImage }] : []),
-  ];
+  return [...postSeoMeta(post, "/blog"), blogPostingJsonLd(post)];
 }
 
 export default function BlogPost({ loaderData }: Route.ComponentProps) {
@@ -57,7 +48,11 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
           <img
             src={post.featuredImage}
             alt={post.title}
-            className="w-full rounded-xl border border-border"
+            width={1200}
+            height={630}
+            fetchPriority="high"
+            decoding="async"
+            className="w-full h-auto rounded-xl border border-border"
             onError={hideParentOnImgError}
           />
         </figure>
@@ -84,7 +79,7 @@ export function ErrorBoundary() {
           ? "A publicação que você procura não existe ou foi removida."
           : "Ocorreu um erro inesperado. Tente novamente."
       }
-      linkHref="/blog"
+      linkHref={href("/blog")}
       linkText="Voltar ao blog"
     />
   );

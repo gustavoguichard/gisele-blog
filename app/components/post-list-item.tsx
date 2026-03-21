@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 import {
   formatDate,
   stripHtml,
@@ -9,17 +9,23 @@ import {
 
 interface PostListItemProps {
   post: ContentCardData;
-  basePath?: string;
 }
 
-export function PostListItem({ post, basePath = "/blog" }: PostListItemProps) {
+export function PostListItem({ post }: PostListItemProps) {
   return (
-    <Link to={`${basePath}/${post.slug}`} className="group flex gap-6 items-center py-6">
+    <Link
+      to={href("/blog/:slug", { slug: post.slug })}
+      className="group flex gap-6 items-center py-6"
+    >
       <div className="w-40 h-28 shrink-0 rounded-xl overflow-hidden bg-bg-warm border border-border">
         {post.featuredImage ? (
           <img
             src={post.featuredImage}
             alt={post.title}
+            width={160}
+            height={112}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             onError={hideOnImgError}
           />

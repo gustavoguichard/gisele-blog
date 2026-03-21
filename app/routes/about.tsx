@@ -3,15 +3,17 @@ import { fetchPageBySlug } from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { PageHeader } from "~/components/decorative";
+import { generateMeta, aboutPageJsonLd } from "~/lib/seo";
 
 export function meta() {
   return [
-    { title: "Sobre — Gisele de Menezes" },
-    {
-      name: "description",
-      content:
+    ...generateMeta({
+      title: "Sobre",
+      description:
         "Conheça Gisele de Menezes — terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora.",
-    },
+      url: "/sobre",
+    }),
+    aboutPageJsonLd(),
   ];
 }
 

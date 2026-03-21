@@ -1,4 +1,4 @@
-import { useFetcher } from "react-router";
+import { href, useFetcher } from "react-router";
 
 export function ThemeToggle({ theme }: { theme: "light" | "dark" }) {
   const fetcher = useFetcher();
@@ -6,7 +6,7 @@ export function ThemeToggle({ theme }: { theme: "light" | "dark" }) {
   const isDark = optimistic === "dark";
 
   return (
-    <fetcher.Form method="post" action="/set-theme">
+    <fetcher.Form method="post" action={href("/set-theme")}>
       <input type="hidden" name="theme" value={isDark ? "light" : "dark"} />
       <button
         type="submit"

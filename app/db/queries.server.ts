@@ -110,4 +110,13 @@ export const fetchCourseBySlug = applySchema(slugSchema)(async ({ slug }) => {
     .executeTakeFirstOrThrow();
 });
 
+export const fetchSitemapEntries = composable(async () => {
+  return getDb()
+    .selectFrom("posts")
+    .where("status", "=", "published")
+    .where("postType", "in", ["post", "course"])
+    .select(["slug", "postType", "updatedAt"])
+    .execute();
+});
+
 export { PER_PAGE };

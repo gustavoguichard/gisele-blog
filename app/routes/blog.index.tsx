@@ -1,4 +1,4 @@
-import { Link, redirect } from "react-router";
+import { Link, href, redirect } from "react-router";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog.index";
 import {
@@ -11,23 +11,31 @@ import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
 import { PageHeader, GoldDivider } from "~/components/decorative";
 import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
+import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
-export function meta() {
-  return [
-    { title: "Blog — Gisele de Menezes" },
-    {
-      name: "description",
-      content:
-        "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
-    },
-  ];
+export function meta({ loaderData, params }: Route.MetaArgs) {
+  const page = params.page ? Number(params.page) : 1;
+  const url = page === 1 ? "/blog" : `/blog/page/${page}`;
+
+  const meta = generateMeta({
+    title: "Blog",
+    description:
+      "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
+    url,
+  });
+
+  if (loaderData?.posts) {
+    return [...meta, collectionPageJsonLd("Blog", url, loaderData.posts, "/blog")];
+  }
+
+  return meta;
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   if (page === 1 && params.page) {
-    throw redirect("/blog");
+    throw redirect(href("/blog"));
   }
 
   const [posts, totalPosts] = await Promise.all([
@@ -86,12 +94,14 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
       {/* Hero — centered editorial style */}
       <div className="text-center mb-12">
         <p className="section-label mb-4">✦ Publicação mais recente ✦</p>
-        <Link to={`/blog/${hero.slug}`} className="block group">
+        <Link to={href("/blog/:slug", { slug: hero.slug })} className="block group">
           {hero.featuredImage && (
             <div className="aspect-[21/9] rounded-xl overflow-hidden bg-bg-warm mb-6 border border-border">
               <img
                 src={hero.featuredImage}
                 alt={hero.title}
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 onError={hideOnImgError}
               />
@@ -112,7 +122,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
               dangerouslySetInnerHTML={{ __html: excerptHtml }}
             />
             <Link
-              to={`/blog/${hero.slug}`}
+              to={href("/blog/:slug", { slug: hero.slug })}
               className="inline-block mt-4 text-sm font-sans font-semibold text-primary border-b border-accent/30 hover:border-primary transition-colors"
             >
               Ler mais →

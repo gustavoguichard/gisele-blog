@@ -14,7 +14,7 @@
   --color-bg-card: #fff;
   --color-text: #2a2118;
   --color-text-body: #4a3f34;
-  --color-text-muted: #8a7d6d;
+  --color-text-muted: #6e6358;
   --color-text-subtle: #5c4d3c;
   --color-border: #e0d5c7;
   --color-border-dark: #d4c4ae;
@@ -50,6 +50,11 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
   margin-inline: auto;
+}
+
+.prose img:not([width]) {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 @utility section-label {

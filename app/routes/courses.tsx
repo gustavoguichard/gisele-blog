@@ -1,5 +1,5 @@
 import { fromSuccess } from "composable-functions";
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 import type { Route } from "./+types/courses";
 import { fetchCourses } from "~/db/queries.server";
 import { PageHeader } from "~/components/decorative";
@@ -10,15 +10,20 @@ import {
   hideOnImgError,
   type ContentCardData,
 } from "~/lib/format";
+import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
-export function meta() {
-  return [
-    { title: "Cursos — Gisele de Menezes" },
-    {
-      name: "description",
-      content: "Cursos e formações oferecidos por Gisele de Menezes.",
-    },
-  ];
+export function meta({ loaderData }: Route.MetaArgs) {
+  const meta = generateMeta({
+    title: "Cursos",
+    description: "Cursos e formações oferecidos por Gisele de Menezes.",
+    url: "/cursos",
+  });
+
+  if (loaderData?.courses) {
+    return [...meta, collectionPageJsonLd("Cursos", "/cursos", loaderData.courses, "/cursos")];
+  }
+
+  return meta;
 }
 
 export async function loader() {
@@ -35,12 +40,14 @@ export { CourseCard };
 function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group bg-bg-card rounded-xl border border-border overflow-hidden">
-      <Link to={`/cursos/${course.slug}`} className="block sm:flex">
+      <Link to={href("/cursos/:slug", { slug: course.slug })} className="block sm:flex">
         <div className="sm:w-72 shrink-0 aspect-[16/10] sm:aspect-auto overflow-hidden bg-bg-warm">
           {course.featuredImage ? (
             <img
               src={course.featuredImage}
               alt={course.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               onError={hideOnImgError}
             />
@@ -54,9 +61,9 @@ function CourseCard({ course }: { course: ContentCardData }) {
           <time className="text-xs font-sans text-text-muted tracking-wider uppercase mb-2">
             {formatDate(course.publishedAt)}
           </time>
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-snug mb-2">
+          <h2 className="text-xl font-bold group-hover:text-primary transition-colors leading-snug mb-2">
             {course.title}
-          </h3>
+          </h2>
           {course.excerpt && (
             <p className="text-sm text-text-muted leading-relaxed">
               {truncate(stripHtml(course.excerpt), 180)}

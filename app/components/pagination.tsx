@@ -1,17 +1,16 @@
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 import { buttonStyles } from "./button";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  basePath?: string;
 }
 
-export function Pagination({ currentPage, totalPages, basePath = "/blog" }: PaginationProps) {
+export function Pagination({ currentPage, totalPages }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   function pageUrl(page: number) {
-    return page <= 1 ? basePath : `${basePath}/page/${page}`;
+    return page <= 1 ? href("/blog") : href("/blog/page/:page", { page: String(page) });
   }
 
   return (

@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  href,
   useNavigation,
   useRouteLoaderData,
   useRouteError,
@@ -32,8 +33,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#8b5e34" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap"
           rel="stylesheet"
@@ -66,13 +76,16 @@ export default function App({ loaderData }: Route.ComponentProps) {
       <header className="border-b border-border bg-bg/95 backdrop-blur-sm sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            <NavLink to="/" className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
+            <NavLink
+              to={href("/")}
+              className="text-xl sm:text-2xl font-bold text-primary tracking-tight"
+            >
               Gisele de Menezes
             </NavLink>
 
             <nav className="flex items-center gap-2 font-sans text-sm">
               <NavLink
-                to="/blog"
+                to={href("/blog")}
                 className={({ isActive }) =>
                   buttonStyles({
                     variant: isActive ? "primary" : "secondary",
@@ -83,7 +96,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
                 Blog
               </NavLink>
               <NavLink
-                to="/cursos"
+                to={href("/cursos")}
                 className={({ isActive }) =>
                   buttonStyles({
                     variant: isActive ? "primary" : "secondary",
@@ -94,7 +107,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
                 Cursos
               </NavLink>
               <NavLink
-                to="/sobre"
+                to={href("/sobre")}
                 className={({ isActive }) =>
                   buttonStyles({
                     variant: isActive ? "primary" : "secondary",
@@ -122,19 +135,28 @@ export default function App({ loaderData }: Route.ComponentProps) {
               Escritora, terapeuta holística e praticante de Ayurveda.
             </p>
             <nav className="flex gap-6 text-sm font-sans">
-              <NavLink to="/blog" className="text-text-muted hover:text-primary transition-colors">
+              <NavLink
+                to={href("/blog")}
+                className="text-text-muted hover:text-primary transition-colors"
+              >
                 Blog
               </NavLink>
-              <NavLink to="/sobre" className="text-text-muted hover:text-primary transition-colors">
+              <NavLink
+                to={href("/sobre")}
+                className="text-text-muted hover:text-primary transition-colors"
+              >
                 Sobre
               </NavLink>
               <NavLink
-                to="/depoimentos"
+                to={href("/depoimentos")}
                 className="text-text-muted hover:text-primary transition-colors"
               >
                 Depoimentos
               </NavLink>
-              <NavLink to="/cursos" className="text-text-muted hover:text-primary transition-colors">
+              <NavLink
+                to={href("/cursos")}
+                className="text-text-muted hover:text-primary transition-colors"
+              >
                 Cursos
               </NavLink>
             </nav>
@@ -165,5 +187,7 @@ export function ErrorBoundary() {
     }
   }
 
-  return <ErrorPage title={title} message={message} linkHref="/" linkText="Voltar ao início" />;
+  return (
+    <ErrorPage title={title} message={message} linkHref={href("/")} linkText="Voltar ao início" />
+  );
 }

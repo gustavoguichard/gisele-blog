@@ -20,22 +20,16 @@ describe("Pagination", () => {
     expect(screen.getByText("3")).toBeInTheDocument();
   });
 
-  it("generates path-based URLs with default basePath", () => {
+  it("generates type-safe blog page URLs", () => {
     renderWithRouter(<Pagination currentPage={1} totalPages={3} />);
     const link2 = screen.getByText("2");
     expect(link2).toHaveAttribute("href", "/blog/page/2");
   });
 
-  it("page 1 links to basePath without /page/1", () => {
+  it("page 1 links to /blog without /page/1", () => {
     renderWithRouter(<Pagination currentPage={2} totalPages={3} />);
     const link1 = screen.getByText("1");
     expect(link1).toHaveAttribute("href", "/blog");
-  });
-
-  it("uses custom basePath", () => {
-    renderWithRouter(<Pagination currentPage={1} totalPages={3} basePath="/cursos" />);
-    const link2 = screen.getByText("2");
-    expect(link2).toHaveAttribute("href", "/cursos/page/2");
   });
 
   it("shows Próxima button when not on last page", () => {
