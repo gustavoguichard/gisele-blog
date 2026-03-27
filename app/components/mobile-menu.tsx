@@ -14,7 +14,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
   }, [location.pathname]);
 
   return (
-    <div className="sm:hidden">
+    <div className="md:hidden">
       <div className="flex items-center gap-2">
         <ThemeToggle />
         <button

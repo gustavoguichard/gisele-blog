@@ -98,7 +98,7 @@ export default function App() {
               Gisele de Menezes
             </NavLink>
 
-            <nav className="hidden sm:flex items-center gap-2 font-sans text-sm">
+            <nav className="hidden md:flex items-center gap-2 font-sans text-sm">
               <NavLink
                 to={href("/blog")}
                 className={({ isActive }) =>
@@ -132,6 +132,17 @@ export default function App() {
               >
                 Sobre
               </NavLink>
+              <NavLink
+                to={href("/contato")}
+                className={({ isActive }) =>
+                  buttonStyles({
+                    variant: isActive ? "primary" : "secondary",
+                    size: "md",
+                  })
+                }
+              >
+                Contato
+              </NavLink>
               <ThemeToggle />
             </nav>
 
@@ -140,6 +151,7 @@ export default function App() {
                 { to: href("/blog"), label: "Blog" },
                 { to: href("/cursos"), label: "Cursos" },
                 { to: href("/sobre"), label: "Sobre" },
+                { to: href("/contato"), label: "Contato" },
               ]}
             />
           </div>
@@ -181,6 +193,12 @@ export default function App() {
                 className="text-text-muted hover:text-primary transition-colors"
               >
                 Cursos
+              </NavLink>
+              <NavLink
+                to={href("/contato")}
+                className="text-text-muted hover:text-primary transition-colors"
+              >
+                Contato
               </NavLink>
             </nav>
           </div>
