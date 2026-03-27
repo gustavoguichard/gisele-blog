@@ -5,6 +5,8 @@
 
 import type { ColumnType } from "kysely";
 
+export type CommentStatus = "pending" | "published" | "rejected";
+
 export type Generated<T> =
   T extends ColumnType<infer S, infer I, infer U>
     ? ColumnType<S, I | undefined, U>
@@ -24,6 +26,7 @@ export interface Comments {
   id: Generated<string>;
   parentId: string | null;
   postId: string;
+  status: Generated<CommentStatus>;
 }
 
 export interface Posts {
