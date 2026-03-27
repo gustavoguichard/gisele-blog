@@ -2,12 +2,15 @@ import { createCookieSessionStorage } from "react-router";
 import { makeTypedSession } from "react-router-typed-session";
 import { z } from "zod";
 
+import { env } from "~/env.server";
+
 const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "__session",
     httpOnly: true,
     sameSite: "lax",
     path: "/",
+    secrets: [env().SESSION_SECRET],
     secure: process.env.NODE_ENV === "production",
   },
 });
