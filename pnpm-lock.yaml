@@ -14,12 +14,18 @@ importers:
       '@react-router/serve':
         specifier: ^7.13.1
         version: 7.13.1(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
+      '@remix-run/form-data-parser':
+        specifier: ^0.16.0
+        version: 0.16.0
       '@tailwindcss/typography':
         specifier: ^0.5.19
         version: 0.5.19(tailwindcss@4.2.2)
       '@tailwindcss/vite':
         specifier: ^4.2.2
         version: 4.2.2(vite@6.4.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2))
+      coerce-form-data:
+        specifier: ^2.1.0
+        version: 2.1.0
       composable-functions:
         specifier: ^5.0.0
         version: 5.0.0
@@ -41,6 +47,9 @@ importers:
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
+      react-hook-form:
+        specifier: ^7.72.0
+        version: 7.72.0(react@19.2.4)
       react-router:
         specifier: ^7.13.1
         version: 7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -50,6 +59,9 @@ importers:
       sanitize-html:
         specifier: ^2.17.2
         version: 2.17.2
+      schema-info:
+        specifier: ^0.4.1
+        version: 0.4.1
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -1407,6 +1419,15 @@ packages:
     peerDependencies:
       react-router: 7.13.1
 
+  '@remix-run/form-data-parser@0.16.0':
+    resolution: {integrity: sha512-k4QCgCyPURpqe+9Rual1GBJ8Ab6ri82Clfh5ooxq03jKQ1TyQZT5xh+XP0R05+Bqg5bzAZl7r2BpmDEvfoRTWw==}
+
+  '@remix-run/headers@0.19.0':
+    resolution: {integrity: sha512-+62NbkXuXm9r/NdG6KfH9OCKofCWm8VjkrVPICiHKtRl8Gf2Vi6eFTN4mGgBlZRhd5mmEVRV4hTIn/JUSHDAOw==}
+
+  '@remix-run/multipart-parser@0.15.0':
+    resolution: {integrity: sha512-/Ugo6k2bN7gh7Ybyhe7R/NrkD075fHrEfVf17P+NNC9rlWHBQCOSyJ4V8n4wtoG8umeImagU/AuHuUuTwzvHww==}
+
   '@remix-run/node-fetch-server@0.13.0':
     resolution: {integrity: sha512-1EsNo0ZpgXu/90AWoRZf/oE3RVTUS80tiTUpt+hv5pjtAkw7icN4WskDwz/KdAw5ARbJLMhZBrO1NqThmy/McA==}
 
@@ -1975,6 +1996,9 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  coerce-form-data@2.1.0:
+    resolution: {integrity: sha512-7ZSh9alsDb3GEGJioA9+6Bp3NwLvMvxkTh0XnetugpGRyMYZV+AmcPi5t/m8QTRojsr2l52pXDSz4D0WKaSpQA==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -2844,6 +2868,12 @@ packages:
     peerDependencies:
       react: ^19.2.4
 
+  react-hook-form@7.72.0:
+    resolution: {integrity: sha512-V4v6jubaf6JAurEaVnT9aUPKFbNtDgohj5CIgVGyPHvT9wRx5OZHVjz31GsxnPNI278XMu+ruFz+wGOscHaLKw==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
@@ -2922,6 +2952,9 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
+
+  schema-info@0.4.1:
+    resolution: {integrity: sha512-vl3TUoreScAoco7k8sEBSvUKCxNXzTscthfS3cEZ88saEoYIRf3P/5/W8it8GkypSjNCDJjzN59K5ubYXNnB3w==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -4179,6 +4212,16 @@ snapshots:
       - supports-color
       - typescript
 
+  '@remix-run/form-data-parser@0.16.0':
+    dependencies:
+      '@remix-run/multipart-parser': 0.15.0
+
+  '@remix-run/headers@0.19.0': {}
+
+  '@remix-run/multipart-parser@0.15.0':
+    dependencies:
+      '@remix-run/headers': 0.19.0
+
   '@remix-run/node-fetch-server@0.13.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.59.0':
@@ -4632,6 +4675,8 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+
+  coerce-form-data@2.1.0: {}
 
   color-convert@2.0.1:
     dependencies:
@@ -5519,6 +5564,10 @@ snapshots:
       react: 19.2.4
       scheduler: 0.27.0
 
+  react-hook-form@7.72.0(react@19.2.4):
+    dependencies:
+      react: 19.2.4
+
   react-is@17.0.2: {}
 
   react-refresh@0.14.2: {}
@@ -5607,6 +5656,8 @@ snapshots:
       xmlchars: 2.2.0
 
   scheduler@0.27.0: {}
+
+  schema-info@0.4.1: {}
 
   semver@6.3.1: {}
 
