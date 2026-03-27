@@ -10,7 +10,7 @@ export function meta() {
     ...generateMeta({
       title: "Sobre",
       description:
-        "Conheça Gisele de Menezes — terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora.",
+        "Conheça Gisele de Menezes — terapeuta, praticante de Ayurveda, massoterapeuta e escritora.",
       url: "/sobre",
     }),
     aboutPageJsonLd(),

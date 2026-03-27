@@ -5,7 +5,7 @@ export const SITE = {
   name: "Gisele de Menezes",
   title: "Gisele de Menezes — Terapeuta, Escritora e Praticante de Ayurveda",
   description:
-    "Blog de Gisele de Menezes — terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora. Reflexões sobre saúde, espiritualidade e bem-estar.",
+    "Blog de Gisele de Menezes — terapeuta, praticante de Ayurveda, massoterapeuta e escritora. Reflexões sobre saúde, espiritualidade e bem-estar.",
   locale: "pt_BR",
   lang: "pt-BR",
   author: "Gisele de Menezes",
@@ -150,8 +150,8 @@ function personSchema() {
     "@type": "Person" as const,
     name: SITE.author,
     url: SITE.url,
-    jobTitle: "Terapeuta Holística",
-    description: "Terapeuta holística, praticante de Ayurveda, massoterapeuta e escritora.",
+    jobTitle: "Terapeuta",
+    description: "Terapeuta, praticante de Ayurveda, massoterapeuta e escritora.",
   };
 }
 

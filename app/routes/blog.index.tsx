@@ -20,7 +20,7 @@ export function meta({ loaderData, params }: Route.MetaArgs) {
   const meta = generateMeta({
     title: page > 1 ? `Blog — Página ${page}` : "Blog",
     description:
-      "Artigos sobre Ayurveda, saúde holística, espiritualidade e bem-estar por Gisele de Menezes.",
+      "Artigos sobre Ayurveda, saúde, espiritualidade e bem-estar por Gisele de Menezes.",
     url,
   });
 
