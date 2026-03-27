@@ -8,7 +8,6 @@ import {
   href,
   redirect,
   useNavigation,
-  useRouteLoaderData,
   useRouteError,
   isRouteErrorResponse,
 } from "react-router";
@@ -18,7 +17,6 @@ import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
 import { MobileMenu } from "./components/mobile-menu";
 import { ThemeToggle } from "./components/theme-toggle";
-import { getSession, getTheme } from "./sessions.server";
 import { fetchPostByWpId } from "./db/queries.server";
 import { resolvePostRoute } from "./lib/wp-redirects";
 import "./styles/tailwind.css";
@@ -36,17 +34,18 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
   }
 
-  const session = await getSession(request);
-  return { theme: getTheme(session) };
+  return null;
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const rootData = useRouteLoaderData<typeof loader>("root");
-  const theme = rootData?.theme ?? "light";
-
   return (
-    <html lang="pt-BR" className={theme === "dark" ? "dark" : ""}>
+    <html lang="pt-BR">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}})()`,
+          }}
+        />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#8b5e34" />
@@ -77,8 +76,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App({ loaderData }: Route.ComponentProps) {
-  const { theme } = loaderData;
+export default function App() {
   const navigation = useNavigation();
   const isNavigating = navigation.state !== "idle";
 
@@ -134,11 +132,10 @@ export default function App({ loaderData }: Route.ComponentProps) {
               >
                 Sobre
               </NavLink>
-              <ThemeToggle theme={theme} />
+              <ThemeToggle />
             </nav>
 
             <MobileMenu
-              theme={theme}
               items={[
                 { to: href("/blog"), label: "Blog" },
                 { to: href("/cursos"), label: "Cursos" },
@@ -158,7 +155,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
           <div className="flex flex-col items-center gap-4">
             <h3 className="font-bold text-primary text-lg">Gisele de Menezes</h3>
             <p className="text-sm text-text-muted text-center leading-relaxed max-w-md italic">
-              Escritora, terapeuta holística e praticante de Ayurveda.
+              Escritora, terapeuta e praticante de Ayurveda.
             </p>
             <nav className="flex gap-6 text-sm font-sans">
               <NavLink

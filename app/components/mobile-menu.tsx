@@ -5,7 +5,7 @@ import { ThemeToggle } from "./theme-toggle";
 
 type NavItem = { to: string; label: string };
 
-export function MobileMenu({ items, theme }: { items: NavItem[]; theme: "light" | "dark" }) {
+export function MobileMenu({ items }: { items: NavItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
@@ -16,7 +16,7 @@ export function MobileMenu({ items, theme }: { items: NavItem[]; theme: "light" 
   return (
     <div className="sm:hidden">
       <div className="flex items-center gap-2">
-        <ThemeToggle theme={theme} />
+        <ThemeToggle />
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
