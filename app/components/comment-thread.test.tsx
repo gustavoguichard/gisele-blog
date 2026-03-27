@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import { buildTree, CommentThread } from "./comment-thread";
 
 function makeComment(overrides: Partial<Parameters<typeof buildTree>[0][0]> & { id: string }) {
@@ -95,49 +96,66 @@ describe("buildTree", () => {
   });
 });
 
+function renderThread(comments: Parameters<typeof CommentThread>[0]["comments"]) {
+  const Stub = createRoutesStub([
+    { path: "/", Component: () => <CommentThread comments={comments} /> },
+  ]);
+  return render(<Stub initialEntries={["/"]} />);
+}
+
 describe("CommentThread", () => {
-  it("returns null when no comments", () => {
-    const { container } = render(<CommentThread comments={[]} />);
-    expect(container.innerHTML).toBe("");
+  it("renders form even when no comments", () => {
+    renderThread([]);
+    expect(screen.getByText("Deixe seu comentário")).toBeInTheDocument();
+  });
+
+  it("does not render comment count when no comments", () => {
+    renderThread([]);
+    expect(screen.queryByText(/^\d+ comentário/)).not.toBeInTheDocument();
   });
 
   it("renders comment count (singular)", () => {
-    render(<CommentThread comments={[makeComment({ id: "1", authorName: "Alice" })]} />);
+    renderThread([makeComment({ id: "1", authorName: "Alice" })]);
     expect(screen.getByText("1 comentário")).toBeInTheDocument();
   });
 
   it("renders comment count (plural)", () => {
-    render(
-      <CommentThread
-        comments={[
-          makeComment({ id: "1", authorName: "Alice" }),
-          makeComment({ id: "2", authorName: "Bob" }),
-        ]}
-      />,
-    );
+    renderThread([
+      makeComment({ id: "1", authorName: "Alice" }),
+      makeComment({ id: "2", authorName: "Bob" }),
+    ]);
     expect(screen.getByText("2 comentários")).toBeInTheDocument();
   });
 
   it("renders author names", () => {
-    render(<CommentThread comments={[makeComment({ id: "1", authorName: "Alice" })]} />);
+    renderThread([makeComment({ id: "1", authorName: "Alice" })]);
     expect(screen.getByText("Alice")).toBeInTheDocument();
   });
 
   it("renders nested replies", () => {
-    render(
-      <CommentThread
-        comments={[
-          makeComment({ id: "1", authorName: "Alice" }),
-          makeComment({ id: "2", authorName: "Bob", parentId: "1" }),
-        ]}
-      />,
-    );
+    renderThread([
+      makeComment({ id: "1", authorName: "Alice" }),
+      makeComment({ id: "2", authorName: "Bob", parentId: "1" }),
+    ]);
     expect(screen.getByText("Alice")).toBeInTheDocument();
     expect(screen.getByText("Bob")).toBeInTheDocument();
   });
 
   it("renders comment content as HTML", () => {
-    render(<CommentThread comments={[makeComment({ id: "1", content: "<p>Hello world</p>" })]} />);
+    renderThread([makeComment({ id: "1", content: "<p>Hello world</p>" })]);
     expect(screen.getByText("Hello world")).toBeInTheDocument();
+  });
+
+  it("renders reply button on each comment", () => {
+    renderThread([
+      makeComment({ id: "1", authorName: "Alice" }),
+      makeComment({ id: "2", authorName: "Bob" }),
+    ]);
+    expect(screen.getAllByRole("button", { name: "Responder" })).toHaveLength(2);
+  });
+
+  it("always renders top-level comment form", () => {
+    renderThread([makeComment({ id: "1" })]);
+    expect(screen.getByText("Deixe seu comentário")).toBeInTheDocument();
   });
 });
