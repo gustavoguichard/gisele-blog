@@ -46,18 +46,21 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight mb-5">
             <span className="text-primary">
-              Seja <span className="whitespace-nowrap">bem-vinda</span> e{" "}
+              Seja <span className="whitespace-nowrap">bem-vinda</span>, seja{" "}
               <span className="whitespace-nowrap">bem-vindo</span>
             </span>
             <br />
-            <span className="italic font-normal text-text-subtle">ao meu espaço virtual.</span>
+            <span className="italic font-normal text-text-subtle">ao meu espaço virtual</span>
           </h1>
-          <p className="text-xs text-text-muted mb-5">(Estou aqui desde 2004 🤗)</p>
+          <p className="text-sm text-text-muted mb-5">
+            Estou por aqui desde 2004. Sou uma anciã neste ambiente 🤗
+          </p>
 
           <GoldDivider />
 
           <p className="text-text-muted max-w-md mx-auto leading-relaxed italic">
-            Um lugar sagrado para reflexões sobre saúde, espiritualidade e autoconhecimento.
+            Aqui você encontrará conteúdos para refletir sobre saúde integral, espiritualidade e
+            autoconhecimento.
           </p>
 
           <div className="mt-10 flex gap-3 justify-center font-sans">
