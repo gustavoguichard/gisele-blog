@@ -45,10 +45,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <p className="section-label mb-7">✦ Terapeuta · Escritora · Ayurveda ✦</p>
 
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight mb-5">
-            <span className="text-primary">Bem-vinda</span>
+            <span className="text-primary">
+              Seja <span className="whitespace-nowrap">bem-vinda</span> e{" "}
+              <span className="whitespace-nowrap">bem-vindo</span>
+            </span>
             <br />
-            <span className="italic font-normal text-text-subtle">ao meu espaço</span>
+            <span className="italic font-normal text-text-subtle">ao meu espaço virtual.</span>
           </h1>
+          <p className="text-xs text-text-muted mb-5">(Estou aqui desde 2004 🤗)</p>
 
           <GoldDivider />
 
