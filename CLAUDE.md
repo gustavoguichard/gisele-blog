@@ -17,8 +17,8 @@ Blog for a holistic therapist / Ayurveda practitioner / writer. All UI text is i
 ```bash
 vp dev              # Dev server
 vp check            # Format + lint + typecheck
-vp test             # Run tests (watch mode)
-vp test --run       # Run tests once
+vp run test         # Run tests (watch mode)
+vp run test:run     # Run tests once
 vp build            # Production build
 ```
 

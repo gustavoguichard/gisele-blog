@@ -9,6 +9,7 @@ export default [
   route("depoimentos", "./routes/testimonials.tsx"),
   route("cursos", "./routes/courses.tsx"),
   route("cursos/:slug", "./routes/courses.$slug.tsx"),
+  route("contato", "./routes/contact.tsx"),
   route("sitemap.xml", "./routes/sitemap.ts"),
   route("robots.txt", "./routes/robots.ts"),
   route("*", "./routes/wp-catchall.tsx"),
