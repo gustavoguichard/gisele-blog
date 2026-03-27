@@ -60,20 +60,20 @@ All queries in `app/db/queries.server.ts`. Use `composable()` for plain queries,
 
 ## Routes
 
-| Path | File | Description |
-|---|---|---|
-| `/` | `home.tsx` | Hero + recent posts + courses |
-| `/blog` | `blog.index.tsx` | Paginated post listing |
-| `/blog/page/:page` | `blog.index.tsx` | Same component, id: `blog-paginated` |
-| `/blog/:slug` | `blog.$slug.tsx` | Post detail + tags + comments |
-| `/sobre` | `about.tsx` | About page |
-| `/depoimentos` | `testimonials.tsx` | Testimonials |
-| `/cursos` | `courses.tsx` | Course listing |
-| `/cursos/:slug` | `courses.$slug.tsx` | Course detail |
-| `/set-theme` | `set-theme.tsx` | POST action for dark/light toggle |
-| `/sitemap.xml` | `sitemap.ts` | Dynamic sitemap |
-| `/robots.txt` | `robots.ts` | Robots file |
-| `*` | `wp-catchall.tsx` | WordPress URL redirects |
+| Path               | File                | Description                          |
+| ------------------ | ------------------- | ------------------------------------ |
+| `/`                | `home.tsx`          | Hero + recent posts + courses        |
+| `/blog`            | `blog.index.tsx`    | Paginated post listing               |
+| `/blog/page/:page` | `blog.index.tsx`    | Same component, id: `blog-paginated` |
+| `/blog/:slug`      | `blog.$slug.tsx`    | Post detail + tags + comments        |
+| `/sobre`           | `about.tsx`         | About page                           |
+| `/depoimentos`     | `testimonials.tsx`  | Testimonials                         |
+| `/cursos`          | `courses.tsx`       | Course listing                       |
+| `/cursos/:slug`    | `courses.$slug.tsx` | Course detail                        |
+| `/set-theme`       | `set-theme.tsx`     | POST action for dark/light toggle    |
+| `/sitemap.xml`     | `sitemap.ts`        | Dynamic sitemap                      |
+| `/robots.txt`      | `robots.ts`         | Robots file                          |
+| `*`                | `wp-catchall.tsx`   | WordPress URL redirects              |
 
 ## Route Conventions
 
@@ -105,6 +105,14 @@ Vercel. `vercel.json` runs migrations on production builds only:
 ```
 
 WordPress redirect rules are in `vercel.json` and `app/routes/wp-catchall.tsx`.
+
+## Admin / CMS
+
+[Flashboard](https://getflashboard.com) connects directly to the PostgreSQL database and provides a CRUD admin panel. Used for comment moderation (approve/reject pending comments) and general data management.
+
+## Comments
+
+New comments submitted via the blog are stored with `status = 'pending'` and must be approved via Flashboard before they appear publicly. Spam prevention uses honeypot fields and timing checks (no external services).
 
 ## Code Rules
 
