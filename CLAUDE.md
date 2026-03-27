@@ -70,7 +70,6 @@ All queries in `app/db/queries.server.ts`. Use `composable()` for plain queries,
 | `/depoimentos`     | `testimonials.tsx`  | Testimonials                         |
 | `/cursos`          | `courses.tsx`       | Course listing                       |
 | `/cursos/:slug`    | `courses.$slug.tsx` | Course detail                        |
-| `/set-theme`       | `set-theme.tsx`     | POST action for dark/light toggle    |
 | `/sitemap.xml`     | `sitemap.ts`        | Dynamic sitemap                      |
 | `/robots.txt`      | `robots.ts`         | Robots file                          |
 | `*`                | `wp-catchall.tsx`   | WordPress URL redirects              |
@@ -113,6 +112,14 @@ WordPress redirect rules are in `vercel.json` and `app/routes/wp-catchall.tsx`.
 ## Comments
 
 New comments submitted via the blog are stored with `status = 'pending'` and must be approved via Flashboard before they appear publicly. Spam prevention uses honeypot fields and timing checks (no external services).
+
+## Dark Mode
+
+Client-side only via `localStorage`. A blocking `<script>` in `<head>` reads the preference before paint to prevent flash. No server session involved — avoids conflicts with Vercel SWR cache.
+
+## Content Migrations
+
+Post `content` is raw HTML. Internal links have been migrated from absolute `giseledemenezes.com` URLs to relative paths. Content migrations use JS regex (not SQL) to handle non-greedy matching — see existing migrations for the pattern. The root loader handles legacy `?p=ID` WordPress query params via `wp_original_id`.
 
 ## Code Rules
 
