@@ -1,7 +1,12 @@
-import { href, isRouteErrorResponse, useRouteError } from "react-router";
-import { fromSuccess } from "composable-functions";
+import { data, href, isRouteErrorResponse, useRouteError } from "react-router";
+import { fromSuccess, isInputError } from "composable-functions";
 import type { Route } from "./+types/blog.$slug";
-import { fetchPostBySlug, fetchTagsForPost, fetchCommentsForPost } from "~/db/queries.server";
+import {
+  fetchPostBySlug,
+  fetchTagsForPost,
+  fetchCommentsForPost,
+  insertComment,
+} from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { CommentThread } from "~/components/comment-thread";
@@ -24,6 +29,48 @@ export async function loader({ params }: Route.LoaderArgs) {
   ]);
 
   return { post, tags, comments };
+}
+
+export async function action({ request, params }: Route.ActionArgs) {
+  const formData = await request.formData();
+
+  if (formData.get("website")) {
+    return data({ ok: true as const });
+  }
+
+  const timestamp = formData.get("_t");
+  if (typeof timestamp === "string") {
+    const elapsed = Date.now() - Number(timestamp);
+    if (elapsed < 3000) {
+      return data({ ok: true as const });
+    }
+  }
+
+  const postResult = await fetchPostBySlug({ slug: params.slug });
+  if (!postResult.success) {
+    throw new Response("Post não encontrado", { status: 404 });
+  }
+
+  const result = await insertComment({
+    postId: postResult.data.id,
+    parentId: (formData.get("parentId") as string) ?? null,
+    authorName: (formData.get("authorName") as string) ?? "",
+    authorEmail: (formData.get("authorEmail") as string) ?? "",
+    content: (formData.get("content") as string) ?? "",
+  });
+
+  if (!result.success) {
+    const fieldErrors: Record<string, string> = {};
+    for (const err of result.errors) {
+      if (isInputError(err)) {
+        const field = (err as unknown as { path: string[] }).path[0];
+        if (field) fieldErrors[field] = err.message;
+      }
+    }
+    return data({ ok: false as const, fieldErrors }, { status: 422 });
+  }
+
+  return data({ ok: true as const });
 }
 
 export function headers() {
