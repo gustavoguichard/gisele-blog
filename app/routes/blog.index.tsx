@@ -124,7 +124,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
               />
             </div>
           )}
-          <h2 className="text-3xl sm:text-4xl font-bold group-hover:text-primary transition-colors leading-tight tracking-tight max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-bold text-primary group-hover:text-primary-dark transition-colors leading-tight tracking-tight max-w-2xl mx-auto">
             {hero.title}
           </h2>
         </Link>

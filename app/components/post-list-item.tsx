@@ -39,7 +39,7 @@ export function PostListItem({ post }: PostListItemProps) {
         <time className="text-xs font-sans text-text-muted tracking-wider uppercase">
           {formatDate(post.publishedAt)}
         </time>
-        <h3 className="text-lg font-bold leading-snug group-hover:text-primary transition-colors mt-1">
+        <h3 className="text-lg font-bold leading-snug text-primary-dark group-hover:text-primary transition-colors mt-1">
           {post.title}
         </h3>
         {post.excerpt && (
