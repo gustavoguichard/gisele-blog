@@ -2,7 +2,6 @@ import { fromSuccess } from "composable-functions";
 import { Link, href } from "react-router";
 import type { Route } from "./+types/courses";
 import { fetchCourses } from "~/db/queries.server";
-import { PageHeader } from "~/components/decorative";
 import { stripHtml, truncate, hideOnImgError, type ContentCardData } from "~/lib/format";
 import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
@@ -78,19 +77,38 @@ function CourseCard({ course }: { course: ContentCardData }) {
 export default function Courses({ loaderData }: Route.ComponentProps) {
   const { courses } = loaderData;
 
-  return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-      <PageHeader title="Trabalhos" />
+  if (courses.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+        <p className="text-text-muted text-center py-12">Nenhum trabalho disponível no momento.</p>
+      </div>
+    );
+  }
 
-      {courses.length > 0 ? (
+  return (
+    <div className="py-12">
+      <div className="bg-bg-warm py-12 sm:py-16 mb-12 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <p className="section-label mb-4">✦ Caminhos de Cura ✦</p>
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-primary font-serif">
+            Trabalhos
+          </h1>
+          <div className="gold-divider my-5" />
+          <p className="text-text-muted italic max-w-md mx-auto leading-relaxed">
+            Vivências, formações e imersões guiadas pela sabedoria ancestral do Ayurveda e da cura
+            holística
+          </p>
+        </div>
+      </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="space-y-6">
           {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard key={course.slug} course={course} />
           ))}
         </div>
-      ) : (
-        <p className="text-text-muted text-center py-12">Nenhum trabalho disponível no momento.</p>
-      )}
+      </div>
     </div>
   );
 }
