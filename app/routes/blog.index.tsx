@@ -5,10 +5,12 @@ import {
   fetchPostsPaginated,
   fetchPostsCount,
   fetchPostBySlug,
+  fetchTagsWithCounts,
   PER_PAGE,
 } from "~/db/queries.server";
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
+import { TagMenu } from "~/components/tag-menu";
 import { PageHeader, GoldDivider } from "~/components/decorative";
 import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
 import { SITE, generateMeta, collectionPageJsonLd } from "~/lib/seo";
@@ -55,9 +57,10 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(href("/blog"));
   }
 
-  const [posts, totalPosts] = await Promise.all([
+  const [posts, totalPosts, tags] = await Promise.all([
     fromSuccess(fetchPostsPaginated)({ page }),
     fromSuccess(fetchPostsCount)(),
+    fromSuccess(fetchTagsWithCounts)(),
   ]);
 
   const totalPages = Math.ceil(totalPosts / PER_PAGE);
@@ -66,7 +69,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     page === 1 && posts[0] ? await fetchPostBySlug({ slug: posts[0].slug }) : null;
   const heroBody = heroContent?.success ? heroContent.data.content : null;
 
-  return { posts, currentPage: page, totalPages, heroBody };
+  return { posts, tags, currentPage: page, totalPages, heroBody };
 }
 
 export function headers() {
@@ -74,12 +77,13 @@ export function headers() {
 }
 
 export default function BlogIndex({ loaderData }: Route.ComponentProps) {
-  const { posts, currentPage, totalPages, heroBody } = loaderData;
+  const { posts, tags, currentPage, totalPages, heroBody } = loaderData;
 
   if (posts.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <PageHeader title="Blog" />
+        <TagMenu tags={tags} />
         <p className="text-text-muted text-center py-12">Nenhuma publicação encontrada.</p>
       </div>
     );
@@ -92,6 +96,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <PageHeader title="Blog" />
+        <TagMenu tags={tags} />
         <div className="divide-y divide-border">
           {posts.map((post) => (
             <PostListItem key={post.id} post={post} />
@@ -107,6 +112,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
       <PageHeader title="Blog" />
+      <TagMenu tags={tags} />
 
       {/* Hero — centered editorial style */}
       <div className="text-center mb-12">

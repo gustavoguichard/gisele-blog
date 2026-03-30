@@ -5,7 +5,7 @@
     { "source": "/wp-login.php", "destination": "/", "statusCode": 301 },
     { "source": "/feed/:path*", "destination": "/blog", "statusCode": 301 },
     { "source": "/category/:path*", "destination": "/blog", "statusCode": 301 },
-    { "source": "/tag/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/tag/:slug", "destination": "/blog/tag/:slug", "statusCode": 301 },
     { "source": "/wp-content/uploads/:path*", "destination": "/uploads/:path*", "statusCode": 301 },
     { "source": "/cursos", "destination": "/trabalhos", "statusCode": 301 },
     { "source": "/cursos/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 }

@@ -4,14 +4,21 @@ import { buttonStyles } from "./button";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  buildUrl?: (page: number) => string;
 }
 
-export function Pagination({ currentPage, totalPages }: PaginationProps) {
+function defaultBuildUrl(page: number) {
+  return page <= 1 ? href("/blog") : href("/blog/page/:page", { page: String(page) });
+}
+
+export function Pagination({
+  currentPage,
+  totalPages,
+  buildUrl = defaultBuildUrl,
+}: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  function pageUrl(page: number) {
-    return page <= 1 ? href("/blog") : href("/blog/page/:page", { page: String(page) });
-  }
+  const pageUrl = buildUrl;
 
   return (
     <nav className="flex flex-wrap items-center justify-center gap-2 mt-12 font-sans text-sm">

@@ -4,6 +4,10 @@ export default [
   index("./routes/home.tsx"),
   route("blog", "./routes/blog.index.tsx"),
   route("blog/page/:page", "./routes/blog.index.tsx", { id: "blog-paginated" }),
+  route("blog/tag/:slug", "./routes/blog.tag.$slug.tsx"),
+  route("blog/tag/:slug/page/:page", "./routes/blog.tag.$slug.tsx", {
+    id: "blog-tag-paginated",
+  }),
   route("blog/:slug", "./routes/blog.$slug.tsx"),
   route("sobre", "./routes/about.tsx"),
   route("depoimentos", "./routes/testimonials.tsx"),

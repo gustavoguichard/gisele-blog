@@ -1,9 +1,12 @@
 import { fromSuccess } from "composable-functions";
-import { fetchSitemapEntries } from "~/db/queries.server";
+import { fetchSitemapEntries, fetchTagsWithCounts } from "~/db/queries.server";
 import { SITE } from "~/lib/seo";
 
 export async function loader() {
-  const entries = await fromSuccess(fetchSitemapEntries)();
+  const [entries, tags] = await Promise.all([
+    fromSuccess(fetchSitemapEntries)(),
+    fromSuccess(fetchTagsWithCounts)(),
+  ]);
 
   type SitemapEntry = {
     loc: string;
@@ -30,7 +33,13 @@ export async function loader() {
     };
   });
 
-  const urls = [...staticPages, ...dynamicPages];
+  const tagPages: SitemapEntry[] = tags.map((tag) => ({
+    loc: `/blog/tag/${tag.slug}`,
+    changefreq: "weekly",
+    priority: "0.6",
+  }));
+
+  const urls = [...staticPages, ...dynamicPages, ...tagPages];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

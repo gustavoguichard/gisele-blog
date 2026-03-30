@@ -149,6 +149,65 @@ export const fetchPostByWpId = applySchema(wpIdSchema)(async ({ wpId }) => {
     .executeTakeFirstOrThrow();
 });
 
+export const fetchTagsWithCounts = composable(async () => {
+  return getDb()
+    .selectFrom("tags")
+    .innerJoin("postTags", "postTags.tagId", "tags.id")
+    .innerJoin("posts", (join) =>
+      join
+        .onRef("posts.id", "=", "postTags.postId")
+        .on("posts.status", "=", "published")
+        .on("posts.postType", "=", "post"),
+    )
+    .select(["tags.id", "tags.name", "tags.slug"])
+    .select(sql<number>`count(*)::int`.as("postCount"))
+    .groupBy(["tags.id", "tags.name", "tags.slug"])
+    .orderBy("postCount", "desc")
+    .execute();
+});
+
+const tagPaginationSchema = z.object({
+  slug: z.string().min(1),
+  page: z.coerce.number().int().positive().default(1),
+});
+
+export const fetchPostsByTagPaginated = applySchema(tagPaginationSchema)(async ({ slug, page }) => {
+  return postsBaseQuery()
+    .innerJoin("postTags", "postTags.postId", "posts.id")
+    .innerJoin("tags", "tags.id", "postTags.tagId")
+    .where("tags.slug", "=", slug)
+    .select([
+      "posts.id",
+      "posts.title",
+      "posts.slug",
+      "posts.excerpt",
+      "posts.featuredImage",
+      "posts.publishedAt",
+    ])
+    .orderBy("posts.publishedAt", "desc")
+    .limit(PER_PAGE)
+    .offset((page - 1) * PER_PAGE)
+    .execute();
+});
+
+export const fetchPostsByTagCount = applySchema(slugSchema)(async ({ slug }) => {
+  const result = await postsBaseQuery()
+    .innerJoin("postTags", "postTags.postId", "posts.id")
+    .innerJoin("tags", "tags.id", "postTags.tagId")
+    .where("tags.slug", "=", slug)
+    .select(sql<number>`count(*)::int`.as("count"))
+    .executeTakeFirstOrThrow();
+  return result.count;
+});
+
+export const fetchTagBySlug = applySchema(slugSchema)(async ({ slug }) => {
+  return getDb()
+    .selectFrom("tags")
+    .where("slug", "=", slug)
+    .select(["id", "name", "slug"])
+    .executeTakeFirstOrThrow();
+});
+
 export const fetchSitemapEntries = composable(async () => {
   return getDb()
     .selectFrom("posts")
