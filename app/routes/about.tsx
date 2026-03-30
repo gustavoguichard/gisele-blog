@@ -43,6 +43,62 @@ function splitContent(html: string) {
   return { intro, sections };
 }
 
+const timelineEntries = [
+  {
+    year: "1999",
+    text: "Formação em Yoga Massagem Ayurvédica — método da mestra indiana Kusum Modak",
+  },
+  { year: "1999", text: "Reiki I e II — Usui System of Reiki, Dhyan Vishua" },
+  {
+    year: "2002",
+    text: "Bioenergética Reichiana — formação em massagens bioenergéticas, leitura corporal, healing tibetano",
+  },
+  {
+    year: "2003",
+    text: "Iniciação aos conhecimentos ancestrais pelo saber siberiano — xamã Severni Olenj",
+  },
+  {
+    year: "2003",
+    text: "Iniciação em Tarot Egípcio e Magia de Cleópatra — xamaniza Rasamaha, Escola Russa de Altay",
+  },
+  { year: "2004", text: "Cria o primeiro Curso de Massagem Método Gisele de Menezes" },
+  { year: "2005", text: "Reiki Xamânico I e II" },
+  {
+    year: "2007",
+    text: "Índia — 144 dias encontrando as raízes dos aprendizados. Curso de Ayurveda e Massagem da Energia Espiritual em Varanasi",
+  },
+  { year: "2007", text: "Meditação Vipassana — Dharamshala, Índia" },
+  { year: "2008", text: "Formação em Vinyasa Flow Yoga" },
+  { year: "2009", text: "Lançamento do livro Uma Viagem no Tempo, Uma Expedição no Espaço" },
+  { year: "2010", text: "Funda o Povo em Pé — Centro de Yoga e Ayurveda em Porto Alegre" },
+  {
+    year: "2012",
+    text: "Formação em Terapeuta Ayurveda — Escola Yoga Brahma Vidyalaya e American Institute of Vedic Studies",
+  },
+  {
+    year: "2015",
+    text: "Credenciamento como monitora e professora — 7 anos, 6 turmas, mais de 80 alunos formados",
+  },
+  {
+    year: "2017",
+    text: "Especializações na Índia — Ayurvedic Psychology, Kerala Panchakarma, Kayachikitsa e Garbha Samskar",
+  },
+];
+
+const workshops = [
+  "Oficina de recursos terapêuticos manuais — Univali (2004)",
+  "Palestra sobre espiritualidade e sustentabilidade — Fpolis/SC (2005)",
+  "Energia Primordial — Universidade Estácio de Sá (2006)",
+  "Festival Mundial da Paz — UFSC (2006)",
+  "Trabalho corporal — Unisul/SC (2007)",
+  "Xamanismo siberiano — PUC/RS (2008)",
+  "Tempo, para Despertar a Consciência — Esteio/RS (2008)",
+  "Mulher Corpo e Alma — Unidade de Saúde Jardim Leopoldina (2010)",
+  "Lei do Tempo — Casa Urusvati, São Paulo (2011)",
+  "Congresso Brasileiro de Ayurveda online (2015)",
+  "Palestras sobre Ayurveda em várias partes do Brasil (desde 2013)",
+];
+
 export default function About({ loaderData }: Route.ComponentProps) {
   const { page } = loaderData;
   const { intro, sections } = splitContent(page.content);
@@ -82,6 +138,52 @@ export default function About({ loaderData }: Route.ComponentProps) {
           </Container>
         </section>
       ))}
+
+      <section className="py-16 bg-bg-warm border-y border-border">
+        <Container size="lg">
+          <div className="text-center mb-10">
+            <p className="section-label mb-3">✦ Caminhada ✦</p>
+            <h2 className="text-3xl font-bold text-primary">Formações & Especializações</h2>
+            <GoldDivider />
+          </div>
+          <div className="relative max-w-2xl mx-auto">
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-primary to-accent/30" />
+            {timelineEntries.map((entry) => (
+              <div
+                key={`${entry.year}-${entry.text.substring(0, 20)}`}
+                className="relative pl-16 pb-8 last:pb-0"
+              >
+                <div className="absolute left-3 top-0.5 w-7 h-7 rounded-full bg-primary text-white text-[10px] font-bold font-sans flex items-center justify-center shadow-sm">
+                  {entry.year.slice(2)}
+                </div>
+                <p className="text-sm text-text-body leading-relaxed">
+                  <span className="font-bold text-primary font-sans">{entry.year}</span>
+                  {" — "}
+                  {entry.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <Container size="lg" className="py-16">
+        <div className="text-center mb-10">
+          <p className="section-label mb-3">✦ Compartilhar ✦</p>
+          <h2 className="text-3xl font-bold text-primary">Oficinas & Palestras</h2>
+          <GoldDivider />
+        </div>
+        <div className="max-w-2xl mx-auto space-y-3">
+          {workshops.map((w) => (
+            <div
+              key={w}
+              className="border-l-2 border-accent/40 pl-4 py-2 text-sm text-text-body leading-relaxed"
+            >
+              {w}
+            </div>
+          ))}
+        </div>
+      </Container>
 
       <section className="py-12 bg-bg-card border-y border-border -mb-16">
         <Container className="text-center">
