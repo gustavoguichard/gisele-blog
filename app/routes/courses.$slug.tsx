@@ -3,9 +3,9 @@ import type { Route } from "./+types/courses.$slug";
 import { fetchCourseBySlug } from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
-import { PageHeader } from "~/components/decorative";
+import { GoldDivider } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
-import { formatDate, hideParentOnImgError } from "~/lib/format";
+import { stripHtml, hideParentOnImgError } from "~/lib/format";
 import { postSeoMeta, courseJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -30,26 +30,37 @@ export default function CourseDetail({ loaderData }: Route.ComponentProps) {
   const { course } = loaderData;
 
   return (
-    <Container as="article" className="py-12">
-      <PageHeader label={formatDate(course.publishedAt)} title={course.title} />
-
-      {course.featuredImage && (
-        <figure className="mb-10">
-          <img
-            src={course.featuredImage}
-            alt={course.title}
-            width={1200}
-            height={630}
-            fetchPriority="high"
-            decoding="async"
-            className="w-full h-auto rounded-xl border border-border"
-            onError={hideParentOnImgError}
-          />
-        </figure>
-      )}
-
-      <PostContent html={course.content} />
-    </Container>
+    <article>
+      <div className="bg-bg-warm border-b border-border py-14">
+        <Container className="text-center">
+          <p className="section-label mb-3">✦ Trabalho ✦</p>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+            {course.title}
+          </h1>
+          {course.excerpt && (
+            <>
+              <GoldDivider />
+              <p className="text-text-muted italic mt-4 max-w-xl mx-auto leading-relaxed">
+                {stripHtml(course.excerpt)}
+              </p>
+            </>
+          )}
+        </Container>
+      </div>
+      <Container className="py-12">
+        {course.featuredImage && (
+          <figure className="mb-10 -mt-2">
+            <img
+              src={course.featuredImage}
+              alt={course.title}
+              className="w-full h-auto rounded-xl border border-border"
+              onError={hideParentOnImgError}
+            />
+          </figure>
+        )}
+        <PostContent html={course.content} />
+      </Container>
+    </article>
   );
 }
 
