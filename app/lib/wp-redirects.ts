@@ -2,12 +2,12 @@ const PAGE_SLUG_TO_ROUTE: Record<string, string> = {
   "quem-e-gisele-de-menezes": "/sobre",
   agenda: "/",
   blog: "/blog",
-  cursos: "/cursos",
+  cursos: "/trabalhos",
 };
 
 const POST_TYPE_TO_BASE_PATH: Record<string, string> = {
   post: "/blog",
-  course: "/cursos",
+  course: "/trabalhos",
 };
 
 function resolvePostRoute(postType: string, slug: string): string | null {

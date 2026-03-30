@@ -23,7 +23,7 @@ export function headers() {
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { course } = loaderData;
-  return [...postSeoMeta(course, "/cursos"), courseJsonLd(course)];
+  return [...postSeoMeta(course, "/trabalhos"), courseJsonLd(course)];
 }
 
 export default function CourseDetail({ loaderData }: Route.ComponentProps) {
@@ -65,8 +65,8 @@ export function ErrorBoundary() {
           ? "O curso que você procura não existe ou foi removido."
           : "Ocorreu um erro inesperado. Tente novamente."
       }
-      linkHref={href("/cursos")}
-      linkText="Voltar aos cursos"
+      linkHref={href("/trabalhos")}
+      linkText="Voltar aos trabalhos"
     />
   );
 }

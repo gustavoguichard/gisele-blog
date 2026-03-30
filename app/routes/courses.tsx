@@ -14,13 +14,16 @@ import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const meta = generateMeta({
-    title: "Cursos",
-    description: "Cursos e formações oferecidos por Gisele de Menezes.",
-    url: "/cursos",
+    title: "Trabalhos",
+    description: "Trabalhos, cursos e formações oferecidos por Gisele de Menezes.",
+    url: "/trabalhos",
   });
 
   if (loaderData?.courses) {
-    return [...meta, collectionPageJsonLd("Cursos", "/cursos", loaderData.courses, "/cursos")];
+    return [
+      ...meta,
+      collectionPageJsonLd("Trabalhos", "/trabalhos", loaderData.courses, "/trabalhos"),
+    ];
   }
 
   return meta;
@@ -40,7 +43,7 @@ export { CourseCard };
 function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group bg-bg-card rounded-xl border border-border overflow-hidden">
-      <Link to={href("/cursos/:slug", { slug: course.slug })} className="block sm:flex">
+      <Link to={href("/trabalhos/:slug", { slug: course.slug })} className="block sm:flex">
         <div className="sm:w-72 shrink-0 aspect-[16/10] sm:aspect-auto overflow-hidden bg-bg-warm">
           {course.featuredImage ? (
             <img
@@ -70,7 +73,7 @@ function CourseCard({ course }: { course: ContentCardData }) {
             </p>
           )}
           <span className="inline-block mt-3 text-sm font-sans font-semibold text-primary border-b border-accent/30 group-hover:border-primary transition-colors self-start">
-            Ver curso →
+            Ver trabalho →
           </span>
         </div>
       </Link>
@@ -83,7 +86,7 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-      <PageHeader title="Cursos" />
+      <PageHeader title="Trabalhos" />
 
       {courses.length > 0 ? (
         <div className="space-y-6">
@@ -92,7 +95,7 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
           ))}
         </div>
       ) : (
-        <p className="text-text-muted text-center py-12">Nenhum curso disponível no momento.</p>
+        <p className="text-text-muted text-center py-12">Nenhum trabalho disponível no momento.</p>
       )}
     </div>
   );

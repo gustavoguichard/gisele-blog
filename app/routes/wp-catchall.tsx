@@ -49,7 +49,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const courseResult = await fetchCourseBySlug({ slug });
   if (courseResult.success) {
-    throw redirect(`/cursos/${courseResult.data.slug}`, 301);
+    throw redirect(`/trabalhos/${courseResult.data.slug}`, 301);
   }
 
   throw new Response("Not Found", { status: 404 });

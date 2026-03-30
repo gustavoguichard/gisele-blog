@@ -99,8 +99,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="text-center mt-10">
-            <ButtonLink to={href("/cursos")} variant="secondary" className="font-sans">
-              Ver todos os cursos
+            <ButtonLink to={href("/trabalhos")} variant="secondary" className="font-sans">
+              Ver todos os trabalhos
             </ButtonLink>
           </div>
         </section>

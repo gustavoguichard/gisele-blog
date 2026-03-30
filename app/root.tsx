@@ -111,7 +111,7 @@ export default function App() {
                 Blog
               </NavLink>
               <NavLink
-                to={href("/cursos")}
+                to={href("/trabalhos")}
                 className={({ isActive }) =>
                   buttonStyles({
                     variant: isActive ? "primary" : "secondary",
@@ -119,7 +119,7 @@ export default function App() {
                   })
                 }
               >
-                Cursos
+                Trabalhos
               </NavLink>
               <NavLink
                 to={href("/sobre")}
@@ -149,7 +149,7 @@ export default function App() {
             <MobileMenu
               items={[
                 { to: href("/blog"), label: "Blog" },
-                { to: href("/cursos"), label: "Cursos" },
+                { to: href("/trabalhos"), label: "Trabalhos" },
                 { to: href("/sobre"), label: "Sobre" },
                 { to: href("/contato"), label: "Contato" },
               ]}
@@ -189,10 +189,10 @@ export default function App() {
                 Depoimentos
               </NavLink>
               <NavLink
-                to={href("/cursos")}
+                to={href("/trabalhos")}
                 className="text-text-muted hover:text-primary transition-colors"
               >
-                Cursos
+                Trabalhos
               </NavLink>
               <NavLink
                 to={href("/contato")}

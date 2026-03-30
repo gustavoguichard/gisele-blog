@@ -15,13 +15,13 @@ export async function loader() {
   const staticPages: SitemapEntry[] = [
     { loc: "/", changefreq: "weekly", priority: "1.0" },
     { loc: "/blog", changefreq: "daily", priority: "0.9" },
-    { loc: "/cursos", changefreq: "weekly", priority: "0.8" },
+    { loc: "/trabalhos", changefreq: "weekly", priority: "0.8" },
     { loc: "/sobre", changefreq: "monthly", priority: "0.6" },
     { loc: "/depoimentos", changefreq: "monthly", priority: "0.5" },
   ];
 
   const dynamicPages: SitemapEntry[] = entries.map((entry) => {
-    const basePath = entry.postType === "course" ? "/cursos" : "/blog";
+    const basePath = entry.postType === "course" ? "/trabalhos" : "/blog";
     return {
       loc: `${basePath}/${entry.slug}`,
       lastmod: entry.updatedAt ? new Date(entry.updatedAt).toISOString().split("T")[0] : undefined,
