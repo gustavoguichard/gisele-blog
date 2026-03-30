@@ -99,7 +99,7 @@ describe("Contact page", () => {
   it("renders the quote", () => {
     renderContact();
     expect(
-      screen.getByText(/O encontro verdadeiro começa quando nos permitimos ser ouvidos/),
+      screen.getByText(/O encontro inicia quando nos abrimos para a escuta/),
     ).toBeInTheDocument();
   });
 });

@@ -82,7 +82,7 @@ export default function Contact() {
     <div>
       <section className="relative py-14 overflow-hidden bg-bg-warm border-b border-border">
         <OrnamentalCircles />
-        <div className="relative text-center">
+        <div className="relative text-center px-4">
           <p className="section-label mb-3">✦ Uma porta aberta ✦</p>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary">
             Vamos Conversar?
@@ -90,7 +90,7 @@ export default function Contact() {
           <GoldDivider />
           <p className="text-text-muted max-w-lg mx-auto leading-relaxed italic">
             Sua mensagem será lida por mim, pessoalmente. Seja para uma dúvida, um relato, ou apenas
-            para dizer oi — será um prazer te ouvir.
+            para dizer oi — será um prazer te escutar.
           </p>
         </div>
       </section>
@@ -181,7 +181,8 @@ export default function Contact() {
             </div>
             <div className="rounded-xl border border-accent/20 bg-bg p-6 text-center">
               <blockquote className="text-sm italic text-text-muted/80 border-l-2 border-accent/40 pl-4 text-left max-w-xs mx-auto">
-                &ldquo;O encontro verdadeiro começa quando nos permitimos ser ouvidos.&rdquo;
+                &ldquo;O encontro inicia quando nos abrimos para a escuta, seja em forma de palavras
+                escritas, faladas ou gestos.&rdquo;
               </blockquote>
             </div>
           </div>
