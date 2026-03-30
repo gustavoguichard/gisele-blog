@@ -147,14 +147,14 @@ export default function About({ loaderData }: Route.ComponentProps) {
             <GoldDivider />
           </div>
           <div className="relative max-w-2xl mx-auto">
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-primary to-accent/30" />
+            <div className="absolute left-[7px] top-0 bottom-0 w-px bg-gradient-to-b from-accent via-primary to-accent/30" />
             {timelineEntries.map((entry) => (
               <div
                 key={`${entry.year}-${entry.text.substring(0, 20)}`}
-                className="relative pl-16 pb-8 last:pb-0"
+                className="relative pl-10 pb-8 last:pb-0"
               >
-                <div className="absolute left-3 top-0.5 w-7 h-7 rounded-full bg-primary text-white text-[10px] font-bold font-sans flex items-center justify-center shadow-sm">
-                  {entry.year.slice(2)}
+                <div className="absolute left-0 top-0 w-4 h-4 flex items-center justify-center text-primary text-base -translate-x-px translate-y-px">
+                  ✦
                 </div>
                 <p className="text-sm text-text-body leading-relaxed">
                   <span className="font-bold text-primary font-sans">{entry.year}</span>
