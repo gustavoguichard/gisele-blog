@@ -109,11 +109,14 @@ export default function About({ loaderData }: Route.ComponentProps) {
         <OrnamentalCircles />
         <Container>
           <div className="relative flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <img
-              src="/gisele-de-menezes.webp"
-              alt="Gisele de Menezes"
-              className="w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover border-4 border-accent/30 shadow-lg shrink-0"
-            />
+            <div className="shrink-0 text-center">
+              <img
+                src="/gisele-de-menezes.webp"
+                alt="Gisele de Menezes"
+                className="w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover border-4 border-accent/30 shadow-lg"
+              />
+              <p className="mt-2 text-xs text-text-muted italic">Março de 2026, com 61 anos.</p>
+            </div>
             <div className="text-center md:text-left">
               <p className="section-label mb-3">✦ Sobre ✦</p>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary mb-4">
