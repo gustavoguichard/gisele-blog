@@ -212,4 +212,12 @@ export const fetchSitemapEntries = composable(async () => {
   ];
 });
 
+export const fetchPostsForFeed = composable(async (limit = 30) => {
+  return postsBaseQuery()
+    .select(["id", "title", "slug", "excerpt", "content", "featuredImage", "publishedAt"])
+    .orderBy("publishedAt", "desc")
+    .limit(limit)
+    .execute();
+});
+
 export { PER_PAGE };

@@ -19,6 +19,7 @@ import { MobileMenu } from "./components/mobile-menu";
 import { ThemeToggle } from "./components/theme-toggle";
 import { fetchPostByWpId } from "./db/queries.server";
 import { resolvePostRoute } from "./lib/wp-redirects";
+import { SITE } from "./lib/seo";
 import "./styles/tailwind.css";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -53,6 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
+        <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/feed.xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

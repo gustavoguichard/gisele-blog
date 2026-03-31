@@ -3,7 +3,10 @@
   "redirects": [
     { "source": "/wp-admin/:path*", "destination": "/", "statusCode": 301 },
     { "source": "/wp-login.php", "destination": "/", "statusCode": 301 },
-    { "source": "/feed/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/feed", "destination": "/feed.xml", "statusCode": 301 },
+    { "source": "/feed/:path*", "destination": "/feed.xml", "statusCode": 301 },
+    { "source": "/rss", "destination": "/feed.xml", "statusCode": 301 },
+    { "source": "/rss.xml", "destination": "/feed.xml", "statusCode": 301 },
     { "source": "/category/:path*", "destination": "/blog", "statusCode": 301 },
     { "source": "/tag/:slug", "destination": "/blog/tag/:slug", "statusCode": 301 },
     { "source": "/wp-content/uploads/:path*", "destination": "/uploads/:path*", "statusCode": 301 },

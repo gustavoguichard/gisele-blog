@@ -14,6 +14,7 @@ export default [
   route("trabalhos", "./routes/trabalhos.tsx"),
   route("trabalhos/:slug", "./routes/trabalho.tsx"),
   route("contato", "./routes/contact.tsx"),
+  route("feed.xml", "./routes/feed.ts"),
   route("sitemap.xml", "./routes/sitemap.ts"),
   route("robots.txt", "./routes/robots.ts"),
   route("*", "./routes/wp-catchall.tsx"),
