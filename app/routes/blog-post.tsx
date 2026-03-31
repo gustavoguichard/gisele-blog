@@ -14,7 +14,7 @@ import { PageHeader } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
 import { TagList } from "~/components/tag";
 import { formatDate, hideParentOnImgError } from "~/lib/format";
-import { postSeoMeta, blogPostingJsonLd } from "~/lib/seo";
+import { postSeoMeta, blogPostingJsonLd, breadcrumbJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const result = await fetchPostBySlug({ slug: params.slug });
@@ -80,7 +80,15 @@ export function headers() {
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { post } = loaderData;
-  return [...postSeoMeta(post, "/blog"), blogPostingJsonLd(post)];
+  return [
+    ...postSeoMeta(post, "/blog"),
+    blogPostingJsonLd(post),
+    breadcrumbJsonLd([
+      { name: "Início", url: "/" },
+      { name: "Blog", url: "/blog" },
+      { name: post.title, url: `/blog/${post.slug}` },
+    ]),
+  ];
 }
 
 export default function BlogPost({ loaderData }: Route.ComponentProps) {

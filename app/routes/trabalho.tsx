@@ -6,7 +6,7 @@ import { PostContent } from "~/components/post-content";
 import { GoldDivider } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
 import { stripHtml, hideParentOnImgError } from "~/lib/format";
-import { postSeoMeta, courseJsonLd } from "~/lib/seo";
+import { postSeoMeta, courseJsonLd, breadcrumbJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const result = await fetchWorkBySlug({ slug: params.slug });
@@ -23,7 +23,15 @@ export function headers() {
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { course } = loaderData;
-  return [...postSeoMeta(course, "/trabalhos"), courseJsonLd(course)];
+  return [
+    ...postSeoMeta(course, "/trabalhos"),
+    courseJsonLd(course),
+    breadcrumbJsonLd([
+      { name: "Início", url: "/" },
+      { name: "Trabalhos", url: "/trabalhos" },
+      { name: course.title, url: `/trabalhos/${course.slug}` },
+    ]),
+  ];
 }
 
 export default function CourseDetail({ loaderData }: Route.ComponentProps) {

@@ -6,7 +6,7 @@ import type { Route } from "./+types/contact";
 import { Container } from "~/components/container";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
 import { env } from "~/env.server";
-import { generateMeta } from "~/lib/seo";
+import { generateMeta, contactPageJsonLd } from "~/lib/seo";
 
 export const MIN_SUBMIT_TIME_MS = 3000;
 
@@ -59,11 +59,14 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export function meta() {
-  return generateMeta({
-    title: "Contato",
-    description: "Entre em contato com Gisele de Menezes.",
-    url: "/contato",
-  });
+  return [
+    ...generateMeta({
+      title: "Contato",
+      description: "Entre em contato com Gisele de Menezes.",
+      url: "/contato",
+    }),
+    contactPageJsonLd(),
+  ];
 }
 
 export function headers() {
