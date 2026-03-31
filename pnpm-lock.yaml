@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/merriweather':
+        specifier: ^5.2.11
+        version: 5.2.11
       '@react-router/node':
         specifier: ^7.13.1
         version: 7.13.1(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
@@ -660,6 +666,12 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource/inter@5.2.8':
+    resolution: {integrity: sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg==}
+
+  '@fontsource/merriweather@5.2.11':
+    resolution: {integrity: sha512-ZiIMeUh5iT8d73o6xlSF8GKgjV5pgiFrufYc5jZTVAfExtWKqM2vQHnsqXSFMv4ELhAcjt6Vf+5T3oVGXhAizQ==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -3762,6 +3774,10 @@ snapshots:
     optional: true
 
   '@exodus/bytes@1.15.0': {}
+
+  '@fontsource/inter@5.2.8': {}
+
+  '@fontsource/merriweather@5.2.11': {}
 
   '@img/colour@1.1.0': {}
 

@@ -55,17 +55,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/feed.xml" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
         <Meta />
         <Links />
       </head>

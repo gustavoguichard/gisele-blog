@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@import "@fontsource/merriweather/300.css";
+@import "@fontsource/merriweather/400.css";
+@import "@fontsource/merriweather/700.css";
+@import "@fontsource/merriweather/400-italic.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
