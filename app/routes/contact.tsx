@@ -116,22 +116,32 @@ export default function Contact() {
                     <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
                   </div>
                   <div>
-                    <label className="block text-sm font-sans font-medium text-text-body mb-1.5">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-sans font-medium text-text-body mb-1.5"
+                    >
                       Como posso te chamar?
                     </label>
-                    <input type="text" name="name" required className={inputStyles} />
+                    <input id="name" type="text" name="name" required className={inputStyles} />
                   </div>
                   <div>
-                    <label className="block text-sm font-sans font-medium text-text-body mb-1.5">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-sans font-medium text-text-body mb-1.5"
+                    >
                       Seu email para que eu possa responder
                     </label>
-                    <input type="email" name="email" required className={inputStyles} />
+                    <input id="email" type="email" name="email" required className={inputStyles} />
                   </div>
                   <div>
-                    <label className="block text-sm font-sans font-medium text-text-body mb-1.5">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-sans font-medium text-text-body mb-1.5"
+                    >
                       O que está no seu coração?
                     </label>
                     <textarea
+                      id="message"
                       name="message"
                       required
                       minLength={10}
