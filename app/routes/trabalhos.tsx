@@ -38,7 +38,7 @@ function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group relative overflow-hidden rounded-xl">
       <Link to={href("/trabalhos/:slug", { slug: course.slug })} className="block sm:flex">
-        <div className="sm:w-80 shrink-0 aspect-4/5 sm:aspect-auto overflow-hidden bg-bg-warm relative">
+        <div className="sm:w-80 shrink-0 aspect-4/5 sm:aspect-auto overflow-hidden bg-bg-warm relative rounded-t-xl sm:rounded-t-none sm:rounded-l-xl">
           {course.featuredImage ? (
             <img
               src={course.featuredImage}
@@ -53,9 +53,9 @@ function CourseCard({ course }: { course: ContentCardData }) {
               <span className="text-4xl text-accent/40">✦</span>
             </div>
           )}
-          <div className="absolute inset-0 border border-accent/20 rounded-xl pointer-events-none" />
+          <div className="absolute inset-0 border border-accent/20 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl pointer-events-none" />
         </div>
-        <div className="p-8 sm:py-10 flex flex-col justify-center bg-bg-warm border border-border sm:border-l-0 rounded-xl sm:rounded-l-none grow">
+        <div className="p-8 sm:py-10 flex flex-col justify-center bg-bg-warm border border-border border-t-0 sm:border-t sm:border-l-0 rounded-b-xl sm:rounded-b-none sm:rounded-r-xl grow">
           <div className="w-8 h-px bg-accent mb-4" />
           <h2 className="text-2xl font-bold group-hover:text-primary transition-colors leading-snug mb-3">
             {course.title}

@@ -67,7 +67,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-bg text-text font-serif antialiased transition-colors duration-300">
+      <body className="bg-bg text-text font-serif antialiased transition-colors duration-300 overflow-x-hidden">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -169,7 +169,7 @@ export default function App() {
             <p className="text-sm text-text-muted text-center leading-relaxed max-w-md italic">
               Escritora, terapeuta e praticante de Ayurveda.
             </p>
-            <nav className="flex gap-6 text-sm font-sans">
+            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-sans">
               <NavLink
                 to={href("/blog")}
                 className="text-text-muted hover:text-primary transition-colors"

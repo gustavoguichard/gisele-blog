@@ -5,7 +5,7 @@ interface PostContentProps {
 export function PostContent({ html }: PostContentProps) {
   return (
     <div
-      className="prose sm:prose-lg max-w-none
+      className="prose sm:prose-lg max-w-none break-words overflow-hidden
         prose-p:text-text-body prose-p:leading-[1.9] prose-p:[text-wrap:pretty]
         prose-headings:text-primary prose-headings:tracking-tight prose-headings:font-bold prose-headings:leading-snug
         prose-h2:mt-12 prose-h2:mb-4

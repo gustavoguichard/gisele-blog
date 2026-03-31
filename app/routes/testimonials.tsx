@@ -44,7 +44,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
   return (
     <div className="py-12">
       <Container size="md">
-        <div className="text-center mb-16 relative">
+        <div className="text-center mb-16 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-accent/10 pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-accent/5 pointer-events-none" />
           <p className="section-label mb-4">✦ Depoimentos ✦</p>
@@ -74,7 +74,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
                         "
                       </span>
                       <div
-                        className="prose prose-stone prose-xl max-w-none text-text-body leading-relaxed italic mx-auto"
+                        className="prose prose-stone prose-lg sm:prose-xl max-w-none text-text-body leading-relaxed italic mx-auto break-words"
                         dangerouslySetInnerHTML={{ __html: t.content }}
                       />
                       <footer className="mt-8">
@@ -105,7 +105,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
                     </div>
                     <div className="flex-1">
                       <div
-                        className="prose prose-stone max-w-none text-text-body leading-relaxed"
+                        className="prose prose-stone max-w-none text-text-body leading-relaxed break-words"
                         dangerouslySetInnerHTML={{ __html: t.content }}
                       />
                       <footer className="mt-4 flex items-center gap-3">
