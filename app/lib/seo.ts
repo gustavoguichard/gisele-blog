@@ -28,9 +28,25 @@ type SeoInput = {
   fullTitle?: boolean;
 };
 
-function toAbsoluteUrl(path: string): string {
+function toAbsoluteUrl(path: string): string;
+function toAbsoluteUrl(path: string | null | undefined): string | null;
+function toAbsoluteUrl(path: string | null | undefined): string | null {
+  if (!path) return null;
   if (path.startsWith("http")) return path;
   return `${SITE.url}${path}`;
+}
+
+const IMAGE_MIME_TYPES: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  gif: "image/gif",
+};
+
+function imageTypeFromUrl(url: string): string | null {
+  const ext = url.split(".").pop()?.split("?")[0]?.toLowerCase();
+  return ext ? (IMAGE_MIME_TYPES[ext] ?? null) : null;
 }
 
 function toISOString(date: Date | string | null | undefined): string | null {
@@ -82,14 +98,17 @@ export function generateMeta(input: SeoInput) {
         hasExplicitImage ? (imageHeight ?? SITE.defaultImageHeight) : SITE.defaultImageHeight,
       ),
     },
-    {
-      name: "twitter:card",
-      content: hasExplicitImage ? "summary_large_image" : "summary",
-    },
+    { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: rawTitle },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: imageUrl },
+    { property: "og:image:alt", content: rawTitle },
   ];
+
+  const imageType = imageTypeFromUrl(imageUrl);
+  if (imageType) {
+    meta.push({ property: "og:image:type", content: imageType });
+  }
 
   if (type === "article") {
     const pub = toISOString(publishedTime);
@@ -175,7 +194,7 @@ export function blogPostingJsonLd(post: PostLike) {
       "@type": "BlogPosting",
       headline: post.title,
       description,
-      ...(post.featuredImage ? { image: post.featuredImage } : {}),
+      ...(post.featuredImage ? { image: toAbsoluteUrl(post.featuredImage) } : {}),
       datePublished: toISOString(post.publishedAt),
       dateModified: toISOString(post.updatedAt),
       author: personSchema(),
@@ -200,7 +219,7 @@ export function courseJsonLd(course: PostLike) {
       "@type": "Course",
       name: course.title,
       description,
-      ...(course.featuredImage ? { image: course.featuredImage } : {}),
+      ...(course.featuredImage ? { image: toAbsoluteUrl(course.featuredImage) } : {}),
       provider: personSchema(),
       inLanguage: SITE.lang,
     },
@@ -266,6 +285,35 @@ export function reviewsPageJsonLd(testimonials: TestimonialLike[]) {
         ...(t.publishedAt ? { datePublished: toISOString(t.publishedAt) } : {}),
         itemReviewed: personSchema(),
       })),
+    },
+  };
+}
+
+type BreadcrumbItem = { name: string; url: string };
+
+export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
+  return {
+    "script:ld+json": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: items.map((item, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: item.name,
+        item: toAbsoluteUrl(item.url),
+      })),
+    },
+  };
+}
+
+export function contactPageJsonLd() {
+  return {
+    "script:ld+json": {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "Contato",
+      url: toAbsoluteUrl("/contato"),
+      mainEntity: personSchema(),
     },
   };
 }

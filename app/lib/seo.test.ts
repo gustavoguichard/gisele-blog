@@ -10,6 +10,8 @@ import {
   collectionPageJsonLd,
   aboutPageJsonLd,
   reviewsPageJsonLd,
+  breadcrumbJsonLd,
+  contactPageJsonLd,
 } from "./seo";
 
 function findMeta(meta: Record<string, string>[], key: string, by = "name") {
@@ -62,10 +64,10 @@ describe("generateMeta", () => {
   it("uses default OG image when no image provided", () => {
     const meta = generateMeta(baseInput);
     expect(findProperty(meta, "og:image")).toBe(`${SITE.url}${SITE.defaultImage}`);
-    expect(findMeta(meta, "twitter:card")).toBe("summary");
+    expect(findMeta(meta, "twitter:card")).toBe("summary_large_image");
   });
 
-  it("uses provided image and sets summary_large_image", () => {
+  it("uses provided image with summary_large_image", () => {
     const meta = generateMeta({
       ...baseInput,
       image: "https://example.com/img.jpg",
@@ -139,6 +141,26 @@ describe("generateMeta", () => {
     const meta = generateMeta(baseInput);
     expect(findProperty(meta, "og:image:width")).toBe(String(SITE.defaultImageWidth));
     expect(findProperty(meta, "og:image:height")).toBe(String(SITE.defaultImageHeight));
+  });
+
+  it("includes og:image:type for default jpg image", () => {
+    const meta = generateMeta(baseInput);
+    expect(findProperty(meta, "og:image:type")).toBe("image/jpeg");
+  });
+
+  it("includes og:image:type for webp images", () => {
+    const meta = generateMeta({ ...baseInput, image: "/uploads/photo.webp" });
+    expect(findProperty(meta, "og:image:type")).toBe("image/webp");
+  });
+
+  it("includes og:image:type for png images", () => {
+    const meta = generateMeta({ ...baseInput, image: "https://example.com/img.png" });
+    expect(findProperty(meta, "og:image:type")).toBe("image/png");
+  });
+
+  it("includes og:image:alt using page title", () => {
+    const meta = generateMeta(baseInput);
+    expect(findProperty(meta, "og:image:alt")).toBe("Test Page");
   });
 });
 
@@ -229,6 +251,20 @@ describe("blogPostingJsonLd", () => {
     const result = blogPostingJsonLd(post);
     expect(result["script:ld+json"]).not.toHaveProperty("image");
   });
+
+  it("converts relative image path to absolute URL", () => {
+    const post = {
+      title: "Relative Image",
+      slug: "relative-image",
+      content: "<p>Content</p>",
+      excerpt: null,
+      featuredImage: "/uploads/2024/photo.webp",
+      publishedAt: null,
+      updatedAt: null,
+    };
+    const result = blogPostingJsonLd(post);
+    expect(result["script:ld+json"].image).toBe(`${SITE.url}/uploads/2024/photo.webp`);
+  });
 });
 
 describe("courseJsonLd", () => {
@@ -247,6 +283,20 @@ describe("courseJsonLd", () => {
     expect(data["@type"]).toBe("Course");
     expect(data.name).toBe("My Course");
     expect(data.provider).toEqual(expect.objectContaining({ "@type": "Person" }));
+  });
+
+  it("converts relative image path to absolute URL", () => {
+    const course = {
+      title: "Course with Image",
+      slug: "course-img",
+      content: "<p>Content</p>",
+      excerpt: null,
+      featuredImage: "/uploads/course.webp",
+      publishedAt: null,
+      updatedAt: null,
+    };
+    const result = courseJsonLd(course);
+    expect(result["script:ld+json"].image).toBe(`${SITE.url}/uploads/course.webp`);
   });
 });
 
@@ -307,5 +357,45 @@ describe("reviewsPageJsonLd", () => {
     const testimonials = [{ author: "João", content: "<p>Nice!</p>", publishedAt: null }];
     const result = reviewsPageJsonLd(testimonials);
     expect(result["script:ld+json"].mainEntity[0]).not.toHaveProperty("datePublished");
+  });
+});
+
+describe("breadcrumbJsonLd", () => {
+  it("returns BreadcrumbList with correct positions", () => {
+    const result = breadcrumbJsonLd([
+      { name: "Início", url: "/" },
+      { name: "Blog", url: "/blog" },
+      { name: "My Post", url: "/blog/my-post" },
+    ]);
+    const data = result["script:ld+json"];
+    expect(data["@type"]).toBe("BreadcrumbList");
+    expect(data.itemListElement).toHaveLength(3);
+    expect(data.itemListElement[0]).toEqual({
+      "@type": "ListItem",
+      position: 1,
+      name: "Início",
+      item: `${SITE.url}/`,
+    });
+    expect(data.itemListElement[2]).toEqual({
+      "@type": "ListItem",
+      position: 3,
+      name: "My Post",
+      item: `${SITE.url}/blog/my-post`,
+    });
+  });
+
+  it("handles absolute URLs", () => {
+    const result = breadcrumbJsonLd([{ name: "Home", url: "https://giseledemenezes.com/" }]);
+    expect(result["script:ld+json"].itemListElement[0].item).toBe("https://giseledemenezes.com/");
+  });
+});
+
+describe("contactPageJsonLd", () => {
+  it("returns ContactPage with Person", () => {
+    const result = contactPageJsonLd();
+    const data = result["script:ld+json"];
+    expect(data["@type"]).toBe("ContactPage");
+    expect(data.mainEntity["@type"]).toBe("Person");
+    expect(data.url).toBe(`${SITE.url}/contato`);
   });
 });
