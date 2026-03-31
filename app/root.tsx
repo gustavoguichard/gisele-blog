@@ -156,7 +156,7 @@ export default function App() {
       <footer className="border-t border-border bg-bg-warm mt-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
           <div className="flex flex-col items-center gap-4">
-            <h3 className="font-bold text-primary text-lg">Gisele de Menezes</h3>
+            <p className="font-bold text-primary text-lg">Gisele de Menezes</p>
             <p className="text-sm text-text-muted text-center leading-relaxed max-w-md italic">
               Escritora, terapeuta e praticante de Ayurveda.
             </p>
