@@ -33,6 +33,10 @@ export interface ContentCardData {
   publishedAt: Date | string | null;
 }
 
+export function pluralize(count: number, singular: string, plural: string): string {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
 export function hideOnImgError(e: React.SyntheticEvent<HTMLImageElement>) {
   e.currentTarget.style.display = "none";
 }

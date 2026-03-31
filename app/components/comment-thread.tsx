@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatDate } from "~/lib/format";
+import { formatDate, pluralize } from "~/lib/format";
 import { CommentForm } from "./comment-form";
 
 interface Comment {
@@ -101,7 +101,7 @@ export function CommentThread({ comments }: CommentThreadProps) {
       {comments.length > 0 && (
         <>
           <h3 className="text-xl font-bold text-primary-dark mb-6">
-            {comments.length} {comments.length === 1 ? "comentário" : "comentários"}
+            {pluralize(comments.length, "comentário", "comentários")}
           </h3>
           <div className="divide-y divide-border/50">
             {tree.map((node) => (

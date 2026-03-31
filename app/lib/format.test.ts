@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatDate, stripHtml, truncate, extractFirstParagraphs } from "./format";
+import { formatDate, stripHtml, truncate, extractFirstParagraphs, pluralize } from "./format";
 
 describe("formatDate", () => {
   it("formats a Date object in pt-BR", () => {
@@ -135,5 +135,23 @@ describe("extractFirstParagraphs", () => {
   it("defaults to 2 paragraphs", () => {
     const html = "<p>First.</p><p>Second.</p><p>Third.</p>";
     expect(extractFirstParagraphs(html)).toBe("<p>First.</p><p>Second.</p>");
+  });
+});
+
+describe("pluralize", () => {
+  it("returns singular when count is 1", () => {
+    expect(pluralize(1, "publicação", "publicações")).toBe("1 publicação");
+  });
+
+  it("returns plural when count is 0", () => {
+    expect(pluralize(0, "comentário", "comentários")).toBe("0 comentários");
+  });
+
+  it("returns plural when count is greater than 1", () => {
+    expect(pluralize(5, "publicação", "publicações")).toBe("5 publicações");
+  });
+
+  it("returns plural for large numbers", () => {
+    expect(pluralize(135, "post", "posts")).toBe("135 posts");
   });
 });
