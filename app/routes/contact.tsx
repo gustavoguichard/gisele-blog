@@ -30,7 +30,7 @@ const sendContactEmail = applySchema(contactSchema)(async ({
 
   const resend = new Resend(env().RESEND_API_KEY);
   await resend.emails.send({
-    from: "Contato Blog <onboarding@resend.dev>",
+    from: "Contato Blog <noreply@giseledemenezes.com>",
     to: env().CONTACT_EMAIL,
     replyTo: email,
     subject: `Mensagem de ${name} via blog`,
