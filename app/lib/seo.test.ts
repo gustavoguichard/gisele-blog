@@ -206,10 +206,11 @@ describe("websiteJsonLd", () => {
 });
 
 describe("personJsonLd", () => {
-  it("returns Person schema", () => {
+  it("returns Person schema with @id", () => {
     const result = personJsonLd();
     const data = result["script:ld+json"];
     expect(data["@type"]).toBe("Person");
+    expect(data["@id"]).toBe(`${SITE.url}/#person`);
     expect(data.name).toBe(SITE.author);
   });
 });
@@ -231,7 +232,13 @@ describe("blogPostingJsonLd", () => {
     expect(data.headline).toBe("My Post");
     expect(data.image).toBe("https://example.com/img.jpg");
     expect(data.datePublished).toBe("2024-06-15T12:00:00.000Z");
-    expect(data.author).toEqual(expect.objectContaining({ "@type": "Person", name: SITE.author }));
+    expect(data.author).toEqual(
+      expect.objectContaining({
+        "@type": "Person",
+        "@id": `${SITE.url}/#person`,
+        name: SITE.author,
+      }),
+    );
     expect(data.mainEntityOfPage).toEqual({
       "@type": "WebPage",
       "@id": `${SITE.url}/blog/my-post`,
@@ -282,7 +289,9 @@ describe("courseJsonLd", () => {
     const data = result["script:ld+json"];
     expect(data["@type"]).toBe("Course");
     expect(data.name).toBe("My Course");
-    expect(data.provider).toEqual(expect.objectContaining({ "@type": "Person" }));
+    expect(data.provider).toEqual(
+      expect.objectContaining({ "@type": "Person", "@id": `${SITE.url}/#person` }),
+    );
   });
 
   it("converts relative image path to absolute URL", () => {
@@ -331,6 +340,7 @@ describe("aboutPageJsonLd", () => {
     const data = result["script:ld+json"];
     expect(data["@type"]).toBe("AboutPage");
     expect(data.mainEntity["@type"]).toBe("Person");
+    expect(data.mainEntity["@id"]).toBe(`${SITE.url}/#person`);
     expect(data.url).toBe(`${SITE.url}/sobre`);
   });
 });
@@ -351,6 +361,7 @@ describe("reviewsPageJsonLd", () => {
     expect(data.mainEntity[0]["@type"]).toBe("Review");
     expect(data.mainEntity[0].author.name).toBe("Maria Silva");
     expect(data.mainEntity[0].reviewBody).toBe("Great experience!");
+    expect(data.mainEntity[0].itemReviewed["@id"]).toBe(`${SITE.url}/#person`);
   });
 
   it("handles testimonials without publishedAt", () => {
@@ -396,6 +407,7 @@ describe("contactPageJsonLd", () => {
     const data = result["script:ld+json"];
     expect(data["@type"]).toBe("ContactPage");
     expect(data.mainEntity["@type"]).toBe("Person");
+    expect(data.mainEntity["@id"]).toBe(`${SITE.url}/#person`);
     expect(data.url).toBe(`${SITE.url}/contato`);
   });
 });

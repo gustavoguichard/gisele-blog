@@ -167,6 +167,7 @@ export function websiteJsonLd() {
 function personSchema() {
   return {
     "@type": "Person" as const,
+    "@id": `${SITE.url}/#person`,
     name: SITE.author,
     url: SITE.url,
     jobTitle: "Terapeuta",
