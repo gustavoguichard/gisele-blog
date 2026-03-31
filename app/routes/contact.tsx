@@ -1,4 +1,5 @@
 import { data, useFetcher } from "react-router";
+import { useState, useEffect } from "react";
 import { applySchema } from "composable-functions";
 import { Resend } from "resend";
 import { z } from "zod";
@@ -78,8 +79,13 @@ const inputStyles =
 
 export default function Contact() {
   const fetcher = useFetcher<typeof action>();
+  const [timestamp, setTimestamp] = useState("");
   const isSubmitting = fetcher.state !== "idle";
   const result = fetcher.data;
+
+  useEffect(() => {
+    setTimestamp(String(Date.now()));
+  }, []);
 
   return (
     <div>
@@ -111,7 +117,7 @@ export default function Contact() {
                 </div>
               ) : (
                 <fetcher.Form method="post" className="space-y-5">
-                  <input type="hidden" name="_timestamp" value={Date.now()} />
+                  <input type="hidden" name="_timestamp" value={timestamp} />
                   <div className="hidden" aria-hidden="true">
                     <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
                   </div>
