@@ -112,8 +112,8 @@ type PostLike = {
   content: string;
   excerpt: string | null;
   featuredImage: string | null;
-  publishedAt: Date | string | null;
-  updatedAt: Date | string | null;
+  publishedAt?: Date | string | null;
+  updatedAt?: Date | string | null;
 };
 
 export function postSeoMeta(post: PostLike, basePath: string) {
@@ -247,7 +247,7 @@ export function aboutPageJsonLd() {
 }
 
 type TestimonialLike = {
-  title: string;
+  author: string;
   content: string;
   publishedAt: Date | string | null;
 };
@@ -261,7 +261,7 @@ export function reviewsPageJsonLd(testimonials: TestimonialLike[]) {
       url: toAbsoluteUrl("/depoimentos"),
       mainEntity: testimonials.map((t) => ({
         "@type": "Review",
-        author: { "@type": "Person", name: t.title },
+        author: { "@type": "Person", name: t.author },
         reviewBody: truncate(stripHtml(t.content), 300),
         ...(t.publishedAt ? { datePublished: toISOString(t.publishedAt) } : {}),
         itemReviewed: personSchema(),

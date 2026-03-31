@@ -36,9 +36,11 @@ export function PostListItem({ post }: PostListItemProps) {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <time className="text-xs font-sans text-text-muted tracking-wider uppercase">
-          {formatDate(post.publishedAt)}
-        </time>
+        {post.publishedAt && (
+          <time className="text-xs font-sans text-text-muted tracking-wider uppercase">
+            {formatDate(post.publishedAt)}
+          </time>
+        )}
         <h3 className="text-lg font-bold leading-snug text-primary-dark group-hover:text-primary transition-colors mt-1">
           {post.title}
         </h3>

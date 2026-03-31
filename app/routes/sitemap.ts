@@ -24,7 +24,7 @@ export async function loader() {
   ];
 
   const dynamicPages: SitemapEntry[] = entries.map((entry) => {
-    const basePath = entry.postType === "course" ? "/trabalhos" : "/blog";
+    const basePath = entry.type === "work" ? "/trabalhos" : "/blog";
     return {
       loc: `${basePath}/${entry.slug}`,
       lastmod: entry.updatedAt ? new Date(entry.updatedAt).toISOString().split("T")[0] : undefined,

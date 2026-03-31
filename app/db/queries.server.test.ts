@@ -2,8 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   fetchPostBySlug,
   fetchPostsPaginated,
-  fetchPageBySlug,
-  fetchCourseBySlug,
+  fetchWorkBySlug,
   insertComment,
 } from "./queries.server";
 
@@ -37,26 +36,14 @@ describe("query schema validation", () => {
     });
   });
 
-  describe("fetchPageBySlug", () => {
+  describe("fetchWorkBySlug", () => {
     it("rejects empty slug", async () => {
-      const result = await fetchPageBySlug({ slug: "" });
+      const result = await fetchWorkBySlug({ slug: "" });
       expect(result.success).toBe(false);
     });
 
     it("rejects missing slug", async () => {
-      const result = await fetchPageBySlug({} as { slug: string });
-      expect(result.success).toBe(false);
-    });
-  });
-
-  describe("fetchCourseBySlug", () => {
-    it("rejects empty slug", async () => {
-      const result = await fetchCourseBySlug({ slug: "" });
-      expect(result.success).toBe(false);
-    });
-
-    it("rejects missing slug", async () => {
-      const result = await fetchCourseBySlug({} as { slug: string });
+      const result = await fetchWorkBySlug({} as { slug: string });
       expect(result.success).toBe(false);
     });
   });

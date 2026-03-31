@@ -1,6 +1,6 @@
 import { isRouteErrorResponse, redirect, useRouteError } from "react-router";
 import type { Route } from "./+types/wp-catchall";
-import { fetchPostBySlug, fetchCourseBySlug } from "~/db/queries.server";
+import { fetchPostBySlug, fetchWorkBySlug } from "~/db/queries.server";
 import { ErrorPage } from "~/components/error-page";
 import { PAGE_SLUG_TO_ROUTE } from "~/lib/wp-redirects";
 
@@ -47,7 +47,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     throw redirect(`/blog/${postResult.data.slug}`, 301);
   }
 
-  const courseResult = await fetchCourseBySlug({ slug });
+  const courseResult = await fetchWorkBySlug({ slug });
   if (courseResult.success) {
     throw redirect(`/trabalhos/${courseResult.data.slug}`, 301);
   }

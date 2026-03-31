@@ -2,10 +2,10 @@ import { href } from "react-router";
 import { ButtonLink } from "~/components/button";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
-import { fetchRecentPosts, fetchCourses } from "~/db/queries.server";
+import { fetchRecentPosts, fetchWorks } from "~/db/queries.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 import { PostListItem } from "~/components/post-list-item";
-import { CourseCard } from "~/routes/trabalhos";
+import { WorkCard } from "~/routes/trabalhos";
 import { SITE, generateMeta, websiteJsonLd, personJsonLd } from "~/lib/seo";
 
 export function meta() {
@@ -24,7 +24,7 @@ export function meta() {
 export async function loader() {
   const [posts, courses] = await Promise.all([
     fromSuccess(fetchRecentPosts)(5),
-    fromSuccess(fetchCourses)(),
+    fromSuccess(fetchWorks)(),
   ]);
   return { posts, courses: courses.slice(0, 3) };
 }
@@ -94,7 +94,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
           <div className="space-y-6">
             {courses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+              <WorkCard key={course.id} course={course} />
             ))}
           </div>
 

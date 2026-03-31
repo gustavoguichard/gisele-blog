@@ -27,7 +27,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (wpId) {
     const result = await fetchPostByWpId({ wpId: Number(wpId) });
     if (result.success) {
-      const route = resolvePostRoute(result.data.postType, result.data.slug);
+      const route = resolvePostRoute(result.data.type, result.data.slug);
       if (route) {
         throw redirect(route, 301);
       }

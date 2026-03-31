@@ -1,6 +1,6 @@
 import { href, isRouteErrorResponse, useRouteError } from "react-router";
 import type { Route } from "./+types/trabalho";
-import { fetchCourseBySlug } from "~/db/queries.server";
+import { fetchWorkBySlug } from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { GoldDivider } from "~/components/decorative";
@@ -9,7 +9,7 @@ import { stripHtml, hideParentOnImgError } from "~/lib/format";
 import { postSeoMeta, courseJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const result = await fetchCourseBySlug({ slug: params.slug });
+  const result = await fetchWorkBySlug({ slug: params.slug });
   if (!result.success) {
     throw new Response("Curso não encontrado", { status: 404 });
   }

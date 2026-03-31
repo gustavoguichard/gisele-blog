@@ -1,7 +1,7 @@
 import { fromSuccess } from "composable-functions";
 import { Link, href } from "react-router";
 import type { Route } from "./+types/trabalhos";
-import { fetchCourses } from "~/db/queries.server";
+import { fetchWorks } from "~/db/queries.server";
 import { stripHtml, truncate, hideOnImgError, type ContentCardData } from "~/lib/format";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
 import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
@@ -24,7 +24,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const courses = await fromSuccess(fetchCourses)();
+  const courses = await fromSuccess(fetchWorks)();
   return { courses };
 }
 
@@ -32,9 +32,9 @@ export function headers() {
   return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
 }
 
-export { CourseCard };
+export { WorkCard };
 
-function CourseCard({ course }: { course: ContentCardData }) {
+function WorkCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group relative overflow-hidden rounded-xl">
       <Link to={href("/trabalhos/:slug", { slug: course.slug })} className="block sm:flex">
@@ -103,7 +103,7 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="space-y-6">
           {courses.map((course) => (
-            <CourseCard key={course.slug} course={course} />
+            <WorkCard key={course.slug} course={course} />
           ))}
         </div>
       </div>

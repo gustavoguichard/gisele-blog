@@ -5,7 +5,7 @@
 
 import type { ColumnType } from "kysely";
 
-export type CommentStatus = "pending" | "published" | "rejected";
+export type CommentStatus = "pending" | "published";
 
 export type Generated<T> =
   T extends ColumnType<infer S, infer I, infer U>
@@ -14,7 +14,7 @@ export type Generated<T> =
 
 export type PostStatus = "draft" | "pending" | "published";
 
-export type PostType = "course" | "page" | "post" | "testimonial";
+export type TestimonialStatus = "draft" | "published";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -35,7 +35,6 @@ export interface Posts {
   excerpt: string | null;
   featuredImage: string | null;
   id: Generated<string>;
-  postType: Generated<PostType>;
   publishedAt: Timestamp | null;
   slug: string;
   status: Generated<PostStatus>;
@@ -55,9 +54,33 @@ export interface Tags {
   slug: string;
 }
 
+export interface Testimonials {
+  author: string;
+  content: Generated<string>;
+  createdAt: Generated<Timestamp>;
+  id: Generated<string>;
+  publishedAt: Timestamp | null;
+  status: Generated<TestimonialStatus>;
+}
+
+export interface Works {
+  content: Generated<string>;
+  createdAt: Generated<Timestamp>;
+  excerpt: string | null;
+  featuredImage: string | null;
+  id: Generated<string>;
+  slug: string;
+  status: Generated<PostStatus>;
+  title: string;
+  updatedAt: Generated<Timestamp>;
+  wpOriginalId: number | null;
+}
+
 export interface DB {
   comments: Comments;
   posts: Posts;
   postTags: PostTags;
   tags: Tags;
+  testimonials: Testimonials;
+  works: Works;
 }

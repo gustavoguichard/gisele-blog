@@ -5,15 +5,15 @@ const PAGE_SLUG_TO_ROUTE: Record<string, string> = {
   cursos: "/trabalhos",
 };
 
-const POST_TYPE_TO_BASE_PATH: Record<string, string> = {
+const TYPE_TO_BASE_PATH: Record<string, string> = {
   post: "/blog",
   course: "/trabalhos",
 };
 
-function resolvePostRoute(postType: string, slug: string): string | null {
-  const basePath = POST_TYPE_TO_BASE_PATH[postType];
+function resolvePostRoute(type: string, slug: string): string | null {
+  const basePath = TYPE_TO_BASE_PATH[type];
   if (!basePath) return null;
   return `${basePath}/${slug}`;
 }
 
-export { PAGE_SLUG_TO_ROUTE, POST_TYPE_TO_BASE_PATH, resolvePostRoute };
+export { PAGE_SLUG_TO_ROUTE, TYPE_TO_BASE_PATH, resolvePostRoute };

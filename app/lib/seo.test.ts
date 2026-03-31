@@ -289,7 +289,7 @@ describe("reviewsPageJsonLd", () => {
   it("returns WebPage with Review items", () => {
     const testimonials = [
       {
-        title: "Maria Silva",
+        author: "Maria Silva",
         content: "<p>Great experience!</p>",
         publishedAt: "2024-01-01T00:00:00Z",
       },
@@ -304,7 +304,7 @@ describe("reviewsPageJsonLd", () => {
   });
 
   it("handles testimonials without publishedAt", () => {
-    const testimonials = [{ title: "João", content: "<p>Nice!</p>", publishedAt: null }];
+    const testimonials = [{ author: "João", content: "<p>Nice!</p>", publishedAt: null }];
     const result = reviewsPageJsonLd(testimonials);
     expect(result["script:ld+json"].mainEntity[0]).not.toHaveProperty("datePublished");
   });

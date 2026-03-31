@@ -80,7 +80,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
                       <footer className="mt-8">
                         <div className="gold-divider" />
                         <p className="mt-4 font-sans font-bold text-base text-primary tracking-wide">
-                          {t.title}
+                          {t.author}
                         </p>
                         {t.publishedAt && (
                           <time className="text-xs font-sans text-text-muted mt-1 block">
@@ -110,7 +110,7 @@ export default function Testimonials({ loaderData }: Route.ComponentProps) {
                       />
                       <footer className="mt-4 flex items-center gap-3">
                         <div className="w-6 h-px bg-accent/40" />
-                        <p className="font-sans font-semibold text-sm text-primary">{t.title}</p>
+                        <p className="font-sans font-semibold text-sm text-primary">{t.author}</p>
                         {t.publishedAt && (
                           <>
                             <span className="text-text-muted/40">·</span>

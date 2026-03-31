@@ -1,5 +1,3 @@
-import type { Route } from "./+types/about";
-import { fetchPageBySlug } from "~/db/queries.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
@@ -17,13 +15,10 @@ export function meta() {
   ];
 }
 
-export async function loader() {
-  const result = await fetchPageBySlug({ slug: "quem-e-gisele-de-menezes" });
-  if (!result.success) {
-    throw new Response("Página não encontrada", { status: 404 });
-  }
-  return { page: result.data };
-}
+const aboutPage = {
+  title: "Eu e minha caminhada",
+  content: `<p>Sou mulher antiga, desde cedo muito antiga... ainda menina fui iniciada em ciências ocultas pelo meu avô materno. De lá para cá, muitas "fichas" caíram e, do que sei, pouco sei. Do que vivi, ainda estou digerindo os aprendizados. Do que não vivi, me esforço para sequer dar minha opinião. É tudo tão individualmente subjetivo, que por vezes é quase impossível aceitar que somos todos Um.</p><h2>Das individualizações -</h2><p>Escrevi um livro - Uma Viagem no Tempo, Uma Expedição no Espaço - Outra Índia, Outro Jesus,&nbsp; que foi publicado em 2009, essa edição já esgotou. Quem sabe um dia faço a segunda edição revisada e ampliada? Por que não?</p><p>Gosto demais de escrever. Quando estou escritora, escrevo textos que posto neste site/blog e também alguns que ainda não publiquei.</p><p>Facilito regularmente pequenos <a target="_blank" rel="noopener noreferrer nofollow" href="/trabalhos/">cursos de Ayurveda</a> com enfoque na diária de vida e alimentação, e já fazem duas décadas que atendo e ajudo muitas pessoas com Ayurveda, Tarô, Trabalho Corporal, Psicologia do Ayurveda, Orientações Xamânicas e quase sempre com tudo isso misturado em consultas onde a intuição é sempre meu guia mais brilhante.</p><h2>Novo -</h2><p>Estou participando de um lindo projeto literário, com data marcada para o lançamento na <a target="_blank" rel="noopener noreferrer nofollow" href="https://feiradolivro-poa.com.br/balcao-de-informacoes/#:~:text=SOBRE%20A%20FEIRA,outubro%20e%2015%20de%20novembro.">Feira do Livro de Porto Alegre!</a></p><p>Mulheres reunidas e a escrita como expressão do indizível, não pincelado a óleo em telas, não costurado em tecido, não assado em fornos, não moldado em barro, não possível expressado em qualquer forma que não seja escrito. E lançaremos juntas e sob a coordenação da jornalista e escritora Gisela Sparremberger, o quarto livro da série <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.atenapoa.com.br/c%C3%B3pia-gisela-sparremberger-um-ano-d">Nosso Livro</a>.</p><p>Claro, sigo inovando no velho Curso de Massagem Método Gisele de Menezes, pois está sempre vivo. Agora é a criação de uma oficina que estamos batizando com o nome de Corpo, Chão e Som.</p>`,
+};
 
 export function headers() {
   return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
@@ -99,9 +94,8 @@ const workshops = [
   "Palestras sobre Ayurveda em várias partes do Brasil (desde 2013)",
 ];
 
-export default function About({ loaderData }: Route.ComponentProps) {
-  const { page } = loaderData;
-  const { intro, sections } = splitContent(page.content);
+export default function About() {
+  const { intro, sections } = splitContent(aboutPage.content);
 
   return (
     <div>
@@ -120,7 +114,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
             <div className="text-center md:text-left">
               <p className="section-label mb-3">✦ Sobre ✦</p>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary mb-4">
-                {page.title}
+                {aboutPage.title}
               </h1>
               <GoldDivider />
               <div

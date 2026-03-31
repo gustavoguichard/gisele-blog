@@ -12,8 +12,7 @@ const paginationSchema = z.object({
 
 const PER_PAGE = 10;
 
-const postsBaseQuery = () =>
-  getDb().selectFrom("posts").where("status", "=", "published").where("postType", "=", "post");
+const postsBaseQuery = () => getDb().selectFrom("posts").where("status", "=", "published");
 
 export const fetchRecentPosts = composable(async (limit = 6) => {
   return postsBaseQuery()
@@ -40,13 +39,7 @@ export const fetchPostsCount = composable(async () => {
 });
 
 export const fetchPostBySlug = applySchema(slugSchema)(async ({ slug }) => {
-  return getDb()
-    .selectFrom("posts")
-    .where("slug", "=", slug)
-    .where("postType", "=", "post")
-    .where("status", "=", "published")
-    .selectAll()
-    .executeTakeFirstOrThrow();
+  return postsBaseQuery().where("slug", "=", slug).selectAll().executeTakeFirstOrThrow();
 });
 
 export const fetchTagsForPost = composable(async (postId: string) => {
@@ -100,53 +93,53 @@ export const insertComment = applySchema(insertCommentSchema)(async ({
     .executeTakeFirstOrThrow();
 });
 
-export const fetchPageBySlug = applySchema(slugSchema)(async ({ slug }) => {
-  return getDb()
-    .selectFrom("posts")
-    .where("slug", "=", slug)
-    .where("postType", "=", "page")
-    .where("status", "=", "published")
-    .selectAll()
-    .executeTakeFirstOrThrow();
-});
-
 export const fetchTestimonials = composable(async () => {
   return getDb()
-    .selectFrom("posts")
-    .where("postType", "=", "testimonial")
+    .selectFrom("testimonials")
     .where("status", "=", "published")
-    .select(["id", "title", "content", "excerpt", "publishedAt"])
+    .select(["id", "author", "content", "publishedAt"])
     .orderBy("publishedAt", "desc")
     .execute();
 });
 
-export const fetchCourses = composable(async () => {
+export const fetchWorks = composable(async () => {
   return getDb()
-    .selectFrom("posts")
-    .where("postType", "=", "course")
+    .selectFrom("works")
     .where("status", "=", "published")
-    .select(["id", "title", "slug", "content", "excerpt", "featuredImage", "publishedAt"])
-    .orderBy("publishedAt", "desc")
+    .select(["id", "title", "slug", "content", "excerpt", "featuredImage"])
+    .orderBy("createdAt", "desc")
     .execute();
 });
 
-export const fetchCourseBySlug = applySchema(slugSchema)(async ({ slug }) => {
+export const fetchWorkBySlug = applySchema(slugSchema)(async ({ slug }) => {
   return getDb()
-    .selectFrom("posts")
+    .selectFrom("works")
     .where("slug", "=", slug)
-    .where("postType", "=", "course")
     .where("status", "=", "published")
     .selectAll()
     .executeTakeFirstOrThrow();
 });
 
 export const fetchPostByWpId = applySchema(wpIdSchema)(async ({ wpId }) => {
-  return getDb()
+  const post = await getDb()
     .selectFrom("posts")
     .where("wpOriginalId", "=", wpId)
     .where("status", "=", "published")
-    .select(["slug", "postType"])
-    .executeTakeFirstOrThrow();
+    .select(["slug"])
+    .executeTakeFirst();
+
+  if (post) return { slug: post.slug, type: "post" as const };
+
+  const work = await getDb()
+    .selectFrom("works")
+    .where("wpOriginalId", "=", wpId)
+    .where("status", "=", "published")
+    .select(["slug"])
+    .executeTakeFirst();
+
+  if (work) return { slug: work.slug, type: "course" as const };
+
+  throw new Error("Not found");
 });
 
 export const fetchTagsWithCounts = composable(async () => {
@@ -154,10 +147,7 @@ export const fetchTagsWithCounts = composable(async () => {
     .selectFrom("tags")
     .innerJoin("postTags", "postTags.tagId", "tags.id")
     .innerJoin("posts", (join) =>
-      join
-        .onRef("posts.id", "=", "postTags.postId")
-        .on("posts.status", "=", "published")
-        .on("posts.postType", "=", "post"),
+      join.onRef("posts.id", "=", "postTags.postId").on("posts.status", "=", "published"),
     )
     .select(["tags.id", "tags.name", "tags.slug"])
     .select(sql<number>`count(*)::int`.as("postCount"))
@@ -209,12 +199,17 @@ export const fetchTagBySlug = applySchema(slugSchema)(async ({ slug }) => {
 });
 
 export const fetchSitemapEntries = composable(async () => {
-  return getDb()
-    .selectFrom("posts")
+  const posts = await postsBaseQuery().select(["slug", "updatedAt"]).execute();
+  const works = await getDb()
+    .selectFrom("works")
     .where("status", "=", "published")
-    .where("postType", "in", ["post", "course"])
-    .select(["slug", "postType", "updatedAt"])
+    .select(["slug", "updatedAt"])
     .execute();
+
+  return [
+    ...posts.map((p) => ({ ...p, type: "post" as const })),
+    ...works.map((w) => ({ ...w, type: "work" as const })),
+  ];
 });
 
 export { PER_PAGE };

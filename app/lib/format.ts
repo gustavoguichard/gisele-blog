@@ -30,7 +30,7 @@ export interface ContentCardData {
   title: string;
   excerpt: string | null;
   featuredImage: string | null;
-  publishedAt: Date | string | null;
+  publishedAt?: Date | string | null;
 }
 
 export function pluralize(count: number, singular: string, plural: string): string {
