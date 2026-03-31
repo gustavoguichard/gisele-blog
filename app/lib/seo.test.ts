@@ -61,9 +61,11 @@ describe("generateMeta", () => {
     expect(findProperty(meta, "og:type")).toBe("website");
   });
 
-  it("uses default OG image when no image provided", () => {
+  it("uses dynamic OG image when no image provided", () => {
     const meta = generateMeta(baseInput);
-    expect(findProperty(meta, "og:image")).toBe(`${SITE.url}${SITE.defaultImage}`);
+    expect(findProperty(meta, "og:image")).toBe(
+      `${SITE.url}/og-image?title=${encodeURIComponent("Test Page")}`,
+    );
     expect(findMeta(meta, "twitter:card")).toBe("summary_large_image");
   });
 
@@ -85,7 +87,9 @@ describe("generateMeta", () => {
     const meta = generateMeta(baseInput);
     expect(findMeta(meta, "twitter:title")).toBe("Test Page");
     expect(findMeta(meta, "twitter:description")).toBe("A test description");
-    expect(findMeta(meta, "twitter:image")).toBe(`${SITE.url}${SITE.defaultImage}`);
+    expect(findMeta(meta, "twitter:image")).toBe(
+      `${SITE.url}/og-image?title=${encodeURIComponent("Test Page")}`,
+    );
   });
 
   it("generates article meta for type article", () => {
@@ -143,9 +147,9 @@ describe("generateMeta", () => {
     expect(findProperty(meta, "og:image:height")).toBe(String(SITE.defaultImageHeight));
   });
 
-  it("includes og:image:type for default jpg image", () => {
+  it("includes og:image:type as png for dynamic OG fallback", () => {
     const meta = generateMeta(baseInput);
-    expect(findProperty(meta, "og:image:type")).toBe("image/jpeg");
+    expect(findProperty(meta, "og:image:type")).toBe("image/png");
   });
 
   it("includes og:image:type for webp images", () => {

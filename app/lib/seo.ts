@@ -72,7 +72,8 @@ export function generateMeta(input: SeoInput) {
 
   const title = fullTitle ? rawTitle : `${rawTitle} — ${SITE.name}`;
   const canonicalUrl = toAbsoluteUrl(url);
-  const imageUrl = toAbsoluteUrl(image ?? SITE.defaultImage);
+  const dynamicOgFallback = `/og-image?title=${encodeURIComponent(rawTitle)}`;
+  const imageUrl = toAbsoluteUrl(image ?? dynamicOgFallback);
   const hasExplicitImage = !!image;
 
   const meta: Record<string, string>[] = [
@@ -105,7 +106,7 @@ export function generateMeta(input: SeoInput) {
     { property: "og:image:alt", content: rawTitle },
   ];
 
-  const imageType = imageTypeFromUrl(imageUrl);
+  const imageType = hasExplicitImage ? imageTypeFromUrl(imageUrl) : "image/png";
   if (imageType) {
     meta.push({ property: "og:image:type", content: imageType });
   }
