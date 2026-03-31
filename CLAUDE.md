@@ -62,22 +62,22 @@ All queries in `app/db/queries.server.ts`. Use `composable()` for plain queries,
 
 ## Routes
 
-| Path                          | File                | Description                              |
-| ----------------------------- | ------------------- | ---------------------------------------- |
-| `/`                           | `home.tsx`          | Hero + recent posts + trabalhos          |
-| `/blog`                       | `blog.tsx`          | Paginated post listing + tag menu        |
-| `/blog/page/:page`            | `blog.tsx`          | Same component, id: `blog-paginated`     |
-| `/blog/tag/:slug`             | `blog-tag.tsx`      | Posts filtered by tag + pagination       |
-| `/blog/tag/:slug/page/:page`  | `blog-tag.tsx`      | Same component, id: `blog-tag-paginated` |
-| `/blog/:slug`                 | `blog-post.tsx`     | Post detail + tags + comments            |
-| `/sobre`                      | `about.tsx`         | About page (hardcoded, no DB)            |
-| `/depoimentos`                | `testimonials.tsx`  | Testimonials                             |
-| `/trabalhos`                  | `trabalhos.tsx`     | Trabalhos listing                        |
-| `/trabalhos/:slug`            | `trabalho.tsx`      | Trabalho detail                          |
-| `/contato`                    | `contact.tsx`       | Contact form                             |
-| `/sitemap.xml`                | `sitemap.ts`        | Dynamic sitemap                          |
-| `/robots.txt`                 | `robots.ts`         | Robots file                              |
-| `*`                           | `wp-catchall.tsx`   | WordPress URL redirects                  |
+| Path                         | File               | Description                              |
+| ---------------------------- | ------------------ | ---------------------------------------- |
+| `/`                          | `home.tsx`         | Hero + recent posts + trabalhos          |
+| `/blog`                      | `blog.tsx`         | Paginated post listing + tag menu        |
+| `/blog/page/:page`           | `blog.tsx`         | Same component, id: `blog-paginated`     |
+| `/blog/tag/:slug`            | `blog-tag.tsx`     | Posts filtered by tag + pagination       |
+| `/blog/tag/:slug/page/:page` | `blog-tag.tsx`     | Same component, id: `blog-tag-paginated` |
+| `/blog/:slug`                | `blog-post.tsx`    | Post detail + tags + comments            |
+| `/sobre`                     | `about.tsx`        | About page (hardcoded, no DB)            |
+| `/depoimentos`               | `testimonials.tsx` | Testimonials                             |
+| `/trabalhos`                 | `trabalhos.tsx`    | Trabalhos listing                        |
+| `/trabalhos/:slug`           | `trabalho.tsx`     | Trabalho detail                          |
+| `/contato`                   | `contact.tsx`      | Contact form                             |
+| `/sitemap.xml`               | `sitemap.ts`       | Dynamic sitemap                          |
+| `/robots.txt`                | `robots.ts`        | Robots file                              |
+| `*`                          | `wp-catchall.tsx`  | WordPress URL redirects                  |
 
 ## Route Conventions
 
