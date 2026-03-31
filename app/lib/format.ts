@@ -2,6 +2,7 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
   day: "numeric",
   month: "long",
   year: "numeric",
+  timeZone: "America/Sao_Paulo",
 });
 
 export function formatDate(date: Date | string | null): string {
