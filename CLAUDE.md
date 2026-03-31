@@ -34,7 +34,9 @@ SITE_URL=https://giseledemenezes.com  # optional, has default
 
 ## Database
 
-PostgreSQL database `gisele_blog`. 4 tables: `posts`, `comments`, `tags`, `post_tags`.
+PostgreSQL database `gisele_blog`. 6 tables: `posts`, `works`, `testimonials`, `comments`, `tags`, `post_tags`.
+
+Status enums: `post_status` = `draft | published`, `testimonial_status` = `draft | published`, `comment_status` = `pending | published`.
 
 Types are auto-generated in `app/db/types.d.ts` by `kysely-codegen`.
 
@@ -46,7 +48,7 @@ pnpm run db:migrate            # Run pending migrations + regenerate types
 pnpm run db:rollback           # Rollback last migration + regenerate types
 ```
 
-Migration files live in `app/db/migrations/` with timestamp prefix format `YYYYMMDDTHHmmss-name.ts`. Each migration exports `up()` and `down()` functions.
+Migration files live in `app/db/migrations/` with timestamp prefix format `YYYYMMDDTHHmmss-name.ts`. Each migration exports `up()` and `down()` functions. Use Kysely's `db.schema` builder for DDL (createTable, alterTable, dropColumn, etc.). Only use raw `sql` for things the schema builder can't express (enum creation, USING casts, data migration INSERTs).
 
 After any schema change, types are regenerated automatically. To regenerate manually:
 
@@ -68,7 +70,7 @@ All queries in `app/db/queries.server.ts`. Use `composable()` for plain queries,
 | `/blog/tag/:slug`             | `blog-tag.tsx`      | Posts filtered by tag + pagination       |
 | `/blog/tag/:slug/page/:page`  | `blog-tag.tsx`      | Same component, id: `blog-tag-paginated` |
 | `/blog/:slug`                 | `blog-post.tsx`     | Post detail + tags + comments            |
-| `/sobre`                      | `about.tsx`         | About page                               |
+| `/sobre`                      | `about.tsx`         | About page (hardcoded, no DB)            |
 | `/depoimentos`                | `testimonials.tsx`  | Testimonials                             |
 | `/trabalhos`                  | `trabalhos.tsx`     | Trabalhos listing                        |
 | `/trabalhos/:slug`            | `trabalho.tsx`      | Trabalho detail                          |
@@ -110,7 +112,7 @@ WordPress redirect rules are in `vercel.json` and `app/routes/wp-catchall.tsx`.
 
 ## Admin / CMS
 
-[Flashboard](https://getflashboard.com) connects directly to the PostgreSQL database and provides a CRUD admin panel. Used for comment moderation (approve/reject pending comments) and general data management.
+[Flashboard](https://getflashboard.com) connects directly to the PostgreSQL database and provides a CRUD admin panel. Used for comment moderation (approve pending comments) and general data management.
 
 ## Comments
 
