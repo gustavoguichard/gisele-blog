@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "collections": [
+    {
+      "name": "Gisele de Menezes Blog",
+      "id": "gisele-blog",
+      "url": "https://giseledemenezes.com/blog/",
+      "feed": "https://giseledemenezes.com/feed.json",
+      "format": "jsonfeed",
+      "language": "pt-BR"
+    }
+  ]
+}

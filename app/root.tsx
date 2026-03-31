@@ -55,6 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/feed.xml" />
+        <link rel="alternate" type="application/feed+json" title={SITE.name} href="/feed.json" />
         <Meta />
         <Links />
       </head>
