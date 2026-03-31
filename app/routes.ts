@@ -15,7 +15,10 @@ export default [
   route("trabalhos/:slug", "./routes/trabalho.tsx"),
   route("contato", "./routes/contact.tsx"),
   route("feed.xml", "./routes/feed.ts"),
+  route("feed.json", "./routes/feed-json.ts"),
   route("sitemap.xml", "./routes/sitemap.ts"),
   route("robots.txt", "./routes/robots.ts"),
+  route("llms.txt", "./routes/llms-txt.ts"),
+  route("og-image", "./routes/og-image.ts"),
   route("*", "./routes/wp-catchall.tsx"),
 ] satisfies RouteConfig;
