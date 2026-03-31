@@ -1,6 +1,6 @@
 import { fromSuccess } from "composable-functions";
 import { Link, href } from "react-router";
-import type { Route } from "./+types/courses";
+import type { Route } from "./+types/trabalhos";
 import { fetchCourses } from "~/db/queries.server";
 import { stripHtml, truncate, hideOnImgError, type ContentCardData } from "~/lib/format";
 import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
@@ -37,7 +37,7 @@ function CourseCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group relative overflow-hidden rounded-xl">
       <Link to={href("/trabalhos/:slug", { slug: course.slug })} className="block sm:flex">
-        <div className="sm:w-80 shrink-0 aspect-[4/5] sm:aspect-auto overflow-hidden bg-bg-warm relative">
+        <div className="sm:w-80 shrink-0 aspect-4/5 sm:aspect-auto overflow-hidden bg-bg-warm relative">
           {course.featuredImage ? (
             <img
               src={course.featuredImage}
@@ -48,7 +48,7 @@ function CourseCard({ course }: { course: ContentCardData }) {
               onError={hideOnImgError}
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-bg-warm to-border flex items-center justify-center">
+            <div className="w-full h-full bg-linear-to-br from-bg-warm to-border flex items-center justify-center">
               <span className="text-4xl text-accent/40">✦</span>
             </div>
           )}
@@ -79,14 +79,14 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
 
   if (courses.length === 0) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
         <p className="text-text-muted text-center py-12">Nenhum trabalho disponível no momento.</p>
       </div>
     );
   }
 
   return (
-    <div className="py-12">
+    <div className="pb-12">
       <div className="bg-bg-warm py-12 sm:py-16 mb-12 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
