@@ -10,8 +10,8 @@ import {
 } from "~/db/queries.server";
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
-import { TagMenu } from "~/components/tag-menu";
-import { PageHeader, GoldDivider } from "~/components/decorative";
+import { BlogHeader } from "~/components/blog-header";
+import { GoldDivider } from "~/components/decorative";
 import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
 import { SITE, generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
@@ -82,8 +82,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
   if (posts.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <PageHeader title="Blog" />
-        <TagMenu tags={tags} />
+        <BlogHeader title="Blog" tags={tags} />
         <p className="text-text-muted text-center py-12">Nenhuma publicação encontrada.</p>
       </div>
     );
@@ -95,8 +94,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
   if (!isFirstPage) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <PageHeader title="Blog" />
-        <TagMenu tags={tags} />
+        <BlogHeader title="Blog" tags={tags} />
         <div className="divide-y divide-border">
           {posts.map((post) => (
             <PostListItem key={post.id} post={post} />
@@ -111,8 +109,7 @@ export default function BlogIndex({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-      <PageHeader title="Blog" />
-      <TagMenu tags={tags} />
+      <BlogHeader title="Blog" tags={tags} />
 
       {/* Hero — centered editorial style */}
       <div className="text-center mb-12">

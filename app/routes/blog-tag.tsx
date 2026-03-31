@@ -11,10 +11,10 @@ import {
 } from "~/db/queries.server";
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
-import { TagMenu } from "~/components/tag-menu";
-import { PageHeader, GoldDivider } from "~/components/decorative";
+import { BlogHeader } from "~/components/blog-header";
+import { GoldDivider } from "~/components/decorative";
 import { ErrorPage } from "~/components/error-page";
-import { formatDate, extractFirstParagraphs, hideOnImgError } from "~/lib/format";
+import { formatDate, extractFirstParagraphs, hideOnImgError, pluralize } from "~/lib/format";
 import { SITE, generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -42,7 +42,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     page === 1 && posts[0] ? await fetchPostBySlug({ slug: posts[0].slug }) : null;
   const heroBody = heroContent?.success ? heroContent.data.content : null;
 
-  return { tag, posts, tags, currentPage: page, totalPages, heroBody };
+  return { tag, posts, tags, currentPage: page, totalPages, totalPosts, heroBody };
 }
 
 export function meta({ loaderData, params }: Route.MetaArgs) {
@@ -94,13 +94,13 @@ function buildTagPageUrl(slug: string) {
 }
 
 export default function BlogByTag({ loaderData }: Route.ComponentProps) {
-  const { tag, posts, tags, currentPage, totalPages, heroBody } = loaderData;
+  const { tag, posts, tags, currentPage, totalPages, totalPosts, heroBody } = loaderData;
+  const subtitle = `${pluralize(totalPosts, "publicação", "publicações")} sobre ${tag.name.toLowerCase()}.`;
 
   if (posts.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <PageHeader title={tag.name} />
-        <TagMenu tags={tags} />
+        <BlogHeader title={tag.name} subtitle={subtitle} tags={tags} />
         <p className="text-text-muted text-center py-12">
           Nenhuma publicação encontrada nesta categoria.
         </p>
@@ -114,8 +114,7 @@ export default function BlogByTag({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-      <PageHeader title={tag.name} />
-      <TagMenu tags={tags} />
+      <BlogHeader title={tag.name} subtitle={subtitle} tags={tags} />
 
       {isFirstPage ? (
         <>
