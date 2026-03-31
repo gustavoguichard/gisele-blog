@@ -12,7 +12,7 @@ export type Generated<T> =
     ? ColumnType<S, I | undefined, U>
     : ColumnType<T, T | undefined, T>;
 
-export type PostStatus = "draft" | "pending" | "published";
+export type PostStatus = "draft" | "published";
 
 export type TestimonialStatus = "draft" | "published";
 
