@@ -1,5 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { formatDate, stripHtml, truncate, extractFirstParagraphs, pluralize } from "./format";
+import {
+  formatDate,
+  stripHtml,
+  truncate,
+  extractFirstParagraphs,
+  pluralize,
+  hideOnImgError,
+  hideParentOnImgError,
+} from "./format";
 
 describe("formatDate", () => {
   it("formats a Date object in pt-BR", () => {
@@ -153,5 +161,25 @@ describe("pluralize", () => {
 
   it("returns plural for large numbers", () => {
     expect(pluralize(135, "post", "posts")).toBe("135 posts");
+  });
+});
+
+describe("hideOnImgError", () => {
+  it("sets display none on the image element", () => {
+    const img = document.createElement("img");
+    const mockEvent = { currentTarget: img } as unknown as React.SyntheticEvent<HTMLImageElement>;
+    hideOnImgError(mockEvent);
+    expect(img.style.display).toBe("none");
+  });
+});
+
+describe("hideParentOnImgError", () => {
+  it("sets display none on the parent element", () => {
+    const parent = document.createElement("div");
+    const img = document.createElement("img");
+    parent.appendChild(img);
+    const mockEvent = { currentTarget: img } as unknown as React.SyntheticEvent<HTMLImageElement>;
+    hideParentOnImgError(mockEvent);
+    expect(parent.style.display).toBe("none");
   });
 });
