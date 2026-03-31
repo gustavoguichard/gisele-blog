@@ -5,7 +5,7 @@ import type { Route } from "./+types/home";
 import { fetchRecentPosts, fetchCourses } from "~/db/queries.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 import { PostListItem } from "~/components/post-list-item";
-import { CourseCard } from "~/routes/courses";
+import { CourseCard } from "~/routes/trabalhos";
 import { SITE, generateMeta, websiteJsonLd, personJsonLd } from "~/lib/seo";
 
 export function meta() {
