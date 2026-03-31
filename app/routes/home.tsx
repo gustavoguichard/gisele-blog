@@ -90,7 +90,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       {courses.length > 0 && (
         <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-          <PageHeader as="h2" label="Formações" title="Cursos" />
+          <PageHeader as="h2" label="O que ofereço" title="Trabalhos" />
 
           <div className="space-y-6">
             {courses.map((course) => (
