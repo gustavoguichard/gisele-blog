@@ -38,18 +38,18 @@ function WorkCard({ course }: { course: ContentCardData }) {
   return (
     <article className="group relative overflow-hidden rounded-xl">
       <Link to={href("/trabalhos/:slug", { slug: course.slug })} className="block sm:flex">
-        <div className="sm:w-80 shrink-0 aspect-4/5 sm:aspect-auto overflow-hidden bg-bg-warm relative rounded-t-xl sm:rounded-t-none sm:rounded-l-xl">
+        <div className="sm:w-80 shrink-0 aspect-[4/5] sm:aspect-auto sm:min-h-52 overflow-hidden bg-bg-warm relative rounded-t-xl sm:rounded-t-none sm:rounded-l-xl">
           {course.featuredImage ? (
             <img
               src={course.featuredImage}
               alt={course.title}
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={hideOnImgError}
             />
           ) : (
-            <div className="w-full h-full bg-linear-to-br from-bg-warm to-border flex items-center justify-center">
+            <div className="absolute inset-0 bg-linear-to-br from-bg-warm to-border flex items-center justify-center">
               <span className="text-4xl text-accent/40">✦</span>
             </div>
           )}
