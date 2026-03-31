@@ -3,6 +3,7 @@ import { Link, href } from "react-router";
 import type { Route } from "./+types/trabalhos";
 import { fetchCourses } from "~/db/queries.server";
 import { stripHtml, truncate, hideOnImgError, type ContentCardData } from "~/lib/format";
+import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
 import { generateMeta, collectionPageJsonLd } from "~/lib/seo";
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -87,21 +88,18 @@ export default function Courses({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="pb-12">
-      <div className="bg-bg-warm py-12 sm:py-16 mb-12 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <p className="section-label mb-4">✦ Caminhos de Cura ✦</p>
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-primary font-serif">
-            Trabalhos
-          </h1>
-          <div className="gold-divider my-5" />
-          <p className="text-text-muted italic max-w-md mx-auto leading-relaxed">
+      <section className="relative py-14 overflow-hidden bg-bg-warm border-b border-border mb-12">
+        <OrnamentalCircles />
+        <div className="relative text-center px-4">
+          <p className="section-label mb-3">✦ Caminhos de Cura ✦</p>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary">Trabalhos</h1>
+          <GoldDivider />
+          <p className="text-text-muted max-w-lg mx-auto leading-relaxed italic">
             Vivências, formações e imersões guiadas pela sabedoria ancestral do Ayurveda e da cura
             holística
           </p>
         </div>
-      </div>
+      </section>
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="space-y-6">
           {courses.map((course) => (
