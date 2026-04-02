@@ -1,8 +1,11 @@
 {
+  "trailingSlash": false,
   "buildCommand": "[ \"$VERCEL_ENV\" = 'production' ] && pnpm exec tsx ./app/db/scripts/migrate.ts; pnpm exec react-router build",
   "redirects": [
     { "source": "/wp-admin/:path*", "destination": "/", "statusCode": 301 },
     { "source": "/wp-login.php", "destination": "/", "statusCode": 301 },
+    { "source": "/blog/feed", "destination": "/feed.xml", "statusCode": 301 },
+    { "source": "/blog/:slug/feed", "destination": "/feed.xml", "statusCode": 301 },
     { "source": "/feed", "destination": "/feed.xml", "statusCode": 301 },
     { "source": "/feed/:path*", "destination": "/feed.xml", "statusCode": 301 },
     { "source": "/rss", "destination": "/feed.xml", "statusCode": 301 },
@@ -11,6 +14,18 @@
     { "source": "/tag/:slug", "destination": "/blog/tag/:slug", "statusCode": 301 },
     { "source": "/wp-content/uploads/:path*", "destination": "/uploads/:path*", "statusCode": 301 },
     { "source": "/cursos", "destination": "/trabalhos", "statusCode": 301 },
-    { "source": "/cursos/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 }
+    { "source": "/cursos/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 },
+    { "source": "/curso/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 },
+    { "source": "/especializacao/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 },
+    { "source": "/especializacoes/:slug", "destination": "/trabalhos/:slug", "statusCode": 301 },
+    { "source": "/album/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/evento/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/video/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/banner/:path*", "destination": "/", "statusCode": 301 },
+    { "source": "/fotos", "destination": "/blog", "statusCode": 301 },
+    { "source": "/fotos/:path*", "destination": "/blog", "statusCode": 301 },
+    { "source": "/downloads", "destination": "/", "statusCode": 301 },
+    { "source": "/downloads/:path*", "destination": "/", "statusCode": 301 },
+    { "source": "/livro/:path*", "destination": "/", "statusCode": 301 }
   ]
 }
