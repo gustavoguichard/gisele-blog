@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "google-search-console": {
+      "source": "kostja94/marketing-skills",
+      "sourceType": "github",
+      "computedHash": "e7167b78bee297756f20db4dd1595405e93b7eb5cc4c21aa642a7e4f834e2bb4"
+    },
     "kysely": {
       "source": "bobmatnyc/claude-mpm-skills",
       "sourceType": "github",
