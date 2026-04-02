@@ -24,7 +24,8 @@ import "./styles/tailwind.css";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
-  const wpId = url.searchParams.get("p");
+
+  const wpId = url.searchParams.get("p") ?? url.searchParams.get("page_id");
   if (wpId) {
     const result = await fetchPostByWpId({ wpId: Number(wpId) });
     if (result.success) {
@@ -33,6 +34,34 @@ export async function loader({ request }: Route.LoaderArgs) {
         throw redirect(route, 301);
       }
     }
+    if (url.searchParams.has("page_id")) {
+      throw redirect(url.pathname, 301);
+    }
+  }
+
+  if (url.searchParams.has("attachment_id")) {
+    throw redirect(url.pathname, 301);
+  }
+
+  if (url.searchParams.has("s")) {
+    throw redirect("/blog", 301);
+  }
+
+  if (url.searchParams.has("feed")) {
+    throw redirect("/feed.xml", 301);
+  }
+
+  const wpLegacyParams = ["apresentacao", "video"];
+  for (const param of wpLegacyParams) {
+    if (url.searchParams.has(param)) {
+      throw redirect(url.pathname, 301);
+    }
+  }
+
+  if (url.searchParams.has("ltclid")) {
+    const clean = new URL(url);
+    clean.searchParams.delete("ltclid");
+    throw redirect(`${clean.pathname}${clean.search}`, 301);
   }
 
   return null;
