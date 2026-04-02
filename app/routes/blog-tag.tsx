@@ -26,7 +26,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const tagResult = await fetchTagBySlug({ slug: params.slug });
   if (!tagResult.success) {
-    throw new Response("Tag não encontrada", { status: 404 });
+    throw redirect("/blog", 301);
   }
   const tag = tagResult.data;
 

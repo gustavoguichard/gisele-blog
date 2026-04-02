@@ -1,4 +1,4 @@
-import { data, href, isRouteErrorResponse, useRouteError } from "react-router";
+import { data, href, redirect, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess, isInputError } from "composable-functions";
 import type { Route } from "./+types/blog-post";
 import {
@@ -17,6 +17,10 @@ import { formatDate, hideParentOnImgError } from "~/lib/format";
 import { postSeoMeta, blogPostingJsonLd, breadcrumbJsonLd } from "~/lib/seo";
 
 export async function loader({ params }: Route.LoaderArgs) {
+  if (params.slug === "feed") {
+    throw redirect("/feed.xml", 301);
+  }
+
   const result = await fetchPostBySlug({ slug: params.slug });
   if (!result.success) {
     throw new Response("Post não encontrado", { status: 404 });
