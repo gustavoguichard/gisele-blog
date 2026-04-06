@@ -2,16 +2,13 @@ import { applySchema, composable } from "composable-functions";
 import { sql } from "kysely";
 import { z } from "zod";
 import { getDb } from "~/db/db.server";
+import { PER_PAGE, slugSchema } from "./shared.common";
+import { postsBaseQuery } from "./posts.server";
 
-const PER_PAGE = 10;
-
-const slugSchema = z.object({ slug: z.string().min(1) });
 const tagPaginationSchema = z.object({
   slug: z.string().min(1),
   page: z.coerce.number().int().positive().default(1),
 });
-
-const postsBaseQuery = () => getDb().selectFrom("posts").where("status", "=", "published");
 
 const fetchTagsForPost = composable(async (postId: string) => {
   return getDb()

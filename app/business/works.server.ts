@@ -1,8 +1,6 @@
 import { applySchema, composable } from "composable-functions";
-import { z } from "zod";
 import { getDb } from "~/db/db.server";
-
-const slugSchema = z.object({ slug: z.string().min(1) });
+import { slugSchema } from "./shared.common";
 
 const fetchWorks = composable(async () => {
   return getDb()

@@ -2,10 +2,8 @@ import { applySchema, composable } from "composable-functions";
 import { sql } from "kysely";
 import { z } from "zod";
 import { getDb } from "~/db/db.server";
+import { PER_PAGE, slugSchema } from "./shared.common";
 
-const PER_PAGE = 10;
-
-const slugSchema = z.object({ slug: z.string().min(1) });
 const wpIdSchema = z.object({ wpId: z.coerce.number().int().positive() });
 const paginationSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
@@ -94,4 +92,5 @@ export {
   fetchRecentPosts,
   fetchSitemapEntries,
   PER_PAGE,
+  postsBaseQuery,
 };
