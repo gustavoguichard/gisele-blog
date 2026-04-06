@@ -1,12 +1,8 @@
 import { Link, href, redirect } from "react-router";
-import { fromSuccess } from "composable-functions";
+import { collect, fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog";
-import {
-  fetchPostBySlug,
-  fetchPostsCount,
-  fetchPostsPaginated,
-  PER_PAGE,
-} from "~/business/posts.server";
+import { fetchPostBySlug, fetchPostsCount, fetchPostsPaginated } from "~/business/posts.server";
+import { PER_PAGE } from "~/business/shared.common";
 import { fetchTagsWithCounts } from "~/business/tags.server";
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
@@ -57,11 +53,13 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(href("/blog"));
   }
 
-  const [posts, totalPosts, tags] = await Promise.all([
-    fromSuccess(fetchPostsPaginated)({ page }),
-    fromSuccess(fetchPostsCount)(),
-    fromSuccess(fetchTagsWithCounts)(),
-  ]);
+  const { posts, totalPosts, tags } = await fromSuccess(
+    collect({
+      posts: fetchPostsPaginated,
+      totalPosts: fetchPostsCount,
+      tags: fetchTagsWithCounts,
+    }),
+  )({ page });
 
   const totalPages = Math.ceil(totalPosts / PER_PAGE);
 

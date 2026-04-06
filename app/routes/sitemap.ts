@@ -1,13 +1,12 @@
-import { fromSuccess } from "composable-functions";
+import { collect, fromSuccess } from "composable-functions";
 import { fetchSitemapEntries } from "~/business/posts.server";
 import { fetchTagsWithCounts } from "~/business/tags.server";
 import { SITE } from "~/lib/seo";
 
 export async function loader() {
-  const [entries, tags] = await Promise.all([
-    fromSuccess(fetchSitemapEntries)(),
-    fromSuccess(fetchTagsWithCounts)(),
-  ]);
+  const { entries, tags } = await fromSuccess(
+    collect({ entries: fetchSitemapEntries, tags: fetchTagsWithCounts }),
+  )();
 
   type SitemapEntry = {
     loc: string;

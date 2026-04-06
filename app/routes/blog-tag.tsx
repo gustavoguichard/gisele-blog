@@ -1,7 +1,8 @@
 import { Link, href, redirect, isRouteErrorResponse, useRouteError } from "react-router";
-import { fromSuccess } from "composable-functions";
+import { collect, fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog-tag";
-import { fetchPostBySlug, PER_PAGE } from "~/business/posts.server";
+import { fetchPostBySlug } from "~/business/posts.server";
+import { PER_PAGE } from "~/business/shared.common";
 import {
   fetchTagBySlug,
   fetchPostsByTagPaginated,
@@ -29,11 +30,13 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
   const tag = tagResult.data;
 
-  const [posts, totalPosts, tags] = await Promise.all([
-    fromSuccess(fetchPostsByTagPaginated)({ slug: params.slug, page }),
-    fromSuccess(fetchPostsByTagCount)({ slug: params.slug }),
-    fromSuccess(fetchTagsWithCounts)(),
-  ]);
+  const { posts, totalPosts, tags } = await fromSuccess(
+    collect({
+      posts: fetchPostsByTagPaginated,
+      totalPosts: fetchPostsByTagCount,
+      tags: fetchTagsWithCounts,
+    }),
+  )({ slug: params.slug, page });
 
   const totalPages = Math.ceil(totalPosts / PER_PAGE);
 

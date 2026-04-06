@@ -1,14 +1,13 @@
-import { fromSuccess } from "composable-functions";
+import { collect, fromSuccess } from "composable-functions";
 import { fetchPostsForFeed } from "~/business/posts.server";
 import { fetchWorks } from "~/business/works.server";
 import { stripHtml, truncate } from "~/lib/format";
 import { SITE } from "~/lib/seo";
 
 export async function loader() {
-  const [posts, works] = await Promise.all([
-    fromSuccess(fetchPostsForFeed)(20),
-    fromSuccess(fetchWorks)(),
-  ]);
+  const { posts, works } = await fromSuccess(
+    collect({ posts: fetchPostsForFeed, works: fetchWorks }),
+  )(20);
 
   const sections: string[] = [
     `# ${SITE.name}`,
