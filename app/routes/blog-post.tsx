@@ -1,12 +1,9 @@
 import { data, href, redirect, isRouteErrorResponse, useRouteError } from "react-router";
-import { fromSuccess, isInputError } from "composable-functions";
+import { collect, fromSuccess, isInputError } from "composable-functions";
 import type { Route } from "./+types/blog-post";
-import {
-  fetchPostBySlug,
-  fetchTagsForPost,
-  fetchCommentsForPost,
-  insertComment,
-} from "~/db/queries.server";
+import { fetchPostBySlug } from "~/business/posts.server";
+import { fetchTagsForPost } from "~/business/tags.server";
+import { fetchCommentsForPost, insertComment } from "~/business/comments.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { CommentThread } from "~/components/comment-thread";
@@ -27,10 +24,9 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
   const post = result.data;
 
-  const [tags, comments] = await Promise.all([
-    fromSuccess(fetchTagsForPost)(post.id),
-    fromSuccess(fetchCommentsForPost)(post.id),
-  ]);
+  const { tags, comments } = await fromSuccess(
+    collect({ tags: fetchTagsForPost, comments: fetchCommentsForPost }),
+  )(post.id);
 
   return { post, tags, comments };
 }

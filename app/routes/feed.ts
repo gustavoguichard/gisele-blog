@@ -1,5 +1,5 @@
 import { fromSuccess } from "composable-functions";
-import { fetchPostsForFeed } from "~/db/queries.server";
+import { fetchPostsForFeed } from "~/business/posts.server";
 import { stripHtml, truncate } from "~/lib/format";
 import { SITE } from "~/lib/seo";
 

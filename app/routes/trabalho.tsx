@@ -1,6 +1,6 @@
 import { href, isRouteErrorResponse, useRouteError } from "react-router";
 import type { Route } from "./+types/trabalho";
-import { fetchWorkBySlug } from "~/db/queries.server";
+import { fetchWorkBySlug } from "~/business/works.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { GoldDivider } from "~/components/decorative";

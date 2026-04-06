@@ -1,8 +1,9 @@
 import { href } from "react-router";
 import { ButtonLink } from "~/components/button";
-import { fromSuccess } from "composable-functions";
+import { collect, fromSuccess } from "composable-functions";
 import type { Route } from "./+types/home";
-import { fetchRecentPosts, fetchWorks } from "~/db/queries.server";
+import { fetchRecentPosts } from "~/business/posts.server";
+import { fetchWorks } from "~/business/works.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 import { PostListItem } from "~/components/post-list-item";
 import { WorkCard } from "~/routes/trabalhos";
@@ -22,10 +23,9 @@ export function meta() {
 }
 
 export async function loader() {
-  const [posts, courses] = await Promise.all([
-    fromSuccess(fetchRecentPosts)(5),
-    fromSuccess(fetchWorks)(),
-  ]);
+  const { posts, courses } = await fromSuccess(
+    collect({ posts: fetchRecentPosts, courses: fetchWorks }),
+  )(5);
   return { posts, courses: courses.slice(0, 3) };
 }
 

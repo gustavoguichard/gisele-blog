@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
-import Contact, { contactSchema, MIN_SUBMIT_TIME_MS } from "./contact";
-import { getClientIp } from "~/db/queries.server";
+import Contact from "./contact";
+import { contactSchema, MIN_SUBMIT_TIME_MS } from "~/business/contact.common";
+import { getClientIp } from "~/business/contact.server";
 
 function renderContact() {
   const Stub = createRoutesStub([{ path: "/", Component: Contact }]);

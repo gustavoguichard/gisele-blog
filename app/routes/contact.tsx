@@ -1,44 +1,10 @@
 import { data, useFetcher } from "react-router";
 import { useState, useEffect } from "react";
-import { applySchema } from "composable-functions";
-import { Resend } from "resend";
-import { z } from "zod";
 import type { Route } from "./+types/contact";
 import { Container } from "~/components/container";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
-import { env } from "~/env.server";
 import { generateMeta, contactPageJsonLd } from "~/lib/seo";
-import { checkContactRateLimit, getClientIp } from "~/db/queries.server";
-
-export const MIN_SUBMIT_TIME_MS = 3000;
-
-export const contactSchema = z.object({
-  name: z.string().min(1, "Por favor, informe seu nome."),
-  email: z.string().email("Por favor, informe um email válido."),
-  message: z.string().min(10, "A mensagem precisa ter pelo menos 10 caracteres."),
-  _gotcha: z.string().max(0),
-  _timestamp: z.coerce.number(),
-});
-
-const sendContactEmail = applySchema(contactSchema)(async ({
-  name,
-  email,
-  message,
-  _timestamp,
-}) => {
-  if (Date.now() - _timestamp < MIN_SUBMIT_TIME_MS) {
-    throw new Error("spam");
-  }
-
-  const resend = new Resend(env().RESEND_API_KEY);
-  await resend.emails.send({
-    from: "Contato Blog <noreply@giseledemenezes.com>",
-    to: env().CONTACT_EMAIL,
-    replyTo: email,
-    subject: `Mensagem de ${name} via blog`,
-    text: `Nome: ${name}\nEmail: ${email}\n\nMensagem:\n${message}`,
-  });
-});
+import { checkContactRateLimit, getClientIp, sendContactEmail } from "~/business/contact.server";
 
 export async function action({ request }: Route.ActionArgs) {
   const ip = getClientIp(request);

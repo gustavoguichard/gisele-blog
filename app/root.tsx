@@ -17,7 +17,7 @@ import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
 import { MobileMenu } from "./components/mobile-menu";
 import { ThemeToggle } from "./components/theme-toggle";
-import { fetchPostByWpId } from "./db/queries.server";
+import { fetchPostByWpId } from "./business/posts.server";
 import { resolvePostRoute } from "./lib/wp-redirects";
 import { SITE } from "./lib/seo";
 import "./styles/tailwind.css";
