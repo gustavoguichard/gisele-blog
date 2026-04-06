@@ -29,6 +29,12 @@ export interface Comments {
   status: Generated<CommentStatus>;
 }
 
+export interface ContactAttempts {
+  createdAt: Generated<Timestamp>;
+  id: Generated<string>;
+  ip: string;
+}
+
 export interface Posts {
   content: Generated<string>;
   createdAt: Generated<Timestamp>;
@@ -78,6 +84,7 @@ export interface Works {
 
 export interface DB {
   comments: Comments;
+  contactAttempts: ContactAttempts;
   posts: Posts;
   postTags: PostTags;
   tags: Tags;
