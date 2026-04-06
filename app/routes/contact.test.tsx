@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import Contact, { contactSchema, MIN_SUBMIT_TIME_MS } from "./contact";
+import { getClientIp } from "~/db/queries.server";
 
 function renderContact() {
   const Stub = createRoutesStub([{ path: "/", Component: Contact }]);
@@ -54,6 +55,20 @@ describe("contactSchema", () => {
 describe("MIN_SUBMIT_TIME_MS", () => {
   it("is at least 2 seconds", () => {
     expect(MIN_SUBMIT_TIME_MS).toBeGreaterThanOrEqual(2000);
+  });
+});
+
+describe("getClientIp", () => {
+  it("reads the client IP from x-real-ip (Vercel's trusted IP header)", () => {
+    const req = new Request("http://localhost/contato", {
+      headers: { "x-real-ip": "1.2.3.4" },
+    });
+    expect(getClientIp(req)).toBe("1.2.3.4");
+  });
+
+  it("returns 'unknown' when no x-real-ip header is present", () => {
+    const req = new Request("http://localhost/contato");
+    expect(getClientIp(req)).toBe("unknown");
   });
 });
 
