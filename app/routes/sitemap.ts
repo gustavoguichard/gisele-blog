@@ -1,5 +1,6 @@
 import { fromSuccess } from "composable-functions";
-import { fetchSitemapEntries, fetchTagsWithCounts } from "~/db/queries.server";
+import { fetchSitemapEntries } from "~/business/posts.server";
+import { fetchTagsWithCounts } from "~/business/tags.server";
 import { SITE } from "~/lib/seo";
 
 export async function loader() {

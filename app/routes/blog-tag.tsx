@@ -1,14 +1,13 @@
 import { Link, href, redirect, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/blog-tag";
+import { fetchPostBySlug, PER_PAGE } from "~/business/posts.server";
 import {
   fetchTagBySlug,
-  fetchPostBySlug,
   fetchPostsByTagPaginated,
   fetchPostsByTagCount,
   fetchTagsWithCounts,
-  PER_PAGE,
-} from "~/db/queries.server";
+} from "~/business/tags.server";
 import { Pagination } from "~/components/pagination";
 import { PostListItem } from "~/components/post-list-item";
 import { BlogHeader } from "~/components/blog-header";

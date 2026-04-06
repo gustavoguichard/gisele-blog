@@ -1,6 +1,6 @@
 import { fromSuccess } from "composable-functions";
 import type { Route } from "./+types/testimonials";
-import { fetchTestimonials } from "~/db/queries.server";
+import { fetchTestimonials } from "~/business/testimonials.server";
 import { Container } from "~/components/container";
 import { PageHeader } from "~/components/decorative";
 import { formatDate } from "~/lib/format";

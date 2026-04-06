@@ -1,7 +1,7 @@
 import { fromSuccess } from "composable-functions";
 import { Link, href } from "react-router";
 import type { Route } from "./+types/trabalhos";
-import { fetchWorks } from "~/db/queries.server";
+import { fetchWorks } from "~/business/works.server";
 import { stripHtml, truncate, hideOnImgError, type ContentCardData } from "~/lib/format";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
 import { generateMeta, collectionPageJsonLd } from "~/lib/seo";

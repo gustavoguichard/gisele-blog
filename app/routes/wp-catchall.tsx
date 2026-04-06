@@ -1,6 +1,7 @@
 import { isRouteErrorResponse, redirect, useRouteError } from "react-router";
 import type { Route } from "./+types/wp-catchall";
-import { fetchPostBySlug, fetchWorkBySlug } from "~/db/queries.server";
+import { fetchPostBySlug } from "~/business/posts.server";
+import { fetchWorkBySlug } from "~/business/works.server";
 import { ErrorPage } from "~/components/error-page";
 import { PAGE_SLUG_TO_ROUTE } from "~/lib/wp-redirects";
 

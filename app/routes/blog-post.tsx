@@ -1,12 +1,9 @@
 import { data, href, redirect, isRouteErrorResponse, useRouteError } from "react-router";
 import { fromSuccess, isInputError } from "composable-functions";
 import type { Route } from "./+types/blog-post";
-import {
-  fetchPostBySlug,
-  fetchTagsForPost,
-  fetchCommentsForPost,
-  insertComment,
-} from "~/db/queries.server";
+import { fetchPostBySlug } from "~/business/posts.server";
+import { fetchTagsForPost } from "~/business/tags.server";
+import { fetchCommentsForPost, insertComment } from "~/business/comments.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { CommentThread } from "~/components/comment-thread";
