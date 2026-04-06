@@ -8,6 +8,7 @@ import { Container } from "~/components/container";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
 import { env } from "~/env.server";
 import { generateMeta, contactPageJsonLd } from "~/lib/seo";
+import { checkContactRateLimit, getClientIp } from "~/db/queries.server";
 
 export const MIN_SUBMIT_TIME_MS = 3000;
 
@@ -40,6 +41,20 @@ const sendContactEmail = applySchema(contactSchema)(async ({
 });
 
 export async function action({ request }: Route.ActionArgs) {
+  const ip = getClientIp(request);
+  const rateLimit = await checkContactRateLimit(ip);
+  if (!rateLimit.success) {
+    return data(
+      {
+        success: false,
+        errors: [
+          { path: [], message: "Muitas tentativas. Por favor, tente novamente em uma hora." },
+        ],
+      },
+      { status: 429 },
+    );
+  }
+
   const formData = await request.formData();
   const result = await sendContactEmail({
     name: String(formData.get("name") ?? ""),

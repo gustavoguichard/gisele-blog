@@ -1,8 +1,13 @@
 import { applySchema, composable } from "composable-functions";
 import { sql } from "kysely";
 import sanitizeHtml from "sanitize-html";
+import { ipAddress } from "@vercel/functions";
 import { z } from "zod";
 import { getDb } from "./db.server";
+
+export function getClientIp(request: Request): string {
+  return ipAddress(request) ?? "unknown";
+}
 
 const slugSchema = z.object({ slug: z.string().min(1) });
 const wpIdSchema = z.object({ wpId: z.coerce.number().int().positive() });
@@ -218,6 +223,27 @@ export const fetchPostsForFeed = composable(async (limit = 30) => {
     .orderBy("publishedAt", "desc")
     .limit(limit)
     .execute();
+});
+
+export const CONTACT_RATE_LIMIT_MAX = 3;
+export const CONTACT_RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+
+export const checkContactRateLimit = composable(async (ip: string) => {
+  const db = getDb();
+  const windowStart = new Date(Date.now() - CONTACT_RATE_LIMIT_WINDOW_MS);
+
+  const { count } = await db
+    .selectFrom("contactAttempts")
+    .select(sql<number>`count(*)::int`.as("count"))
+    .where("ip", "=", ip)
+    .where("createdAt", ">=", windowStart)
+    .executeTakeFirstOrThrow();
+
+  if (count >= CONTACT_RATE_LIMIT_MAX) {
+    throw new Error("rate_limited");
+  }
+
+  await db.insertInto("contactAttempts").values({ ip }).execute();
 });
 
 export { PER_PAGE };
