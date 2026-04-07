@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
+import type { Route } from "./+types/contact";
 import Contact from "./contact";
 import { contactSchema } from "~/business/contact.common";
 
@@ -8,7 +9,9 @@ function renderContact(turnstileSiteKey: string | null = "test-site-key") {
   const Stub = createRoutesStub([
     {
       path: "/",
-      Component: Contact,
+      Component(props) {
+        return Contact(props as Route.ComponentProps);
+      },
       loader: () => ({ turnstileSiteKey }),
     },
   ]);

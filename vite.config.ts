@@ -10,7 +10,7 @@ export default defineConfig({
     },
   },
   staged: {
-    "*.{ts,tsx}": "vp check --fix --no-lint",
+    "*.{ts,tsx}": "vp check --fix",
   },
   lint: {
     options: { typeAware: true, typeCheck: true },

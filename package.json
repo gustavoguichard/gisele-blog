@@ -12,7 +12,10 @@
     "db:rollback": "tsx --env-file=.env ./app/db/scripts/rollback.ts && pnpm run db:generate",
     "db:migration": "tsx ./app/db/scripts/migration.ts",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "check": "react-router typegen && vp check",
+    "check:types": "react-router typegen && tsc --noEmit",
+    "check:lint": "vp lint"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
