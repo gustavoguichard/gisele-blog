@@ -2,11 +2,16 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import Contact from "./contact";
-import { contactSchema, MIN_SUBMIT_TIME_MS } from "~/business/contact.common";
-import { getClientIp } from "~/business/contact.server";
+import { contactSchema } from "~/business/contact.common";
 
-function renderContact() {
-  const Stub = createRoutesStub([{ path: "/", Component: Contact }]);
+function renderContact(turnstileSiteKey: string | null = "test-site-key") {
+  const Stub = createRoutesStub([
+    {
+      path: "/",
+      Component: Contact,
+      loader: () => ({ turnstileSiteKey }),
+    },
+  ]);
   return render(<Stub initialEntries={["/"]} />);
 }
 
@@ -15,8 +20,6 @@ describe("contactSchema", () => {
     name: "Maria",
     email: "maria@example.com",
     message: "Olá, gostaria de saber mais sobre os cursos.",
-    _gotcha: "",
-    _timestamp: Date.now() - 10000,
   };
 
   it("accepts valid input", () => {
@@ -38,84 +41,49 @@ describe("contactSchema", () => {
     const result = contactSchema.safeParse({ ...validInput, message: "Oi" });
     expect(result.success).toBe(false);
   });
-
-  it("rejects filled honeypot", () => {
-    const result = contactSchema.safeParse({ ...validInput, _gotcha: "spam bot" });
-    expect(result.success).toBe(false);
-  });
-
-  it("coerces _timestamp to number", () => {
-    const result = contactSchema.safeParse({ ...validInput, _timestamp: "1234567890" });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data._timestamp).toBe(1234567890);
-    }
-  });
-});
-
-describe("MIN_SUBMIT_TIME_MS", () => {
-  it("is at least 2 seconds", () => {
-    expect(MIN_SUBMIT_TIME_MS).toBeGreaterThanOrEqual(2000);
-  });
-});
-
-describe("getClientIp", () => {
-  it("reads the client IP from x-real-ip (Vercel's trusted IP header)", () => {
-    const req = new Request("http://localhost/contato", {
-      headers: { "x-real-ip": "1.2.3.4" },
-    });
-    expect(getClientIp(req)).toBe("1.2.3.4");
-  });
-
-  it("returns 'unknown' when no x-real-ip header is present", () => {
-    const req = new Request("http://localhost/contato");
-    expect(getClientIp(req)).toBe("unknown");
-  });
 });
 
 describe("Contact page", () => {
-  it("renders the page header", () => {
+  it("renders the page header", async () => {
     renderContact();
-    expect(screen.getByText("Vamos Conversar?")).toBeInTheDocument();
+    expect(await screen.findByText("Vamos Conversar?")).toBeInTheDocument();
     expect(screen.getByText(/Uma porta aberta/)).toBeInTheDocument();
   });
 
-  it("renders form fields with personal labels", () => {
+  it("renders form fields with personal labels", async () => {
     renderContact();
-    expect(screen.getByText(/como posso te chamar/i)).toBeInTheDocument();
+    expect(await screen.findByText(/como posso te chamar/i)).toBeInTheDocument();
     expect(screen.getByText(/seu email para que eu possa responder/i)).toBeInTheDocument();
     expect(screen.getByText(/o que está no seu coração/i)).toBeInTheDocument();
   });
 
-  it("renders submit button", () => {
+  it("renders submit button", async () => {
     renderContact();
-    expect(screen.getByRole("button", { name: "Enviar mensagem" })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: "Enviar mensagem" })).toBeInTheDocument();
   });
 
-  it("renders honeypot field", () => {
-    const { container } = renderContact();
-    const honeypot = container.querySelector('input[name="_gotcha"]');
-    expect(honeypot).toBeInTheDocument();
-    expect(honeypot).toHaveAttribute("tabindex", "-1");
-  });
-
-  it("renders hidden timestamp field", () => {
-    const { container } = renderContact();
-    const timestamp = container.querySelector('input[name="_timestamp"]');
-    expect(timestamp).toBeInTheDocument();
-    expect(timestamp).toHaveAttribute("type", "hidden");
-  });
-
-  it("renders contact alternatives", () => {
+  it("renders contact alternatives", async () => {
     renderContact();
-    expect(screen.getByText("gi@giseledemenezes.com")).toBeInTheDocument();
+    expect(await screen.findByText("gi@giseledemenezes.com")).toBeInTheDocument();
     expect(screen.getByText("@gigiseledemenezes")).toBeInTheDocument();
   });
 
-  it("renders the quote", () => {
+  it("renders the quote", async () => {
     renderContact();
     expect(
-      screen.getByText(/O encontro inicia quando nos abrimos para a escuta/),
+      await screen.findByText(/O encontro inicia quando nos abrimos para a escuta/),
     ).toBeInTheDocument();
+  });
+
+  it("renders Turnstile widget when site key is provided", async () => {
+    renderContact("test-site-key");
+    await screen.findByText("Vamos Conversar?");
+    expect(screen.getByTestId("turnstile")).toBeInTheDocument();
+  });
+
+  it("does not render Turnstile widget when site key is null", async () => {
+    renderContact(null);
+    await screen.findByText("Vamos Conversar?");
+    expect(screen.queryByTestId("turnstile")).not.toBeInTheDocument();
   });
 });
