@@ -175,14 +175,12 @@ Key patterns:
 
 ### Action pattern
 
+Use `inputFromForm(request)` to extract form data and pass it directly to the business function. The action is a thin controller — all orchestration (validation, rate limiting, external API calls) belongs in the business layer:
+
 ```typescript
 export async function action({ request }: Route.ActionArgs) {
-  const formData = await request.formData();
-  const result = await insertComment({
-    postId: String(formData.get("postId") ?? ""),
-    authorName: String(formData.get("authorName") ?? ""),
-    content: String(formData.get("content") ?? ""),
-  });
+  const formInput = await inputFromForm(request);
+  const result = await submitContactForm(formInput, { ip: getClientIp(request) });
 
   if (!result.success) {
     const fieldErrors = result.errors
@@ -194,6 +192,8 @@ export async function action({ request }: Route.ActionArgs) {
   return data({ success: true, errors: [] });
 }
 ```
+
+Use `inputFromUrl(request)` for URL/query param extraction. Never manually extract with `formData.get()` or `searchParams.get()` — `null` vs `undefined` causes silent Zod validation failures.
 
 ### Meta and headers
 
@@ -260,6 +260,40 @@ Recover from errors with a fallback value:
 ```typescript
 catchFailure(fetchOptionalData, () => []);
 ```
+
+## Services Pattern
+
+Services live in `app/services/*.server.ts`. Each service creates a typed HTTP client with `makeService` from `make-service` and exports thin wrapper functions. Business functions call services; routes never call services directly.
+
+```typescript
+import { makeService } from "make-service";
+import { z } from "zod";
+import { env } from "~/env.server";
+
+const turnstileService = makeService("https://challenges.cloudflare.com/turnstile/v0", {
+  headers: { "content-type": "application/json" },
+});
+
+const turnstileResponseSchema = z.object({ success: z.boolean() });
+
+async function verifyTurnstileToken(token: string, ip: string) {
+  const secret = env().TURNSTILE_SECRET_KEY;
+  if (!secret) return { success: true };
+
+  const response = await turnstileService.post("/siteverify", {
+    body: { secret, response: token, remoteip: ip },
+  });
+  return response.json(turnstileResponseSchema);
+}
+
+export { verifyTurnstileToken };
+```
+
+Key patterns:
+
+- `makeService(baseURL, options)` creates the client — owns base URL, default headers
+- Wrapper functions handle provider-specific logic (auth, optional features)
+- Use Zod schemas with `response.json(schema)` for validated responses
 
 ## Error Handling
 
@@ -350,7 +384,9 @@ app/
 
   lib/                      # Generic, project-agnostic utilities (could be copy-pasted to any project)
 
-  services/                 # External provider integrations (email, APIs, third-party SDKs)
+  services/                 # HTTP clients (make-service) and external provider wrappers
+    feature.server.ts       # Service client + wrapper functions
+    feature.server.test.ts  # Unit tests (colocated)
 
   routes/                   # Route modules (thin controllers)
 
@@ -362,6 +398,6 @@ app/
 - **`app/business/`** — Domain logic, input validation via `applySchema`, DB queries. All Zod validation stays here; callers (routes) just check `result.success`
 - **`app/components/`** — Pure, reusable UI with no business knowledge
 - **`app/lib/`** — Generic utilities that could be copy-pasted to any project — an internal framework layer
-- **`app/services/`** — External provider clients (email, third-party APIs). Encapsulate authentication, request/response transformations, and provider-specific details. Business functions depend on services, routes never call services directly
+- **`app/services/`** — HTTP clients built with `make-service` and thin wrapper functions for external providers. Services own the API shape (base URL, headers, endpoint paths) and response parsing. Business functions call services; routes never call services directly
 - **`app/db/`** — Database connection and schema only. No business logic here — that goes in `app/business/`
-- **Routes** — Thin controllers: extract params, call business functions, handle results. Only export the standard React Router API. No inline Zod `safeParse`; no raw DB queries
+- **Routes** — Thin controllers: use `inputFromForm(request)` / `inputFromUrl(request)` to extract input, call one business function, check `result.success`, return response. All orchestration (rate limiting, external API calls, multi-step flows) belongs in business functions. Only export the standard React Router API. No inline Zod `safeParse`; no raw DB queries; no manual `formData.get()` / `searchParams.get()`
