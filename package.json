@@ -28,6 +28,7 @@
     "composable-functions": "^5.0.0",
     "isbot": "^5.1.36",
     "kysely": "^0.28.14",
+    "make-service": "^4.1.1",
     "make-typed-env": "^0.0.4",
     "pg": "^8.20.0",
     "react": "^19.2.4",
