@@ -8,6 +8,8 @@ const getEnvironment = makeTypedEnv(
     CONTACT_EMAIL: z.string().email().default("gi@giseledemenezes.com"),
     RESEND_API_KEY: z.string().min(1),
     SESSION_SECRET: z.string().min(1),
+    TURNSTILE_SITE_KEY: z.string().min(1).optional(),
+    TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
     SITE_URL: z.string().url().default("https://giseledemenezes.com"),
   }),
 );

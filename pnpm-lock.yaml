@@ -47,6 +47,9 @@ importers:
       kysely:
         specifier: ^0.28.14
         version: 0.28.14
+      make-service:
+        specifier: ^4.1.1
+        version: 4.1.1
       make-typed-env:
         specifier: ^0.0.4
         version: 0.0.4
@@ -2669,6 +2672,10 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
+  make-service@4.1.1:
+    resolution: {integrity: sha512-KQ8b9bj2swfl+w4CmpdbJvvdlksVkrXSzJlbxnKuO9oaxMkSBkA6QBvi7eQk4cwJGU87MEUTX4HRhIDUw+o3yw==}
+    engines: {node: '>=18'}
 
   make-typed-env@0.0.4:
     resolution: {integrity: sha512-1fILQlG6cHlOuQcdaiBbVpbNELgCSGt21sF0OoJw5IRCbxAtKGnQnyXWjVEvVnzG8GyOpEVM8u0cAaIHyfRDYg==}
@@ -5441,6 +5448,8 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  make-service@4.1.1: {}
 
   make-typed-env@0.0.4: {}
 

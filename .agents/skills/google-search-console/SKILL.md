@@ -24,14 +24,14 @@ Guides analysis of Google Search Console (GSC) data: performance metrics, indexi
 
 ### Chart Reading
 
-| Practice | Why |
-|----------|-----|
-| **Focus one metric at a time** | Stacked bar charts hide fluctuations; toggle off other metrics to see each clearly |
-| **Don't compare just two points** | End-of-month vs prior month misses mid-month drama; examine full trend |
-| **Check beyond top 10** | Many reports default to top 10; scroll or paginate for more rows |
-| **Screenshot charts** | GSC retains limited history; save images for future reference |
-| **Record in spreadsheet** | Export at month-end; use formulas to track correlations over time |
-| **Track release dates** | Join dev standups, read release notes; correlate GSC shifts with deployments |
+| Practice                          | Why                                                                                |
+| --------------------------------- | ---------------------------------------------------------------------------------- |
+| **Focus one metric at a time**    | Stacked bar charts hide fluctuations; toggle off other metrics to see each clearly |
+| **Don't compare just two points** | End-of-month vs prior month misses mid-month drama; examine full trend             |
+| **Check beyond top 10**           | Many reports default to top 10; scroll or paginate for more rows                   |
+| **Screenshot charts**             | GSC retains limited history; save images for future reference                      |
+| **Record in spreadsheet**         | Export at month-end; use formulas to track correlations over time                  |
+| **Track release dates**           | Join dev standups, read release notes; correlate GSC shifts with deployments       |
 
 ### Investigation Workflow
 
@@ -46,12 +46,12 @@ Guides analysis of Google Search Console (GSC) data: performance metrics, indexi
 
 **Location**: Performance ? Search results
 
-| Metric | Use |
-|--------|-----|
-| **Clicks** | Traffic from Google Search |
-| **Impressions** | How often site appeared in results |
-| **CTR** | Whether users think page answers query |
-| **Average position** | Ranking trend |
+| Metric               | Use                                    |
+| -------------------- | -------------------------------------- |
+| **Clicks**           | Traffic from Google Search             |
+| **Impressions**      | How often site appeared in results     |
+| **CTR**              | Whether users think page answers query |
+| **Average position** | Ranking trend                          |
 
 **Dimensions**: Query, page, country, device, date. Filter by search type: web, image, video, news. Use to find low-CTR high-impression pages (title/meta optimization opportunities).
 
@@ -62,12 +62,12 @@ Guides analysis of Google Search Console (GSC) data: performance metrics, indexi
 Use to compare actual CTR vs expected. Benchmarks vary by SERP features (AI Overviews, featured snippets). **Zero-click**: When SERP features satisfy intent without a click, organic CTR drops; factor into expectations. See **serp-features** (Zero-Click section), **featured-snippet**. Clean SERPs:
 
 | Position | Expected CTR (baseline) | With AI Overviews (lower) |
-|----------|-------------------------|---------------------------|
-| 1 | 25-35% | ~19% |
-| 2 | 12-18% | ~12% |
-| 3 | 8-12% | ~7% |
-| 4-5 | 5-7% | ~5% |
-| 6-10 | 2-5% | 2-5% |
+| -------- | ----------------------- | ------------------------- |
+| 1        | 25-35%                  | ~19%                      |
+| 2        | 12-18%                  | ~12%                      |
+| 3        | 8-12%                   | ~7%                       |
+| 4-5      | 5-7%                    | ~5%                       |
+| 6-10     | 2-5%                    | 2-5%                      |
 
 **Interpretation**: If actual CTR is below expected for your position, prioritize title/meta optimization. Over 90% of first-page results have CTR below 10%; significant upside exists.
 
@@ -88,14 +88,14 @@ Pages with review stars, FAQ schema, or other rich snippets see 10-20% more clic
 
 Simplified overview; replaces standalone Search Console Insights. Data from GSC only (no GA since Dec 2024).
 
-| Card | Use |
-|------|-----|
-| **Clicks and impressions** | Site visibility and click effectiveness |
-| **Your content** | Top, trending up, trending down pages |
-| **Queries leading to your site** | Top, trending up, trending down queries |
-| **Top countries** | Geographic audience |
-| **Branded vs non-branded** | Brand recognition (AI-labeled; may mislabel) |
-| **Additional traffic sources** | Image, Video, News search, Discover |
+| Card                             | Use                                          |
+| -------------------------------- | -------------------------------------------- |
+| **Clicks and impressions**       | Site visibility and click effectiveness      |
+| **Your content**                 | Top, trending up, trending down pages        |
+| **Queries leading to your site** | Top, trending up, trending down queries      |
+| **Top countries**                | Geographic audience                          |
+| **Branded vs non-branded**       | Brand recognition (AI-labeled; may mislabel) |
+| **Additional traffic sources**   | Image, Video, News search, Discover          |
 
 **Trending**: Based on click change vs previous period. Click items to jump to Performance report filtered to that item.
 
@@ -109,9 +109,9 @@ Simplified overview; replaces standalone Search Console Insights. Data from GSC 
 
 **Indexed vs Not indexed are complementary**: Not all site content should be indexed. Login, admin, duplicate content, legal boilerplate, and low-value pages often intentionally use noindex. Indexed and non-indexed pages can reference each other (e.g., sitemap includes indexable URLs; noindex pages still exist and link internally). Non-indexed is not inherently a problem--investigate only when important pages are excluded. See indexing (noindex usage) and robots-txt (crawl control) for when to exclude.
 
-| Metric | Action |
-|--------|--------|
-| **Pages indexed** | Turn off "Pages not indexed" to view alone; watch for drops |
+| Metric                | Action                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Pages indexed**     | Turn off "Pages not indexed" to view alone; watch for drops                                                         |
 | **Pages not indexed** | Turn off "Pages indexed" to view alone; watch for spikes. Distinguish intentional (noindex, robots) from accidental |
 
 **Filter**: All submitted pages / Unsubmitted pages only (dropdown near top).
@@ -135,13 +135,13 @@ Simplified overview; replaces standalone Search Console Insights. Data from GSC 
 
 **Coverage issue types**:
 
-| Issue | Meaning | Next step |
-|-------|---------|-----------|
-| Crawled - currently not indexed | Crawled but not indexed | See indexing |
-| Excluded by "noindex" tag | Intentionally excluded; often valid (login, admin, legal, etc.) | Ignore if expected; verify important pages not accidentally noindexed |
-| Blocked by robots.txt | Crawl blocked | See **robots-txt**; may be intentional |
-| Redirect / 404 | Redirect or missing | Fix URL or redirect |
-| Duplicate / Canonical | Duplicate content | Usually OK; keep canonical |
+| Issue                           | Meaning                                                         | Next step                                                             |
+| ------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Crawled - currently not indexed | Crawled but not indexed                                         | See indexing                                                          |
+| Excluded by "noindex" tag       | Intentionally excluded; often valid (login, admin, legal, etc.) | Ignore if expected; verify important pages not accidentally noindexed |
+| Blocked by robots.txt           | Crawl blocked                                                   | See **robots-txt**; may be intentional                                |
+| Redirect / 404                  | Redirect or missing                                             | Fix URL or redirect                                                   |
+| Duplicate / Canonical           | Duplicate content                                               | Usually OK; keep canonical                                            |
 
 **URL Inspection**: Verdicts: "URL is on Google," "URL is on Google, but has issues," "URL is not on Google." Use for important pages; verify canonical, internal links, sitemap; Request indexing if needed.
 
@@ -158,10 +158,10 @@ See **video-optimization** for video SEO; **youtube-seo** for YouTube.
 
 **Location**: Indexing ? Sitemaps
 
-| Check | Action |
-|------|--------|
-| Status | Confirm each sitemap says "Success" |
-| URLs indexed | Click sitemap ? see indexed count; drops indicate indexing issues |
+| Check               | Action                                                                       |
+| ------------------- | ---------------------------------------------------------------------------- |
+| Status              | Confirm each sitemap says "Success"                                          |
+| URLs indexed        | Click sitemap ? see indexed count; drops indicate indexing issues            |
 | Bellwether sitemaps | For large sites, monitor templated sitemaps (by country, language, division) |
 
 Enterprise: Glitches can block new URL crawling, cause hreflang confusion, delay fresh content discovery.
@@ -172,11 +172,11 @@ Enterprise: Glitches can block new URL crawling, cause hreflang confusion, delay
 
 **Priority**: Mobile first (Google's higher expectations for mobile).
 
-| Metric | Mobile | Desktop |
-|--------|-------|---------|
-| **Good URLs** | Target | Secondary |
-| **Needs improvement** | Fix | Monitor |
-| **Poor URLs** | Fix | Monitor |
+| Metric                | Mobile | Desktop   |
+| --------------------- | ------ | --------- |
+| **Good URLs**         | Target | Secondary |
+| **Needs improvement** | Fix    | Monitor   |
+| **Poor URLs**         | Fix    | Monitor   |
 
 **Why URLs don't have good score**: Click "Open report" → grouped example URLs by issue type. For threshold values and fixes, see **core-web-vitals**.
 
@@ -188,13 +188,13 @@ Enterprise: Glitches can block new URL crawling, cause hreflang confusion, delay
 
 **Location**: Experience ? Enhancements (Product snippets, Merchant listings under Shopping)
 
-**Status** (updated): Two-tier?*invalid* (critical issues, may not appear) vs **valid** (no critical issues; may still have warnings). Warnings no longer top-level.
+**Status** (updated): Two-tier?_invalid_ (critical issues, may not appear) vs **valid** (no critical issues; may still have warnings). Warnings no longer top-level.
 
-| Type | Examples |
-|------|----------|
-| Content | Breadcrumbs, FAQ, Events, Videos (see **video-optimization**), Job postings, Review snippets, Q&A, Discussion forums |
-| Shopping | Product snippets, Merchant listings |
-| Other | Recipes, Datasets, Hotels, Vacation rentals, Profile pages, Practice problems, Math solvers, Image metadata |
+| Type     | Examples                                                                                                             |
+| -------- | -------------------------------------------------------------------------------------------------------------------- |
+| Content  | Breadcrumbs, FAQ, Events, Videos (see **video-optimization**), Job postings, Review snippets, Q&A, Discussion forums |
+| Shopping | Product snippets, Merchant listings                                                                                  |
+| Other    | Recipes, Datasets, Hotels, Vacation rentals, Profile pages, Practice problems, Math solvers, Image metadata          |
 
 **Note**: Reports show sample items, not full list. Use URL Inspection for unlisted URLs.
 
@@ -230,11 +230,11 @@ date, query, page, country, device. Search appearance (AMP, blue link, rich resu
 
 ### Limits
 
-| Limit | Value |
-|-------|-------|
-| Rows per day per search type per property | 50,000 |
-| Rows per response | 25,000 (use pagination: startRow, rowLimit) |
-| Data availability | 2-3 days after |
+| Limit                                     | Value                                       |
+| ----------------------------------------- | ------------------------------------------- |
+| Rows per day per search type per property | 50,000                                      |
+| Rows per response                         | 25,000 (use pagination: startRow, rowLimit) |
+| Data availability                         | 2-3 days after                              |
 
 **Tip**: Run daily queries for one day of data to avoid quota. Verify data presence first (dimensions: date only, no filters).
 

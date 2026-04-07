@@ -12,7 +12,10 @@
     "db:rollback": "tsx --env-file=.env ./app/db/scripts/rollback.ts && pnpm run db:generate",
     "db:migration": "tsx ./app/db/scripts/migration.ts",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "check": "react-router typegen && vp check",
+    "check:types": "react-router typegen && tsc --noEmit",
+    "check:lint": "vp lint"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
@@ -28,6 +31,7 @@
     "composable-functions": "^5.0.0",
     "isbot": "^5.1.36",
     "kysely": "^0.28.14",
+    "make-service": "^4.1.1",
     "make-typed-env": "^0.0.4",
     "pg": "^8.20.0",
     "react": "^19.2.4",

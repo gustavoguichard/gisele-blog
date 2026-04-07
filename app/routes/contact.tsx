@@ -1,34 +1,19 @@
 import { data, useFetcher } from "react-router";
-import { useState, useEffect } from "react";
+import { inputFromForm } from "composable-functions";
 import type { Route } from "./+types/contact";
 import { Container } from "~/components/container";
 import { GoldDivider, OrnamentalCircles } from "~/components/decorative";
+import { Turnstile } from "~/components/turnstile";
 import { generateMeta, contactPageJsonLd } from "~/lib/seo";
-import { checkContactRateLimit, getClientIp, sendContactEmail } from "~/business/contact.server";
+import { getClientIp, getTurnstileSiteKey, submitContactForm } from "~/business/contact.server";
+
+export function loader() {
+  return { turnstileSiteKey: getTurnstileSiteKey() };
+}
 
 export async function action({ request }: Route.ActionArgs) {
-  const ip = getClientIp(request);
-  const rateLimit = await checkContactRateLimit(ip);
-  if (!rateLimit.success) {
-    return data(
-      {
-        success: false,
-        errors: [
-          { path: [], message: "Muitas tentativas. Por favor, tente novamente em uma hora." },
-        ],
-      },
-      { status: 429 },
-    );
-  }
-
-  const formData = await request.formData();
-  const result = await sendContactEmail({
-    name: String(formData.get("name") ?? ""),
-    email: String(formData.get("email") ?? ""),
-    message: String(formData.get("message") ?? ""),
-    _gotcha: String(formData.get("_gotcha") ?? ""),
-    _timestamp: Number(formData.get("_timestamp") ?? 0),
-  });
+  const formInput = await inputFromForm(request);
+  const result = await submitContactForm(formInput, { ip: getClientIp(request) });
 
   if (!result.success) {
     const fieldErrors = result.errors
@@ -58,15 +43,10 @@ export function headers() {
 const inputStyles =
   "w-full rounded border border-border bg-bg px-4 py-2.5 text-text placeholder:text-text-muted/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
 
-export default function Contact() {
+export default function Contact({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<typeof action>();
-  const [timestamp, setTimestamp] = useState("");
   const isSubmitting = fetcher.state !== "idle";
   const result = fetcher.data;
-
-  useEffect(() => {
-    setTimestamp(String(Date.now()));
-  }, []);
 
   return (
     <div>
@@ -98,10 +78,6 @@ export default function Contact() {
                 </div>
               ) : (
                 <fetcher.Form method="post" className="space-y-5">
-                  <input type="hidden" name="_timestamp" value={timestamp} />
-                  <div className="hidden" aria-hidden="true">
-                    <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
-                  </div>
                   <div>
                     <label
                       htmlFor="name"
@@ -136,6 +112,9 @@ export default function Contact() {
                       rows={5}
                     />
                   </div>
+                  {loaderData.turnstileSiteKey && (
+                    <Turnstile siteKey={loaderData.turnstileSiteKey} />
+                  )}
                   {result?.errors && result.errors.length > 0 && (
                     <p className="text-sm text-red-600 dark:text-red-400">
                       {result.errors[0].message}
