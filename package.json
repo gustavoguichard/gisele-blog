@@ -20,6 +20,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/merriweather": "^5.2.11",
+    "@neondatabase/serverless": "^1.1.0",
     "@react-router/node": "^7.13.1",
     "@react-router/serve": "^7.13.1",
     "@remix-run/form-data-parser": "^0.16.0",
@@ -31,6 +32,7 @@
     "composable-functions": "^5.0.0",
     "isbot": "^5.1.36",
     "kysely": "^0.28.14",
+    "kysely-neon": "^2.0.2",
     "make-service": "^4.1.1",
     "make-typed-env": "^0.0.4",
     "pg": "^8.20.0",

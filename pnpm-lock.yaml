@@ -14,6 +14,9 @@ importers:
       '@fontsource/merriweather':
         specifier: ^5.2.11
         version: 5.2.11
+      '@neondatabase/serverless':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@react-router/node':
         specifier: ^7.13.1
         version: 7.13.1(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
@@ -47,6 +50,9 @@ importers:
       kysely:
         specifier: ^0.28.14
         version: 0.28.14
+      kysely-neon:
+        specifier: ^2.0.2
+        version: 2.0.2(@neondatabase/serverless@1.1.0)(kysely@0.28.14)
       make-service:
         specifier: ^4.1.1
         version: 4.1.1
@@ -859,6 +865,10 @@ packages:
 
   '@napi-rs/wasm-runtime@1.1.1':
     resolution: {integrity: sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==}
+
+  '@neondatabase/serverless@1.1.0':
+    resolution: {integrity: sha512-r3ZZhRjEcfEdKIZnoB1RusNgvHuaBRqfCzV4Gi+5A9yUX0S4HTws/ASWqt13wL4y4I+0rqsWGdA2w7EQXHi3+Q==}
+    engines: {node: '>=19.0.0'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2569,6 +2579,13 @@ packages:
       tedious:
         optional: true
 
+  kysely-neon@2.0.2:
+    resolution: {integrity: sha512-LY7tm9wZKsc8ilFe4Yc5Nf/z3R58wFkxbt8xq6f7U27+5VzZr9vy/S8bVPG8RT3yd+0qhQBDRkCl8gJdRuXWzw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@neondatabase/serverless': ^1
+      kysely: ^0.28
+
   kysely@0.28.14:
     resolution: {integrity: sha512-SU3lgh0rPvq7upc6vvdVrCsSMUG1h3ChvHVOY7wJ2fw4C9QEB7X3d5eyYEyULUX7UQtxZJtZXGuT6U2US72UYA==}
     engines: {node: '>=20.0.0'}
@@ -4007,6 +4024,8 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
+  '@neondatabase/serverless@1.1.0': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -5374,6 +5393,11 @@ snapshots:
       pg: 8.20.0
     transitivePeerDependencies:
       - typescript
+
+  kysely-neon@2.0.2(@neondatabase/serverless@1.1.0)(kysely@0.28.14):
+    dependencies:
+      '@neondatabase/serverless': 1.1.0
+      kysely: 0.28.14
 
   kysely@0.28.14: {}
 

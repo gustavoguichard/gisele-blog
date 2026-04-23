@@ -2,12 +2,23 @@ import fs, { promises } from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Migration, MigrationProvider } from "kysely";
-import { Migrator } from "kysely";
-import { getDb } from "./db.server";
+import { CamelCasePlugin, Kysely, Migrator, PostgresDialect } from "kysely";
+import pg from "pg";
+import { env } from "~/env.server";
+import type { DB } from "./types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const migrationsFolder = path.join(__dirname, "migrations");
+
+function createMigrationDb() {
+  return new Kysely<DB>({
+    dialect: new PostgresDialect({
+      pool: new pg.Pool({ connectionString: env().DATABASE_URL }),
+    }),
+    plugins: [new CamelCasePlugin()],
+  });
+}
 
 const MIGRATION_TEMPLATE = `import type { Kysely } from 'kysely'
 import { sql } from 'kysely'
@@ -57,16 +68,17 @@ function isMigration(obj: unknown): obj is Migration {
   );
 }
 
-function createMigrator() {
+function createMigrator(db: Kysely<DB>) {
   return new Migrator({
     allowUnorderedMigrations: true,
-    db: getDb(),
+    db,
     provider: new FileMigrationProvider(),
   });
 }
 
 export async function migrateToLatest() {
-  const migrator = createMigrator();
+  const db = createMigrationDb();
+  const migrator = createMigrator(db);
   const { error, results } = await migrator.migrateToLatest();
 
   results?.forEach((it) => {
@@ -80,14 +92,16 @@ export async function migrateToLatest() {
   if (error) {
     console.error("Failed to migrate");
     console.error(error);
+    await db.destroy();
     process.exit(1);
   }
 
-  await getDb().destroy();
+  await db.destroy();
 }
 
 export async function migrateDown() {
-  const migrator = createMigrator();
+  const db = createMigrationDb();
+  const migrator = createMigrator(db);
   const { error, results } = await migrator.migrateDown();
 
   results?.forEach((it) => {
@@ -101,10 +115,11 @@ export async function migrateDown() {
   if (error) {
     console.error("Failed to rollback");
     console.error(error);
+    await db.destroy();
     process.exit(1);
   }
 
-  await getDb().destroy();
+  await db.destroy();
 }
 
 export function createMigration(migrationName: string) {

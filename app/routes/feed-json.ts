@@ -40,7 +40,7 @@ export async function loader() {
   return new Response(JSON.stringify(feed, null, 2), {
     headers: {
       "Content-Type": "application/feed+json; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      "Cache-Control": "public, max-age=3600, s-maxage=604800",
     },
   });
 }

@@ -58,7 +58,7 @@ ${urls
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      "Cache-Control": "public, max-age=3600, s-maxage=604800",
     },
   });
 }

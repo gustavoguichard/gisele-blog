@@ -1,5 +1,6 @@
-import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
-import pg from "pg";
+import { neon } from "@neondatabase/serverless";
+import { CamelCasePlugin, Kysely } from "kysely";
+import { NeonDialect } from "kysely-neon";
 import { env } from "~/env.server";
 import type { DB } from "./types";
 
@@ -8,10 +9,8 @@ let db: Kysely<DB>;
 function getDb() {
   if (!db) {
     db = new Kysely<DB>({
-      dialect: new PostgresDialect({
-        pool: new pg.Pool({
-          connectionString: env().DATABASE_URL,
-        }),
+      dialect: new NeonDialect({
+        neon: neon(env().DATABASE_URL),
       }),
       plugins: [new CamelCasePlugin()],
     });
