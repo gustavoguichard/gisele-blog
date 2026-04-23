@@ -21,7 +21,7 @@ const aboutPage = {
 };
 
 export function headers() {
-  return { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" };
+  return { "Cache-Control": "public, max-age=300, s-maxage=604800, stale-while-revalidate=86400" };
 }
 
 function splitContent(html: string) {
