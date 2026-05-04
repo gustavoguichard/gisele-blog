@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useFetcher } from "react-router";
 import { buttonStyles } from "./button";
+import { Turnstile } from "./turnstile";
 
 type ActionData = { ok: true } | { ok: false; fieldErrors: Record<string, string> };
 
@@ -21,9 +22,10 @@ function translateError(field: string, message: string) {
 interface CommentFormProps {
   parentId?: string | null;
   onCancel?: () => void;
+  turnstileSiteKey?: string | null;
 }
 
-export function CommentForm({ parentId, onCancel }: CommentFormProps) {
+export function CommentForm({ parentId, onCancel, turnstileSiteKey }: CommentFormProps) {
   const fetcher = useFetcher<ActionData>();
   const [timestamp, setTimestamp] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -124,6 +126,8 @@ export function CommentForm({ parentId, onCancel }: CommentFormProps) {
             </p>
           )}
         </div>
+
+        {turnstileSiteKey && <Turnstile siteKey={turnstileSiteKey} />}
 
         <div className="flex gap-3">
           <button

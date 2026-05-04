@@ -12,6 +12,7 @@ interface Comment {
 
 interface CommentThreadProps {
   comments: Comment[];
+  turnstileSiteKey?: string | null;
 }
 
 interface TreeNode extends Comment {
@@ -48,11 +49,13 @@ function CommentNode({
   depth,
   replyingTo,
   setReplyingTo,
+  turnstileSiteKey,
 }: {
   node: TreeNode;
   depth: number;
   replyingTo: string | null;
   setReplyingTo: (id: string | null) => void;
+  turnstileSiteKey?: string | null;
 }) {
   const visualDepth = Math.min(depth, MAX_VISUAL_DEPTH);
   return (
@@ -76,7 +79,11 @@ function CommentNode({
       </div>
       {replyingTo === node.id && (
         <div className="pb-4">
-          <CommentForm parentId={node.id} onCancel={() => setReplyingTo(null)} />
+          <CommentForm
+            parentId={node.id}
+            onCancel={() => setReplyingTo(null)}
+            turnstileSiteKey={turnstileSiteKey}
+          />
         </div>
       )}
       {node.children.map((child) => (
@@ -86,13 +93,14 @@ function CommentNode({
           depth={depth + 1}
           replyingTo={replyingTo}
           setReplyingTo={setReplyingTo}
+          turnstileSiteKey={turnstileSiteKey}
         />
       ))}
     </div>
   );
 }
 
-export function CommentThread({ comments }: CommentThreadProps) {
+export function CommentThread({ comments, turnstileSiteKey }: CommentThreadProps) {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const tree = buildTree(comments);
 
@@ -111,6 +119,7 @@ export function CommentThread({ comments }: CommentThreadProps) {
                 depth={0}
                 replyingTo={replyingTo}
                 setReplyingTo={setReplyingTo}
+                turnstileSiteKey={turnstileSiteKey}
               />
             ))}
           </div>
@@ -119,7 +128,7 @@ export function CommentThread({ comments }: CommentThreadProps) {
       {!replyingTo && (
         <div className="mt-8">
           <h4 className="text-lg font-bold text-primary-dark mb-4">Deixe seu comentário</h4>
-          <CommentForm />
+          <CommentForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       )}
     </section>

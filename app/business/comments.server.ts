@@ -2,6 +2,7 @@ import { applySchema, composable } from "composable-functions";
 import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
 import { getDb } from "~/db/db.server";
+import { verifyTurnstileToken } from "~/services/turnstile.server";
 
 const insertCommentSchema = z.object({
   postId: z.string().uuid(),
@@ -9,6 +10,11 @@ const insertCommentSchema = z.object({
   authorName: z.string().min(1).max(100),
   authorEmail: z.string().email().max(254),
   content: z.string().min(1).max(5000),
+  "cf-turnstile-response": z.string(),
+});
+
+const insertCommentContext = z.object({
+  ip: z.string(),
 });
 
 const fetchCommentsForPost = composable(async (postId: string) => {
@@ -25,13 +31,18 @@ const fetchCommentsForPost = composable(async (postId: string) => {
   }));
 });
 
-const insertComment = applySchema(insertCommentSchema)(async ({
-  postId,
-  parentId,
-  authorName,
-  authorEmail,
-  content,
-}) => {
+const insertComment = applySchema(
+  insertCommentSchema,
+  insertCommentContext,
+)(async (
+  { postId, parentId, authorName, authorEmail, content, "cf-turnstile-response": turnstileToken },
+  { ip },
+) => {
+  const turnstile = await verifyTurnstileToken(turnstileToken, ip);
+  if (!turnstile.success) {
+    throw new Error("turnstile_failed");
+  }
+
   return getDb()
     .insertInto("comments")
     .values({

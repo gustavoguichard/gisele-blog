@@ -1,20 +1,11 @@
 import { applySchema, composable } from "composable-functions";
 import { sql } from "kysely";
 import { z } from "zod";
-import { ipAddress } from "@vercel/functions";
 import { getDb } from "~/db/db.server";
-import { env } from "~/env.server";
 import { sendEmail } from "~/services/email.server";
 import { verifyTurnstileToken } from "~/services/turnstile.server";
 import { contactSchema } from "./contact.common";
-
-function getClientIp(request: Request): string {
-  return ipAddress(request) ?? "unknown";
-}
-
-function getTurnstileSiteKey(): string | null {
-  return env().TURNSTILE_SITE_KEY ?? null;
-}
+import { getClientIp, getTurnstileSiteKey } from "./spam.server";
 
 const CONTACT_RATE_LIMIT_MAX = 3;
 const CONTACT_RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
@@ -56,14 +47,14 @@ const submitContactForm = applySchema(
   submitContactFormInput,
   submitContactFormContext,
 )(async ({ name, email, message, "cf-turnstile-response": turnstileToken }, { ip }) => {
-  const rateLimit = await checkContactRateLimit(ip);
-  if (!rateLimit.success) {
-    throw new Error("rate_limited");
-  }
-
   const turnstile = await verifyTurnstileToken(turnstileToken, ip);
   if (!turnstile.success) {
     throw new Error("turnstile_failed");
+  }
+
+  const rateLimit = await checkContactRateLimit(ip);
+  if (!rateLimit.success) {
+    throw new Error("rate_limited");
   }
 
   if (isBlocked(name, message)) return;

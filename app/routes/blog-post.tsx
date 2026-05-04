@@ -4,6 +4,7 @@ import type { Route } from "./+types/blog-post";
 import { fetchPostBySlug } from "~/business/posts.server";
 import { fetchTagsForPost } from "~/business/tags.server";
 import { fetchCommentsForPost, insertComment } from "~/business/comments.server";
+import { getClientIp, getTurnstileSiteKey } from "~/business/spam.server";
 import { Container } from "~/components/container";
 import { PostContent } from "~/components/post-content";
 import { CommentThread } from "~/components/comment-thread";
@@ -28,7 +29,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     collect({ tags: fetchTagsForPost, comments: fetchCommentsForPost }),
   )(post.id);
 
-  return { post, tags, comments };
+  return { post, tags, comments, turnstileSiteKey: getTurnstileSiteKey() };
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -51,13 +52,17 @@ export async function action({ request, params }: Route.ActionArgs) {
     throw new Response("Post não encontrado", { status: 404 });
   }
 
-  const result = await insertComment({
-    postId: postResult.data.id,
-    parentId: (formData.get("parentId") as string) ?? null,
-    authorName: (formData.get("authorName") as string) ?? "",
-    authorEmail: (formData.get("authorEmail") as string) ?? "",
-    content: (formData.get("content") as string) ?? "",
-  });
+  const result = await insertComment(
+    {
+      postId: postResult.data.id,
+      parentId: (formData.get("parentId") as string) ?? null,
+      authorName: (formData.get("authorName") as string) ?? "",
+      authorEmail: (formData.get("authorEmail") as string) ?? "",
+      content: (formData.get("content") as string) ?? "",
+      "cf-turnstile-response": (formData.get("cf-turnstile-response") as string) ?? "",
+    },
+    { ip: getClientIp(request) },
+  );
 
   if (!result.success) {
     const fieldErrors: Record<string, string> = {};
@@ -92,7 +97,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function BlogPost({ loaderData }: Route.ComponentProps) {
-  const { post, tags, comments } = loaderData;
+  const { post, tags, comments, turnstileSiteKey } = loaderData;
 
   return (
     <Container as="article" className="py-12">
@@ -117,7 +122,7 @@ export default function BlogPost({ loaderData }: Route.ComponentProps) {
 
       <TagList tags={tags} />
 
-      <CommentThread comments={comments} />
+      <CommentThread comments={comments} turnstileSiteKey={turnstileSiteKey} />
     </Container>
   );
 }
