@@ -28,4 +28,5 @@ build
 
 # Private
 backup.sql
+*.dump
 *.local.*
