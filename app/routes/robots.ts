@@ -4,6 +4,7 @@ export function loader() {
   const text = `User-agent: *
 Allow: /
 Disallow: /set-theme
+Disallow: /busca
 Crawl-delay: 1
 
 User-agent: facebookexternalhit

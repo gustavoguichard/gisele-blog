@@ -6,7 +6,7 @@ import { fetchRecentPosts } from "~/business/posts.server";
 import { fetchWorks } from "~/business/works.server";
 import { GoldDivider, OrnamentalCircles, PageHeader } from "~/components/decorative";
 import { PostListItem } from "~/components/post-list-item";
-import { WorkCard } from "~/routes/trabalhos";
+import { WorkCard } from "~/business/works.ui";
 import { SITE, generateMeta, websiteJsonLd, personJsonLd } from "~/lib/seo";
 
 export function meta() {

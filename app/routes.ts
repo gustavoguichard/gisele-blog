@@ -14,6 +14,7 @@ export default [
   route("trabalhos", "./routes/trabalhos.tsx"),
   route("trabalhos/:slug", "./routes/trabalho.tsx"),
   route("contato", "./routes/contact.tsx"),
+  route("busca", "./routes/search.tsx"),
   route("feed.xml", "./routes/feed.ts"),
   route("feed.json", "./routes/feed-json.ts"),
   route("sitemap.xml", "./routes/sitemap.ts"),

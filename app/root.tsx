@@ -16,6 +16,7 @@ import { buttonStyles } from "./components/button";
 import { ErrorPage } from "./components/error-page";
 import { GoldBar } from "./components/decorative";
 import { MobileMenu } from "./components/mobile-menu";
+import { SearchToggle } from "./components/search-toggle";
 import { ThemeToggle } from "./components/theme-toggle";
 import { fetchPostByWpId } from "./business/posts.server";
 import { resolvePostRoute } from "./lib/wp-redirects";
@@ -43,8 +44,9 @@ export async function loader({ request }: Route.LoaderArgs) {
     throw redirect(url.pathname, 301);
   }
 
-  if (url.searchParams.has("s")) {
-    throw redirect("/blog", 301);
+  const legacySearch = url.searchParams.get("s");
+  if (legacySearch !== null) {
+    throw redirect(legacySearch ? `/busca?q=${encodeURIComponent(legacySearch)}` : "/blog", 301);
   }
 
   if (url.searchParams.has("feed")) {
@@ -164,6 +166,7 @@ export default function App() {
               >
                 Contato
               </NavLink>
+              <SearchToggle />
               <ThemeToggle />
             </nav>
 

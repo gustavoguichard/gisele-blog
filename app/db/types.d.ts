@@ -42,6 +42,7 @@ export interface Posts {
   featuredImage: string | null;
   id: Generated<string>;
   publishedAt: Timestamp | null;
+  searchText: Generated<string | null>;
   slug: string;
   status: Generated<PostStatus>;
   title: string;
@@ -75,6 +76,7 @@ export interface Works {
   excerpt: string | null;
   featuredImage: string | null;
   id: Generated<string>;
+  searchText: Generated<string | null>;
   slug: string;
   status: Generated<PostStatus>;
   title: string;
