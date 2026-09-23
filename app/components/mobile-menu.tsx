@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router";
 import { buttonStyles } from "./button";
+import { SearchToggle } from "./search-toggle";
 import { ThemeToggle } from "./theme-toggle";
 
 type NavItem = { to: string; label: string };
@@ -16,6 +17,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
   return (
     <div className="md:hidden">
       <div className="flex items-center gap-2">
+        <SearchToggle />
         <ThemeToggle />
         <button
           type="button"
